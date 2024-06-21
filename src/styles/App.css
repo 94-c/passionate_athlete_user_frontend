@@ -19,7 +19,7 @@ html, body {
 }
 
 #root.footer-open {
-    transform: translateY(-0.2px); /* 푸터가 열렸을 때의 이동 거리 */
+    transform: translateY(-10px); /* 푸터가 열렸을 때의 이동 거리 */
 }
 
 .container {

@@ -1,20 +1,87 @@
 /* src/styles/Main.css */
-.main-page {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 70vh;
-    background: white;
-    font-family: Arial, sans-serif;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.main-page .main-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center; /* 세로 방향으로 내용 가운데 정렬 */
-    align-items: center; /* 가로 방향으로 내용 가운데 정렬 */
-    text-align: center; /* 텍스트를 가운데 정렬 */
+.main-page {
+    text-align: center;
+    padding: 20px;
+}
+
+.hex-grid__list {
+    --amount: 3;
+    display: grid;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    grid-template-columns: repeat(var(--amount), 1fr 2fr) 1fr;
+    grid-gap: 1rem 2rem;
+    justify-content: center;
+}
+
+.hex-grid__item {
+    position: relative;
+    grid-column: 1 / span 3;
+    grid-row: calc(var(--counter) + var(--counter)) / span 2;
+    height: 0;
+    padding-bottom: 90%;
+}
+
+.hex-grid__content {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
     width: 100%;
+    background-color: #02b4cd;
+    clip-path: polygon(75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%, 25% 0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hex-grid__content button {
+    width: 100%;
+    height: 100%;
+    background: inherit;
+    border: none;
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    outline: none;
+}
+
+@media screen and (min-width: 1440px) {
+    .hex-grid__list {
+        --amount: 5;
+    }
+}
+
+@media screen and (min-width: 1120px) and (max-width: 1439px) {
+    .hex-grid__list {
+        --amount: 4;
+    }
+}
+
+@media screen and (min-width: 840px) and (max-width: 1119px) {
+    .hex-grid__list {
+        --amount: 3;
+        grid-gap: 1.5rem 3rem;
+    }
+}
+
+@media screen and (min-width: 480px) and (max-width: 839px) {
+    .hex-grid__list {
+        --amount: 2;
+        grid-gap: 1.5rem 3rem;
+    }
+}
+
+@media screen and (max-width: 479px) {
+    .hex-grid__list {
+        --amount: 1;
+        grid-gap: 1.5rem 3rem;
+    }
 }

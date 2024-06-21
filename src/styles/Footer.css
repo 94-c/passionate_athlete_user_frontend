@@ -10,21 +10,21 @@
 }
 
 .footer.open {
-    height: 70px;
+    height: 120px;
 }
 
 .menu-bar {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    height: 40px; /* 초기 높이 */
+    height: 80px; /* 초기 높이 */
     transition: height 0.3s ease;
     background-color: #000000; /* 검은색 배경 */
 }
 
 .menu-item {
     color: white;
-    font-size: 1rem;
+    font-size: 1.5rem;
     text-decoration: none;
 }
 
@@ -41,5 +41,5 @@
 }
 
 .footer.open .footer-text {
-    opacity: 1; /* 푸터가 열릴 때 텍스트를 보이게 함 */
+    opacity: 4; /* 푸터가 열릴 때 텍스트를 보이게 함 */
 }

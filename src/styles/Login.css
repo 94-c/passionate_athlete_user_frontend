@@ -1,0 +1,106 @@
+
+.login-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: white;
+    font-family: Arial, sans-serif;
+}
+
+#loginBox {
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+}
+
+#loginBoxTitle {
+    font-size: 2rem;
+    color: #FF6600;
+    margin-bottom: 20px;
+}
+
+.input-form-box {
+    margin-bottom: 15px;
+}
+
+.input-with-icon {
+    position: relative;
+}
+
+.input-with-icon i {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #aaa;
+}
+
+.input-with-icon input {
+    padding-left: 30px;
+}
+
+.button-login-box button {
+    background-color: #FF6600;
+    border: none;
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    color: white;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.button-login-box button:hover {
+    background-color: #e55d00;
+}
+
+.login-links {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.link {
+    color: #FF6600;
+    text-decoration: none;
+}
+
+.link:hover {
+    text-decoration: underline;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 600px) {
+    #loginBox {
+        margin: 20px;
+    }
+
+    #loginBoxTitle {
+        font-size: 1.5rem;
+    }
+
+    .input-with-icon i {
+        font-size: 1rem;
+    }
+
+    .input-with-icon input {
+        font-size: 0.9rem;
+    }
+
+    .button-login-box button {
+        font-size: 0.9rem;
+    }
+
+    .login-links {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+}

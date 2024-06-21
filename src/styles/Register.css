@@ -1,0 +1,252 @@
+/* src/styles/Register.css */
+.register-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: white;
+    font-family: Arial, sans-serif;
+}
+
+.register-page #registerBox {
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+}
+
+.register-page #registerBoxTitle {
+    font-size: 2rem;
+    color: #FF6600;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.register-page .required-notice {
+    font-size: 0.9rem;
+    color: #FF6600;
+    text-align: right;
+    margin-bottom: 10px;
+}
+
+.register-page .input-form-box {
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.register-page .input-with-icon {
+    position: relative;
+}
+
+.register-page .input-with-icon i {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #aaa;
+}
+
+.register-page .input-with-icon input,
+.register-page .input-with-icon select {
+    padding-left: 30px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.register-page .userId-error-message,
+.register-page .password-error-message,
+.register-page .name-error-message {
+    color: #FF6600;
+    font-size: 0.8rem;
+    margin-top: -10px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.register-page .button-register-box {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.register-page .button-register-box .btn {
+    flex: 0 0 48%;
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    cursor: pointer;
+    text-align: center;
+    border: none;
+}
+
+.register-page .button-register-box .btn-primary {
+    background-color: #FF6600;
+    color: white;
+}
+
+.register-page .button-register-box .btn-primary:hover {
+    background-color: #e55d00;
+}
+
+.register-page .button-register-box .btn-secondary {
+    background-color: white;
+    color: #FF6600;
+    border: 1px solid #FF6600;
+}
+
+.register-page .button-register-box .btn-secondary:hover {
+    background-color: #FF6600;
+    color: white;
+}
+
+.register-page .double-input {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.register-page .double-input .input-with-icon {
+    width: 48%;
+}
+
+.register-page .id-input-group {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.register-page .id-input-group .input-with-icon {
+    flex: 1;
+}
+
+.register-page .id-input-group button {
+    flex: 0 0 100px;
+    padding: 10px;
+    font-size: 0.9rem;
+    background-color: #6c757d;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
+
+.register-page .id-input-group button:hover {
+    background-color: #5a6268;
+}
+
+.register-page .gender-select {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.register-page .gender-buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.register-page .gender-button {
+    flex: 1;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    padding: 10px;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s, border 0.3s;
+    border-radius: 25px;
+    margin-right: 5px;
+}
+
+.register-page .gender-button.male.active {
+    background-color: #007BFF;
+    color: white;
+    border: 1px solid #007BFF;
+}
+
+.register-page .gender-button.female.active {
+    background-color: #FF66B2;
+    color: white;
+    border: 1px solid #FF66B2;
+}
+
+.register-page .gender-button i {
+    margin-right: 5px;
+}
+
+.register-page .gender-button:last-child {
+    margin-right: 0;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 600px) {
+    .register-page #registerBox {
+        margin: 20px;
+        width: 100%;
+    }
+
+    .register-page #registerBoxTitle {
+        font-size: 1.5rem;
+    }
+
+    .register-page .input-with-icon i {
+        font-size: 1rem;
+    }
+
+    .register-page .input-with-icon input,
+    .register-page .input-with-icon select {
+        font-size: 0.9rem;
+    }
+
+    .register-page .button-register-box .btn {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .register-page .double-input {
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 10px;
+    }
+
+    .register-page .double-input .input-with-icon {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .register-page .id-input-group {
+        flex-direction: column;
+    }
+
+    .register-page .id-input-group .input-with-icon,
+    .register-page .id-input-group button {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+
+    .register-page .gender-buttons {
+        flex-direction: row;
+    }
+
+    .register-page .gender-button {
+        width: 50%;
+    }
+
+    .register-page .gender-button:last-child {
+        margin-bottom: 0;
+    }
+
+    .register-page .button-register-box {
+        flex-direction: row;
+    }
+
+    .register-page .btn {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}

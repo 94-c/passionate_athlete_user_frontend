@@ -1,0 +1,14 @@
+/* src/components/Header.css */
+.info-section {
+    text-align: right;
+  }
+  
+  .attendance-info {
+    margin: 0;
+  }
+  
+  .highlight {
+    font-weight: bold;
+    color: #ff0000;
+  }
+  

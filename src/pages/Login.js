@@ -45,6 +45,9 @@ const Login = () => {
                     sessionStorage.setItem('userName', user.name || '');
                 }
 
+                // 저장된 토큰을 확인하기 위한 콘솔 로그
+                console.log('JWT Token:', token);
+
                 navigate('/main');
             } else {
                 alert('로그인에 실패했습니다: ' + (response.data.message || 'Unknown error'));

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { parseJwt } from '../utils/Jwt.js';
-import axios from 'axios';
+import api from '../api/api';
 import '../styles/Header.css';
 
 const Header = () => {
@@ -16,20 +16,19 @@ const Header = () => {
     const storedUserName = localStorage.getItem('userName') || sessionStorage.getItem('userName');
     setUserName(storedUserName);
 
-    // API 호출하여 연속 출석일 정보 가져오기
-    if (token) {
-      axios.get('/api/getContinuousAttendance', {
-        headers: {
-          Authorization: `Bearer ${token}`
+    const fetchContinuousAttendance = async () => {
+      // API 호출하여 연속 출석일 정보 가져오기
+      if (token) {
+        try {
+          const response = await api.get('/attendances/continue');
+          setContinuousAttendance(response.data.continuousAttendanceCount);
+        } catch (error) {
+          console.error('Error fetching continuous attendance:', error);
         }
-      })
-      .then(response => {
-        setContinuousAttendance(response.data.continuousAttendanceCount);
-      })
-      .catch(error => {
-        console.error('Error fetching continuous attendance:', error);
-      });
-    }
+      }
+    };
+
+    fetchContinuousAttendance();
   }, []);
 
   return (

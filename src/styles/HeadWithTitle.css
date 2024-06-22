@@ -1,0 +1,21 @@
+.head-container {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    background-color: #fff;
+    position: relative;
+}
+
+.head-container.with-title {
+    justify-content: flex-start;
+}
+
+.head-title {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin: 0;
+}
+
+.head-icons {
+    display: none; /* 아이콘 제거 */
+}

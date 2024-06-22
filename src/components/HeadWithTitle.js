@@ -12,12 +12,14 @@ const HeadWithTitle = ({ title }) => {
           {title}
         </Link>
       </h1>
-      <button className="insert-button-head" onClick={() => window.location.href = '/notices-insert'}>
-        <FontAwesomeIcon icon={faPenClip} />
-      </button>
-      <button className="search-button-head" onClick={() => window.location.href = '/search'}>
-        <FontAwesomeIcon icon={faSearch} />
-      </button>
+      <div className="head-buttons">
+        <button className="insert-button-head" onClick={() => window.location.href = '/notices-insert'}>
+          <FontAwesomeIcon icon={faPenClip} />
+        </button>
+        <button className="search-button-head" onClick={() => window.location.href = '/search'}>
+          <FontAwesomeIcon icon={faSearch} />
+        </button>
+      </div>
     </div>
   );
 };

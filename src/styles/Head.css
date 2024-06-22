@@ -1,0 +1,14 @@
+/* src/styles/Head.css */
+.head-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  .logo {
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+  

@@ -1,14 +1,20 @@
-/* src/components/Header.css */
+/* src/styles/Header.css */
+.header-container {
+  display: flex;
+  justify-content: flex-end; /* 변경된 부분 */
+  align-items: center;
+  padding: 20px;
+}
+
 .info-section {
-    text-align: right;
-  }
-  
-  .attendance-info {
-    margin: 0;
-  }
-  
-  .highlight {
-    font-weight: bold;
-    color: #ff0000;
-  }
-  
+  text-align: right;
+}
+
+.attendance-info {
+  margin: 0;
+}
+
+.highlight {
+  font-weight: bold;
+  color: #ff0000;
+}

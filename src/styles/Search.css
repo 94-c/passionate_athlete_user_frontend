@@ -1,0 +1,147 @@
+.search-page {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+  }
+  
+  .search-container {
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .search-form {
+    display: flex;
+    flex-direction: row; /* Change from column to row */
+    align-items: center; /* Align items vertically center */
+    gap: 10px; /* Space between elements */
+    width: 100%;
+    flex-wrap: nowrap; /* Prevent wrapping */
+  }
+  
+  .search-form select,
+  .search-form input,
+  .search-form button {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: auto; /* Change from 100% to auto */
+    max-width: none; /* Remove max-width restriction */
+    flex: 1; /* Allow elements to grow */
+  }
+  
+  .search-form button {
+    background-color: #ff6600;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    flex: 0 1 100px; /* Allow button to grow but set a minimum size */
+  }
+  
+  .search-form button:hover {
+    background-color: #e65c00;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .search-results-container {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-height: calc(100vh - 320px); /* 페이지네이션 버튼과 헤더를 제외한 높이 계산 */
+    overflow-y: auto; /* 세로 스크롤바 추가 */
+  }
+  
+  .search-results {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    max-width: 600px;
+  }
+  
+  .result {
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #fff;
+  }
+  
+  .result-title {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .result-content {
+    margin-bottom: 10px;
+  }
+  
+  .result-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9em;
+    color: #888;
+  }
+  
+  .no-results {
+    text-align: center;
+    font-size: 1.2em;
+    color: #888;
+    margin-top: 20px;
+  }
+  
+  .pagination-buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    gap: 5px;
+  }
+  
+  .pagination-buttons button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: #ff6600;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+  }
+  
+  .pagination-buttons button:hover {
+    background-color: #e65c00;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .pagination-buttons button:disabled {
+    background-color: #ddd;
+    cursor: not-allowed;
+  }
+  
+  /* Media query for small screens */
+  @media (max-width: 600px) {
+    .search-form {
+      flex-direction: row; /* Ensure row direction on small screens */
+      gap: 5px;
+    }
+  
+    .search-form select,
+    .search-form input {
+      width: auto; /* Ensure elements are auto-sized */
+      flex: 1 1 0; /* Allow elements to grow equally */
+      min-width: 0; /* Allow elements to shrink */
+    }
+  
+    .search-form button {
+      flex: 0 1 auto; /* Allow button to shrink */
+    }
+  }
+  

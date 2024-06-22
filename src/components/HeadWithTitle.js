@@ -1,6 +1,6 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faPenClip, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import '../styles/HeadWithTitle.css';
 
@@ -12,6 +12,9 @@ const HeadWithTitle = ({ title }) => {
           {title}
         </Link>
       </h1>
+      <button className="insert-button-head" onClick={() => window.location.href = '/notices-insert'}>
+        <FontAwesomeIcon icon={faPenClip} />
+      </button>
       <button className="search-button-head" onClick={() => window.location.href = '/search'}>
         <FontAwesomeIcon icon={faSearch} />
       </button>

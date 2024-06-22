@@ -4,6 +4,7 @@ import Main from '../pages/Main';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
 import Notice from '../pages/Notice';
+import Search from '../pages/Search'; 
 
 const AppRoutes = () => {
   return (
@@ -13,6 +14,7 @@ const AppRoutes = () => {
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/notice" element={<Notice />} />
+      <Route path="/search" element={<Search />} /> 
     </Routes>
   );
 };

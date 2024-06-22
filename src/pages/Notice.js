@@ -4,13 +4,9 @@ import '../styles/Notice.css';
 
 const Notice = () => {
   const [posts, setPosts] = useState([]);
-  const [searchTitle, setSearchTitle] = useState('');
-  const [searchName, setSearchName] = useState('');
-  const [showSearch, setShowSearch] = useState(false);
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
   const [kind, setKind] = useState(null);
-  const [searchType, setSearchType] = useState('');
   const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 480);
 
   const fetchPosts = useCallback(async () => {
@@ -21,8 +17,6 @@ const Notice = () => {
         status: true,
       };
 
-      if (searchType === 'title') params.title = searchTitle;
-      if (searchType === 'name') params.name = searchName;
       if (kind !== null) params.kind = kind;
 
       const response = await api.get('/notices', { params });
@@ -36,7 +30,7 @@ const Notice = () => {
     } catch (error) {
       console.error('Error fetching posts:', error);
     }
-  }, [page, kind, searchTitle, searchName, searchType]);
+  }, [page, kind]);
 
   useEffect(() => {
     fetchPosts();
@@ -47,12 +41,6 @@ const Notice = () => {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-
-  const handleSearch = (e) => {
-    e.preventDefault();
-    setPage(0);
-    fetchPosts();
-  };
 
   const handlePageClick = (pageNum) => {
     setPage(pageNum);
@@ -65,48 +53,11 @@ const Notice = () => {
 
   return (
     <div className="notice-page">
-      <div className="filter-buttons">
-        {!isMobileView ? (
-          <div className="filter-button-container">
-            <button className={`filter-button ${kind === '' ? 'active' : ''}`} onClick={() => handleKindChange(null)}>전체</button>
-            <button className={`filter-button ${kind === 0 ? 'active' : ''}`} onClick={() => handleKindChange(0)}>종류 1</button>
-            <button className={`filter-button ${kind === 1 ? 'active' : ''}`} onClick={() => handleKindChange(1)}>종류 2</button>
-            <button className={`filter-button ${kind === 2 ? 'active' : ''}`} onClick={() => handleKindChange(2)}>종류 3</button>
-            <button className={`filter-button ${kind === 3 ? 'active' : ''}`} onClick={() => handleKindChange(3)}>종류 4</button>
-          </div>
-        ) : (
-          <select className="filter-select" onChange={(e) => handleKindChange(e.target.value)}>
-            <option value="">전체</option>
-            <option value={0}>종류 1</option>
-            <option value={1}>종류 2</option>
-            <option value={2}>종류 3</option>
-            <option value={3}>종류 4</option>
-          </select>
-        )}
-        {!showSearch ? (
-          <button className="search-button-head" onClick={() => setShowSearch(true)}>🔍</button>
-        ) : (
-          <form className="search-form" onSubmit={handleSearch}>
-            <select onChange={(e) => setSearchType(e.target.value)} value={searchType}>
-              <option value="">선택하세요</option>
-              <option value="title">제목</option>
-              <option value="name">이름</option>
-            </select>
-            <input
-              type="text"
-              placeholder={searchType === 'title' ? '제목 검색' : '이름 검색'}
-              value={searchType === 'title' ? searchTitle : searchName}
-              onChange={(e) => {
-                if (searchType === 'title') {
-                  setSearchTitle(e.target.value);
-                } else if (searchType === 'name') {
-                  setSearchName(e.target.value);
-                }
-              }}
-            />
-            <button type="submit">검색</button>
-          </form>
-        )}
+      <div className="tab-buttons">
+        <button className={`tab-button ${kind === null ? 'active' : ''}`} onClick={() => handleKindChange(null)}>전체</button>
+        <button className={`tab-button ${kind === 0 ? 'active' : ''}`} onClick={() => handleKindChange(0)}>자유</button>
+        <button className={`tab-button ${kind === 1 ? 'active' : ''}`} onClick={() => handleKindChange(1)}>멱살</button>
+        <button className={`tab-button ${kind === 2 ? 'active' : ''}`} onClick={() => handleKindChange(2)}>자랑</button>
       </div>
       <div className="posts-container">
         <div className="posts">

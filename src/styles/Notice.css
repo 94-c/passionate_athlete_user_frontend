@@ -1,6 +1,7 @@
 .notice-page {
   padding: 20px;
-  margin-top: -10px; /* HeadWithTitle 아래에 여백 추가 */
+  margin-top: 15px; /* HeadWithTitle 아래에 여백 추가 */
+
 }
 
 .filter-buttons {

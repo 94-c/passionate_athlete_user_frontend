@@ -1,8 +1,8 @@
-.head-container {
+.head-container-title {
     display: flex;
     align-items: center;
     padding: 20px;
-    background-color: #fff;
+    background-color: #ff6600; /* Orange background */
     position: relative;
 }
 
@@ -14,8 +14,19 @@
     font-size: 1.5em;
     font-weight: bold;
     margin: 0;
+    color: white; /* White font color */
 }
 
 .head-icons {
-    display: none; /* 아이콘 제거 */
+    display: none; /* Remove icons */
 }
+
+  .head-title .title-link {
+    color: inherit; /* Makes sure the link inherits the color from the parent */
+    text-decoration: none; /* Removes underline from the link */
+  }
+  
+  .head-title .title-link:hover {
+    text-decoration: underline; /* Adds underline on hover */
+  }
+  

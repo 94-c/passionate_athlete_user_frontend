@@ -68,7 +68,7 @@ const Notice = () => {
       <div className="filter-buttons">
         {!isMobileView ? (
           <div className="filter-button-container">
-            <button className={`filter-button ${kind === null ? 'active' : ''}`} onClick={() => handleKindChange(null)}>전체</button>
+            <button className={`filter-button ${kind === '' ? 'active' : ''}`} onClick={() => handleKindChange(null)}>전체</button>
             <button className={`filter-button ${kind === 0 ? 'active' : ''}`} onClick={() => handleKindChange(0)}>종류 1</button>
             <button className={`filter-button ${kind === 1 ? 'active' : ''}`} onClick={() => handleKindChange(1)}>종류 2</button>
             <button className={`filter-button ${kind === 2 ? 'active' : ''}`} onClick={() => handleKindChange(2)}>종류 3</button>
@@ -104,7 +104,7 @@ const Notice = () => {
                 }
               }}
             />
-            <button type="submit">Search</button>
+            <button type="submit">검색</button>
           </form>
         )}
       </div>

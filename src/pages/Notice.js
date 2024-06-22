@@ -51,6 +51,23 @@ const Notice = () => {
     setPage(0);
   };
 
+  const truncateContent = (content) => {
+    return content.length > 20 ? content.substring(0, 20) + '... 더보기' : content;
+  };
+
+  const getKindLabel = (kind) => {
+    switch (kind) {
+      case 0:
+        return '[공지] ';
+      case 1:
+        return '[멱살] ';
+      case 2:
+        return '[자랑] ';
+      default:
+        return '';
+    }
+  };
+
   return (
     <div className="notice-page">
       <div className="tab-buttons">
@@ -63,8 +80,8 @@ const Notice = () => {
         <div className="posts">
           {posts.map((post, index) => (
             <div key={index} className="post">
-              <h2 className="post-title">{post.title}</h2>
-              <p className="post-content">{post.content}</p>
+              <h2 className="post-title">{getKindLabel(post.kind)}{post.title}</h2>
+              <p className="post-content">{truncateContent(post.content)}</p>
               <div className="post-footer">
                 <span className="post-author">{post.userName}</span> · <span className="post-date">{post.createdDate}</span>
                 <div className="post-actions">

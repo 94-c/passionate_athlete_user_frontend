@@ -12,10 +12,12 @@
 
 .filter-button-container {
   display: flex;
+  flex-wrap: wrap; /* 버튼들이 줄 바꿈되도록 설정 */
   gap: 10px; /* 버튼 사이의 간격 */
+  flex: 1; /* 버튼 컨테이너가 가능한 공간을 채우도록 설정 */
 }
 
-.filter-button, .search-button {
+.filter-button, .search-button, .search-button-head {
   padding: 10px 20px;
   border: none;
   border-radius: 20px;
@@ -23,10 +25,12 @@
   color: white;
   cursor: pointer;
   transition: background-color 0.3s, box-shadow 0.3s;
+  white-space: nowrap; /* 버튼 텍스트가 줄 바꿈되지 않도록 설정 */
 }
 
 .filter-button.active,
 .filter-button:hover,
+.search-button-head:hover,
 .search-button:hover {
   background-color: #e65c00; /* hover 시 더 진한 주황색 */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -35,6 +39,7 @@
 .search-form {
   display: flex;
   gap: 10px;
+  margin-top: 10px; /* 검색 폼과 버튼 사이에 여백 추가 */
 }
 
 .search-form input,
@@ -148,4 +153,96 @@
 .add-post-button:hover {
   background-color: #e65c00; /* hover 시 더 진한 주황색 */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .filter-buttons {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .filter-button-container {
+    display: none; /* 작은 화면에서 버튼 숨김 */
+  }
+
+  .filter-select {
+    display: block;
+    width: 100px; /* 셀렉트 박스 크기 */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-right: auto; /* 왼쪽 정렬을 위해 마진 설정 */
+  }
+
+  .search-button-head {
+    margin-left: auto; /* 오른쪽 정렬을 위해 마진 설정 */
+  }
+
+  .search-form {
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+
+  .search-form input, .search-form select, .search-form button {
+    padding: 5px;
+    font-size: 12px;
+  }
+}
+
+/* 360px 이상의 화면 크기에서 적용 */
+@media (min-width: 360px) {
+  .filter-button, .search-button, .search-button-head {
+    font-size: 12px; /* 작은 화면에서의 폰트 크기 */
+  }
+
+  .post-title {
+    font-size: 1em;
+  }
+
+  .post-footer {
+    font-size: 0.8em;
+  }
+
+  .pagination-buttons button {
+    font-size: 12px; /* 작은 화면에서의 폰트 크기 */
+  }
+}
+
+/* 768px 이상의 화면 크기에서 적용 */
+@media (min-width: 768px) {
+  .filter-button, .search-button, .search-button-head {
+    font-size: 14px; /* 중간 화면에서의 폰트 크기 */
+  }
+
+  .post-title {
+    font-size: 1.2em;
+  }
+
+  .post-footer {
+    font-size: 0.9em;
+  }
+
+  .pagination-buttons button {
+    font-size: 14px; /* 중간 화면에서의 폰트 크기 */
+  }
+}
+
+/* 1024px 이상의 화면 크기에서 적용 */
+@media (min-width: 1024px) {
+  .filter-button, .search-button, .search-button-head {
+    font-size: 16px; /* 큰 화면에서의 폰트 크기 */
+  }
+
+  .post-title {
+    font-size: 1.4em;
+  }
+
+  .post-footer {
+    font-size: 1em;
+  }
+
+  .pagination-buttons button {
+    font-size: 16px; /* 큰 화면에서의 폰트 크기 */
+  }
 }

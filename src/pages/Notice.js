@@ -11,6 +11,7 @@ const Notice = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [kind, setKind] = useState(null);
   const [searchType, setSearchType] = useState('');
+  const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 480);
 
   const fetchPosts = useCallback(async () => {
     try {
@@ -41,6 +42,12 @@ const Notice = () => {
     fetchPosts();
   }, [fetchPosts]);
 
+  useEffect(() => {
+    const handleResize = () => setIsMobileView(window.innerWidth <= 480);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const handleSearch = (e) => {
     e.preventDefault();
     setPage(0);
@@ -59,15 +66,25 @@ const Notice = () => {
   return (
     <div className="notice-page">
       <div className="filter-buttons">
-        <div className="filter-button-container">
-          <button className={`filter-button ${kind === null ? 'active' : ''}`} onClick={() => handleKindChange(null)}>전체</button>
-          <button className={`filter-button ${kind === 0 ? 'active' : ''}`} onClick={() => handleKindChange(0)}>종류 1</button>
-          <button className={`filter-button ${kind === 1 ? 'active' : ''}`} onClick={() => handleKindChange(1)}>종류 2</button>
-          <button className={`filter-button ${kind === 2 ? 'active' : ''}`} onClick={() => handleKindChange(2)}>종류 3</button>
-          <button className={`filter-button ${kind === 3 ? 'active' : ''}`} onClick={() => handleKindChange(3)}>종류 4</button>
-        </div>
+        {!isMobileView ? (
+          <div className="filter-button-container">
+            <button className={`filter-button ${kind === null ? 'active' : ''}`} onClick={() => handleKindChange(null)}>전체</button>
+            <button className={`filter-button ${kind === 0 ? 'active' : ''}`} onClick={() => handleKindChange(0)}>종류 1</button>
+            <button className={`filter-button ${kind === 1 ? 'active' : ''}`} onClick={() => handleKindChange(1)}>종류 2</button>
+            <button className={`filter-button ${kind === 2 ? 'active' : ''}`} onClick={() => handleKindChange(2)}>종류 3</button>
+            <button className={`filter-button ${kind === 3 ? 'active' : ''}`} onClick={() => handleKindChange(3)}>종류 4</button>
+          </div>
+        ) : (
+          <select className="filter-select" onChange={(e) => handleKindChange(e.target.value)}>
+            <option value="">전체</option>
+            <option value={0}>종류 1</option>
+            <option value={1}>종류 2</option>
+            <option value={2}>종류 3</option>
+            <option value={3}>종류 4</option>
+          </select>
+        )}
         {!showSearch ? (
-          <button className="search-button" onClick={() => setShowSearch(true)}>🔍</button>
+          <button className="search-button-head" onClick={() => setShowSearch(true)}>🔍</button>
         ) : (
           <form className="search-form" onSubmit={handleSearch}>
             <select onChange={(e) => setSearchType(e.target.value)} value={searchType}>
@@ -115,7 +132,6 @@ const Notice = () => {
           </button>
         ))}
       </div>
-      <button className="add-post-button">✏️</button>
     </div>
   );
 };

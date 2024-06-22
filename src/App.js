@@ -5,13 +5,15 @@ import HeadWithTitle from './components/HeadWithTitle';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import AppRoutes from './routers/Router';
-import Notice from './pages/Notice'; // Notice 컴포넌트를 임포트합니다
-import Search from './pages/Search'; // Search 컴포넌트를 임포트합니다
-import './styles/App.css'; // 글로벌 스타일
+import Notice from './pages/Notice';
+import Search from './pages/Search';
+import PostForm from './pages/PostForm';
+import './styles/App.css';
 import './styles/Login.css';
 import './styles/Register.css';
 import './styles/Main.css';
-import './styles/Search.css'; // Search 페이지 스타일
+import './styles/Search.css';
+import './styles/PostForm.css';
 
 const App = () => {
   const [isFooterOpen, setIsFooterOpen] = useState(false);
@@ -20,6 +22,7 @@ const App = () => {
   const isMainPage = location.pathname === '/main';
   const isNoticePage = location.pathname === '/notice';
   const isSearchPage = location.pathname === '/search';
+  const isPostFormPage = location.pathname === '/notices-insert';
 
   const handleToggleFooter = (isOpen) => {
     setIsFooterOpen(isOpen);
@@ -39,7 +42,7 @@ const App = () => {
     return (
       <div id="root" className={isFooterOpen ? 'footer-open' : ''}>
         <HeadWithTitle title="Notice" />
-        <Notice /> {/* Notice 컴포넌트를 직접 렌더링 */}
+        <Notice />
         <Footer onToggle={handleToggleFooter} />
       </div>
     );
@@ -48,8 +51,16 @@ const App = () => {
   if (isSearchPage) {
     return (
       <div id="root" className={isFooterOpen ? 'footer-open' : ''}>
-        <Search /> {/* Search 컴포넌트를 직접 렌더링 */}
+        <Search />
         <Footer onToggle={handleToggleFooter} />
+      </div>
+    );
+  }
+
+  if (isPostFormPage) {
+    return (
+      <div id="root">
+        <PostForm />
       </div>
     );
   }

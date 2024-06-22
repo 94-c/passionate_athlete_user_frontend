@@ -55,7 +55,7 @@ const Notice = () => {
     <div className="notice-page">
       <div className="tab-buttons">
         <button className={`tab-button ${kind === null ? 'active' : ''}`} onClick={() => handleKindChange(null)}>전체</button>
-        <button className={`tab-button ${kind === 0 ? 'active' : ''}`} onClick={() => handleKindChange(0)}>자유</button>
+        <button className={`tab-button ${kind === 0 ? 'active' : ''}`} onClick={() => handleKindChange(0)}>공지</button>
         <button className={`tab-button ${kind === 1 ? 'active' : ''}`} onClick={() => handleKindChange(1)}>멱살</button>
         <button className={`tab-button ${kind === 2 ? 'active' : ''}`} onClick={() => handleKindChange(2)}>자랑</button>
       </div>

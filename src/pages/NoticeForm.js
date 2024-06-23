@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faCamera } from '@fortawesome/free-solid-svg-icons';
-import api from '../api/api';
-import '../styles/PostForm.css';
+import { postData } from '../api/Api.js'; // postData 함수를 임포트합니다.
+import '../styles/NoticeForm.css';
 
-const PostForm = () => {
+const NoticeForm = () => {
   const [kind, setKind] = useState(0);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
@@ -44,31 +44,22 @@ const PostForm = () => {
     };
 
     try {
-      let response;
       if (files.length === 0) {
         // notice만 전송하는 경우
-        response = await api.post('/api/v1/notices', notice, {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
+        await postData('/notices', notice);
       } else {
         // notice와 파일을 전송하는 경우
         const formData = new FormData();
         formData.append('notice', new Blob([JSON.stringify(notice)], { type: 'application/json' }));
-        files.forEach((file, index) => {
+        files.forEach((file) => {
           formData.append('file', file);
         });
 
-        response = await api.post('/api/v1/notices', formData);
+        await postData('/notices', formData, true);
       }
 
-      if (response.status === 201) {
-        alert('게시글이 성공적으로 등록되었습니다.');
-        navigate('/notice');
-      } else {
-        alert('게시글 등록에 실패했습니다.');
-      }
+      alert('게시글이 성공적으로 등록되었습니다.');
+      navigate('/notice');
     } catch (error) {
       console.error('Error:', error);
       alert('게시글 등록 중 오류가 발생했습니다.');
@@ -115,4 +106,4 @@ const PostForm = () => {
   );
 };
 
-export default PostForm;
+export default NoticeForm;

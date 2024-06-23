@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { parseJwt } from '../utils/Jwt.js';
-import api from '../api/api';
+import { api } from '../api/Api.js';
 import '../styles/Header.css';
 
 const Header = () => {

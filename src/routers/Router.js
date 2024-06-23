@@ -5,7 +5,8 @@ import Login from '../pages/Login';
 import Register from '../pages/Register';
 import Notice from '../pages/Notice';
 import Search from '../pages/Search'; 
-import PostForm from '../pages/PostForm';
+import NoticeForm from '../pages/NoticeForm';
+import NoticeDetail from '../pages/NoticeDetail';
 
 const AppRoutes = () => {
   return (
@@ -16,7 +17,8 @@ const AppRoutes = () => {
       <Route path="/register" element={<Register />} />
       <Route path="/notice" element={<Notice />} />
       <Route path="/search" element={<Search />} /> 
-      <Route path="/notices-insert" element={<PostForm />} />
+      <Route path="/notices-insert" element={<NoticeForm />} />
+      <Route path="/notices/:id" component={NoticeDetail} />
     </Routes>
   );
 };

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { jwtDecode } from 'jwt-decode';
-import api from '../api/api';
+import { parseJwt } from '../utils/Jwt'; // parseJwt를 임포트합니다.
+import { api } from '../api/Api'; // 명명된 내보내기로 수정
 import '../styles/Login.css';
 
 const Login = () => {
@@ -29,7 +29,7 @@ const Login = () => {
         const user = response.data.users || {};
 
         // 토큰을 디코딩하여 권한 확인
-        const decoded = jwtDecode(token);
+        const decoded = parseJwt(token);
         const { status } = decoded;
 
         if (status === 'WAIT' || status === 'STOP') {

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import api from '../api/api';
+import { useNavigate } from 'react-router-dom';
+import { api } from '../api/Api.js';
 import '../styles/Notice.css';
 
 const Notice = () => {
@@ -8,6 +9,7 @@ const Notice = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [kind, setKind] = useState(null);
   const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 480);
+  const navigate = useNavigate();
 
   const fetchPosts = useCallback(async () => {
     try {
@@ -68,6 +70,10 @@ const Notice = () => {
     }
   };
 
+  const handlePostClick = (id) => {
+    navigate(`/notices/${id}`);
+  };
+
   return (
     <div className="notice-page">
       <div className="tab-buttons">
@@ -79,7 +85,7 @@ const Notice = () => {
       <div className="posts-container">
         <div className="posts">
           {posts.map((post, index) => (
-            <div key={index} className="post">
+            <div key={index} className="post" onClick={() => handlePostClick(post.id)}>
               <h2 className="post-title">{getKindLabel(post.kind)}{post.title}</h2>
               <p className="post-content">{truncateContent(post.content)}</p>
               <div className="post-footer">

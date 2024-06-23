@@ -7,13 +7,15 @@ import Footer from './components/Footer';
 import AppRoutes from './routers/Router';
 import Notice from './pages/Notice';
 import Search from './pages/Search';
-import PostForm from './pages/PostForm';
+import NoticeForm from './pages/NoticeForm';
+import NoticeDetail from './pages/NoticeDetail';
+
 import './styles/App.css';
 import './styles/Login.css';
 import './styles/Register.css';
 import './styles/Main.css';
 import './styles/Search.css';
-import './styles/PostForm.css';
+import './styles/NoticeForm.css';
 
 const App = () => {
   const [isFooterOpen, setIsFooterOpen] = useState(false);
@@ -22,7 +24,7 @@ const App = () => {
   const isMainPage = location.pathname === '/main';
   const isNoticePage = location.pathname === '/notice';
   const isSearchPage = location.pathname === '/search';
-  const isPostFormPage = location.pathname === '/notices-insert';
+  const isNotficeFormPage = location.pathname === '/notices-insert' || location.pathname === '/notices/:id';
 
   const handleToggleFooter = (isOpen) => {
     setIsFooterOpen(isOpen);
@@ -57,10 +59,11 @@ const App = () => {
     );
   }
 
-  if (isPostFormPage) {
+  if (isNotficeFormPage) {
     return (
       <div id="root">
-        <PostForm />
+        <NoticeForm />
+        <NoticeDetail />
       </div>
     );
   }

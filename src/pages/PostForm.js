@@ -9,7 +9,7 @@ const PostForm = () => {
   const [kind, setKind] = useState(0);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [file, setFile] = useState(null);
+  const [files, setFiles] = useState([]);
   const [roles, setRoles] = useState([]);
   const navigate = useNavigate();
 
@@ -31,7 +31,7 @@ const PostForm = () => {
   };
 
   const handleFileChange = (event) => {
-    setFile(event.target.files[0]);
+    setFiles([...event.target.files]);
   };
 
   const handleSubmit = async (event) => {
@@ -43,38 +43,45 @@ const PostForm = () => {
       content: content,
     };
 
-    const formData = new FormData();
-    formData.append('notice', JSON.stringify(notice));
-    if (file) {
-      formData.append('file', file);
-    }
-
     try {
-      const response = await api.post('/notices', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+      let response;
+      if (files.length === 0) {
+        // notice만 전송하는 경우
+        response = await api.post('/api/v1/notices', notice, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+      } else {
+        // notice와 파일을 전송하는 경우
+        const formData = new FormData();
+        formData.append('notice', new Blob([JSON.stringify(notice)], { type: 'application/json' }));
+        files.forEach((file, index) => {
+          formData.append('file', file);
+        });
+
+        response = await api.post('/api/v1/notices', formData);
+      }
 
       if (response.status === 201) {
-        alert('공지사항이 성공적으로 등록되었습니다.');
-        navigate('/notices');
+        alert('게시글이 성공적으로 등록되었습니다.');
+        navigate('/notice');
       } else {
-        alert('공지사항 등록에 실패했습니다.');
+        alert('게시글 등록에 실패했습니다.');
       }
     } catch (error) {
       console.error('Error:', error);
-      alert('공지사항 등록 중 오류가 발생했습니다.');
+      alert('게시글 등록 중 오류가 발생했습니다.');
     }
   };
 
   const handleClose = () => {
-    navigate('/notices');
+    navigate('/notice');
   };
 
   return (
     <div className="post-form-page">
-      <form onSubmit={handleSubmit} encType="multipart/form-data">
+      <form onSubmit={handleSubmit}>
         <div className="post-form-header">
           <button type="button" className="close-button" onClick={handleClose}>
             <FontAwesomeIcon icon={faTimes} />
@@ -95,8 +102,8 @@ const PostForm = () => {
             <option value={2}>자랑</option>
           </select>
           <input type="text" className="post-form-title" placeholder="제목" value={title} onChange={handleTitleChange} />
-          <textarea className="post-content" placeholder="내용을 입력하세요." value={content} onChange={handleContentChange} />
-          <input type="file" className="file-input" style={{ display: 'none' }} onChange={handleFileChange} />
+          <textarea className="post-form-content" placeholder="내용을 입력하세요." value={content} onChange={handleContentChange} />
+          <input type="file" className="file-input" style={{ display: 'none' }} onChange={handleFileChange} multiple />
         </div>
         <div className="post-form-footer">
           <button type="button" className="footer-icon" onClick={() => document.querySelector('.file-input').click()}>

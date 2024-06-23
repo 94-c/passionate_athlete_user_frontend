@@ -66,7 +66,7 @@
     font-weight: bold;
   }
   
-  .post-content {
+  .post-form-content {
     flex-grow: 1;
     resize: none;
     height: 300px;

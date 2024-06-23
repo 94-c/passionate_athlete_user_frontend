@@ -8,7 +8,7 @@ const Notice = () => {
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
   const [kind, setKind] = useState(null);
-  const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 480);
+  const [setIsMobileView] = useState(window.innerWidth <= 480);
   const navigate = useNavigate();
 
   const fetchPosts = useCallback(async () => {
@@ -86,6 +86,7 @@ const Notice = () => {
         <div className="posts">
           {posts.map((post, index) => (
             <div key={index} className="post" onClick={() => handlePostClick(post.id)}>
+              console.log(post.id);
               <h2 className="post-title">{getKindLabel(post.kind)}{post.title}</h2>
               <p className="post-content">{truncateContent(post.content)}</p>
               <div className="post-footer">

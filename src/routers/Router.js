@@ -1,3 +1,4 @@
+// AppRoutes.jsx
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Main from '../pages/Main';
@@ -14,7 +15,7 @@ const AppRoutes = () => {
       <Route path="/main" element={<Main />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
-      <Route path="/notice" element={<Notice />} />
+      <Route path="/notices" element={<Notice />} />
       <Route path="/search" element={<Search />} /> 
       <Route path="/notices-insert" element={<NoticeForm />} />
     </Routes>

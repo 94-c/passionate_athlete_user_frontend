@@ -21,7 +21,7 @@ const App = () => {
   const location = useLocation();
   const isAuthPage = location.pathname === '/login' || location.pathname === '/register' || location.pathname === '/';
   const isMainPage = location.pathname === '/main';
-  const isNoticePage = location.pathname === '/notice';
+  const isNoticePage = location.pathname === '/notices';
   const isSearchPage = location.pathname === '/search';
   const isNotficeFormPage = location.pathname === '/notices-insert' || location.pathname === '/notices/:id';
 

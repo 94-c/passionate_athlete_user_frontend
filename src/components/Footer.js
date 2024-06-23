@@ -31,7 +31,7 @@ const Footer = ({ onToggle }) => {
     return (
         <div className={`footer ${isOpen ? 'open' : ''}`} onClick={handleToggle}>
             <div className="menu-bar">
-                <div className="menu-item" onClick={() => handleNavigate('/notice')}>
+                <div className="menu-item" onClick={() => handleNavigate('/notices')}>
                     <FontAwesomeIcon icon={faUserFriends} />
                 </div>
                 <div className="menu-item">

@@ -8,7 +8,6 @@ import AppRoutes from './routers/Router';
 import Notice from './pages/Notice';
 import Search from './pages/Search';
 import NoticeForm from './pages/NoticeForm';
-import NoticeDetail from './pages/NoticeDetail';
 
 import './styles/App.css';
 import './styles/Login.css';
@@ -63,7 +62,6 @@ const App = () => {
     return (
       <div id="root">
         <NoticeForm />
-        <NoticeDetail />
       </div>
     );
   }

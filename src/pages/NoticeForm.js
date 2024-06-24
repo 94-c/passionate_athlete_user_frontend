@@ -67,7 +67,7 @@ const NoticeForm = () => {
   };
 
   const handleClose = () => {
-    navigate('/notice');
+    navigate('/notices');
   };
 
   return (

@@ -8,7 +8,7 @@ const Notice = () => {
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
   const [kind, setKind] = useState(null);
-  const [setIsMobileView] = useState(window.innerWidth <= 480);
+  const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 480);
   const navigate = useNavigate();
 
   const fetchPosts = useCallback(async () => {

@@ -22,14 +22,16 @@ api.interceptors.request.use(
 // POST 요청을 보낼 때 Content-Type을 동적으로 설정하는 예제입니다.
 const postData = async (url, data, isMultipart = false) => {
   try {
-    console.log('error')
+    console.log('Sending request to:', url);
+    console.log('Data:', data);
     const headers = isMultipart
       ? { 'Content-Type': 'multipart/form-data' }
       : { 'Content-Type': 'application/json' };
     const response = await api.post(url, data, { headers });
-    console.log('response')
+    console.log('Response:', response);
     return response.data;
   } catch (error) {
+    console.error('Error occurred:', error);
     throw error;
   }
 };

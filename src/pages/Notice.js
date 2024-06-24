@@ -86,7 +86,6 @@ const Notice = () => {
         <div className="posts">
           {posts.map((post, index) => (
             <div key={index} className="post" onClick={() => handlePostClick(post.id)}>
-              console.log(post.id);
               <h2 className="post-title">{getKindLabel(post.kind)}{post.title}</h2>
               <p className="post-content">{truncateContent(post.content)}</p>
               <div className="post-footer">

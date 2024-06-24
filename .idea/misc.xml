@@ -3,4 +3,7 @@
   <component name="GithubDefaultAccount">
     <option name="defaultAccountId" value="804f3204-53cb-4446-9449-049a07b0bd1a" />
   </component>
+  <component name="ProjectType">
+    <option name="id" value="jpab" />
+  </component>
 </project>

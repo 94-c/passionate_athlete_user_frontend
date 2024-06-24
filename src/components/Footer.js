@@ -15,12 +15,10 @@ const Footer = ({ onToggle }) => {
     };
 
     const handleLogout = () => {
-        // JWT 토큰 삭제
         localStorage.removeItem('token');
         sessionStorage.removeItem('token');
         localStorage.removeItem('userName');
 
-        // 로그인 페이지로 이동
         navigate('/login', { replace: true });
     };
 

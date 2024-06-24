@@ -40,7 +40,7 @@ const NoticeDetail = () => {
   }, [id]);
 
   const handleBack = () => {
-    navigate(-1);
+    navigate('/notices');
   };
 
   const handleEdit = () => {
@@ -71,11 +71,17 @@ const NoticeDetail = () => {
 
   const handleLike = async () => {
     try {
-      await api.post(`/notices/${id}/like`);
-      setLikeCount((prev) => (liked ? prev - 1 : prev + 1));
-      setLiked((prev) => !prev);
+      if (liked) {
+        await api.delete(`/notices/${id}/likes`);
+        setLikeCount((prev) => prev - 1);
+        setLiked(false);
+      } else {
+        await api.post(`/notices/${id}/likes`);
+        setLikeCount((prev) => prev + 1);
+        setLiked(true);
+      }
     } catch (error) {
-      setError('Error liking post');
+      setError('Error liking/unliking post');
     }
   };
 

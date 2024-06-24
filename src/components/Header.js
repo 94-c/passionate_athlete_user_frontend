@@ -5,6 +5,7 @@ import '../styles/Header.css';
 
 const Header = () => {
   const [userName, setUserName] = useState('');
+  const [branchName, setBranchName] = useState('');
   const [continuousAttendance, setContinuousAttendance] = useState(0);
 
   useEffect(() => {
@@ -12,9 +13,11 @@ const Header = () => {
     const token = localStorage.getItem('token') || sessionStorage.getItem('token');
     const user = token ? parseJwt(token) : null;
 
-    // 사용자 이름 가져오기
-    const storedUserName = localStorage.getItem('userName') || sessionStorage.getItem('userName');
-    setUserName(storedUserName);
+    // 사용자 이름과 지점 이름 가져오기
+    if (user) {
+      setUserName(user.name);
+      setBranchName(user.branchName);
+    }
 
     const fetchContinuousAttendance = async () => {
       // API 호출하여 연속 출석일 정보 가져오기
@@ -37,7 +40,8 @@ const Header = () => {
         <p className="attendance-info">
           {userName ? (
             <span>
-              <span>{userName} 님은 연속 </span>
+              <span className="branch-name"> [{branchName}] </span>
+              <span> {userName} 님은 연속 </span>
               <span className="highlight">{continuousAttendance}</span>
               <span>일 출석 중입니다.</span>
             </span>

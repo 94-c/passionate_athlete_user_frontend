@@ -20,3 +20,9 @@
   font-size: 20px; /* 폰트 크기를 20px로 변경 */
   color: orange; /* 주황색으로 변경 */
 }
+
+.branch-name {
+  font-weight: bold;
+  font-size: 15px; /* 폰트 크기를 20px로 변경 */
+  color: orange; 
+}

@@ -24,13 +24,19 @@
   margin: 0 0 20px;
 }
 
-.edit-title-input {
+.edit-title-input,
+.edit-content-textarea {
   width: 100%;
   padding: 10px;
-  font-size: 24px;
   margin: 0 0 20px;
   border: 1px solid #ddd;
   border-radius: 5px;
+  box-sizing: border-box;
+  resize: none; /* 크기 조절 불가능하도록 설정 */
+}
+
+.edit-content-textarea {
+  height: 150px;
 }
 
 .notice-detail .post-meta {

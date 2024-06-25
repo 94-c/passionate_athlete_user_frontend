@@ -85,11 +85,34 @@
   padding: 10px;
   border-bottom: 1px solid #ddd;
   margin-bottom: 10px;
+  position: relative;
+}
+
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .comment-author {
   font-weight: bold;
   margin-bottom: 5px;
+}
+
+.comment-actions {
+  display: flex;
+  gap: 10px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.comment-actions button {
+  background: none;
+  border: none;
+  font-size: 12px;
+  cursor: pointer;
+  color: #ff6600;
 }
 
 .comment-date {

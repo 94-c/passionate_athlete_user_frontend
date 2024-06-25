@@ -26,7 +26,6 @@ const NoticeDetail = () => {
     const fetchPost = async () => {
       try {
         const response = await api.get(`/notices/${id}`);
-        console.log('Post data:', response.data);
         setPost(response.data);
         setComments(response.data.comments);
         setLikeCount(response.data.likeCount);
@@ -149,7 +148,7 @@ const NoticeDetail = () => {
         </span>
         <span className="post-comments">💬 {comments.length}</span>
       </div>
-      <CommentList postId={id} comments={comments} setComments={setComments} />
+      <CommentList postId={id} comments={comments} setComments={setComments} currentUser={currentUser} />
     </div>
   );
 };

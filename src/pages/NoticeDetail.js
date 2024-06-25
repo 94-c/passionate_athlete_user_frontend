@@ -20,7 +20,7 @@ const NoticeDetail = () => {
   const [editedContent, setEditedContent] = useState('');
 
   const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-  const currentUser = token ? JSON.parse(atob(token.split('.')[1])) : null; // Assuming token is in format 'Bearer xxx.yyy.zzz'
+  const currentUser = token ? JSON.parse(atob(token.split('.')[1])) : null; 
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -30,7 +30,7 @@ const NoticeDetail = () => {
         setPost(response.data);
         setComments(response.data.comments);
         setLikeCount(response.data.likeCount);
-        setLiked(response.data.liked); // Assuming API response includes if current user liked the post
+        setLiked(response.data.liked); 
         setEditedTitle(response.data.title);
         setEditedContent(response.data.content);
       } catch (error) {
@@ -55,7 +55,7 @@ const NoticeDetail = () => {
           setIsEditing(false);
         })
         .catch((error) => {
-          setError('Error updating title and content');
+          setError('게시물 수정에 실패하였습니다.');
         });
     } else {
       setIsEditing(true);
@@ -63,7 +63,7 @@ const NoticeDetail = () => {
   };
 
   const handleDelete = async () => {
-    if (window.confirm('Are you sure you want to delete this post?')) {
+    if (window.confirm('게시물을 삭제하시겠습니까?')) {
       try {
         await api.put(`/notices/${id}/is-active`, { isActive: false });
         navigate('/notices');

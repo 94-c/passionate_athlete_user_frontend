@@ -20,7 +20,6 @@ const Header = () => {
     }
 
     const fetchContinuousAttendance = async () => {
-      // API 호출하여 연속 출석일 정보 가져오기
       if (token) {
         try {
           const response = await api.get('/attendances/continue');

@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { api } from '../api/Api';
+import { UserContext } from '../contexts/UserContext';
 
 const CommentList = ({ postId, comments, setComments }) => {
   const [newComment, setNewComment] = useState('');
@@ -7,8 +8,7 @@ const CommentList = ({ postId, comments, setComments }) => {
   const [editingCommentId, setEditingCommentId] = useState(null);
   const [editedCommentContent, setEditedCommentContent] = useState('');
 
-  const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-  const currentUser = token ? JSON.parse(atob(token.split('.')[1])) : null; // Assuming token is in format 'Bearer xxx.yyy.zzz'
+  const { user: currentUser } = useContext(UserContext);
 
   const handleCommentChange = (e) => {
     setNewComment(e.target.value);
@@ -53,26 +53,37 @@ const CommentList = ({ postId, comments, setComments }) => {
     }
   };
 
+  useEffect(() => {
+    console.log('Current User:', currentUser);
+  }, [currentUser]);
+
   return (
     <div className="comments-section">
       <h3>댓글</h3>
       {comments.map((comment) => (
         <div key={comment.id} className="comment">
-          <div className="comment-author">{comment.userName}</div>
-          <div className="comment-date">{comment.createdDate}</div>
+          <div className="comment-author">
+              <span className="comment-branch">[{currentUser.branchName}]</span> {comment.userName}
+            </div>
           {editingCommentId === comment.id ? (
-            <div>
+            <div className="edit-comment">
               <textarea
+                className="edit-comment-textarea"
                 value={editedCommentContent}
                 onChange={handleEditCommentChange}
                 required
               />
-              <button onClick={() => handleSaveComment(comment.id)}>저장</button>
-              <button onClick={() => setEditingCommentId(null)}>취소</button>
+              <div className="edit-comment-actions">
+                <button onClick={() => handleSaveComment(comment.id)}>저장</button>
+                <button onClick={() => setEditingCommentId(null)}>취소</button>
+              </div>
             </div>
           ) : (
             <div className="comment-content">{comment.content}</div>
+
           )}
+          <div className="comment-date">{comment.createdAt}</div>
+
           {currentUser && currentUser.id === comment.userId && (
             <div className="comment-actions">
               <button onClick={() => handleEditComment(comment)}>수정</button>

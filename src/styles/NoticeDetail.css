@@ -99,6 +99,16 @@
   margin-bottom: 5px;
 }
 
+.comment-branch {
+  font-weight: bold;
+}
+
+.comment-date {
+  font-size: 12px;
+  color: #999;
+  margin-bottom: 10px;
+}
+
 .comment-actions {
   display: flex;
   gap: 10px;
@@ -113,12 +123,6 @@
   font-size: 12px;
   cursor: pointer;
   color: #ff6600;
-}
-
-.comment-date {
-  font-size: 12px;
-  color: #999;
-  margin-bottom: 10px;
 }
 
 .comment-content {
@@ -152,4 +156,38 @@
 .error {
   color: red;
   margin-top: 10px;
+}
+
+/* New styles for editing comments */
+.edit-comment {
+  margin-bottom: 10px;
+}
+
+.edit-comment-textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  resize: none; /* 크기 조절 불가능하도록 설정 */
+  box-sizing: border-box;
+}
+
+.edit-comment-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.edit-comment-actions button {
+  padding: 5px 10px;
+  border: 1px solid #ff6600;
+  border-radius: 5px;
+  background-color: #fff;
+  color: #ff6600;
+  cursor: pointer;
+}
+
+.edit-comment-actions button:hover {
+  background-color: #ff6600;
+  color: #fff;
 }

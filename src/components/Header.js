@@ -1,26 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { parseJwt } from '../utils/Jwt.js';
+import React, { useContext, useEffect, useState } from 'react';
+import { UserContext } from '../contexts/UserContext';
 import { api } from '../api/Api.js';
 import '../styles/Header.css';
 
 const Header = () => {
-  const [userName, setUserName] = useState('');
-  const [branchName, setBranchName] = useState('');
+  const { user } = useContext(UserContext);
   const [continuousAttendance, setContinuousAttendance] = useState(0);
 
   useEffect(() => {
-    // 토큰 가져오기
-    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-    const user = token ? parseJwt(token) : null;
-
-    // 사용자 이름과 지점 이름 가져오기
-    if (user) {
-      setUserName(user.name);
-      setBranchName(user.branchName);
-    }
-
     const fetchContinuousAttendance = async () => {
-      if (token) {
+      if (user) {
         try {
           const response = await api.get('/attendances/continue');
           setContinuousAttendance(response.data.continuousAttendanceCount);
@@ -31,16 +20,16 @@ const Header = () => {
     };
 
     fetchContinuousAttendance();
-  }, []);
+  }, [user]);
 
   return (
     <div className="header-container">
       <div className="info-section">
         <p className="attendance-info">
-          {userName ? (
+          {user ? (
             <span>
-              <span className="branch-name"> [{branchName}] </span>
-              <span> {userName} 님은 연속 </span>
+              <span className="branch-name"> [{user.branchName}] </span>
+              <span> {user.name} 님은 연속 </span>
               <span className="highlight">{continuousAttendance}</span>
               <span>일 출석 중입니다.</span>
             </span>

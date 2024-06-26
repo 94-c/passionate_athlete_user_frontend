@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { UserProvider } from './contexts/UserContext';
 import Head from './components/Head';
 import HeadWithTitle from './components/HeadWithTitle';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import AppRoutes from './routers/Router';
+import ErrorBoundary from './components/ErrorBoundary'; 
 
 import './styles/App.css';
 import './styles/Login.css';
@@ -29,41 +31,45 @@ const App = () => {
   };
 
   return (
-    <div id="root" className={isFooterOpen ? 'footer-open' : ''}>
-      {isAuthPage ? (
-        <div className="container">
-          <AppRoutes />
+    <ErrorBoundary>
+      <UserProvider>
+        <div id="root" className={isFooterOpen ? 'footer-open' : ''}>
+          {isAuthPage ? (
+            <div className="container">
+              <AppRoutes />
+            </div>
+          ) : isNoticePage ? (
+            <>
+              <HeadWithTitle title="Notice" />
+              <AppRoutes />
+              <Footer onToggle={handleToggleFooter} />
+            </>
+          ) : isSearchPage ? (
+            <>
+              <AppRoutes />
+              <Footer onToggle={handleToggleFooter} />
+            </>
+          ) : isNotficeFormPage ? (
+            <div id="root">
+              <AppRoutes />
+            </div>
+          ) : isNoticeDetailPage ? (
+            <div id="root">
+              <AppRoutes />
+            </div>
+          ) : (
+            <>
+              {isMainPage ? <Head /> : <HeadWithTitle title="Lounge" />}
+              {isMainPage && <Header />}
+              <div className="container">
+                <AppRoutes />
+              </div>
+              <Footer onToggle={handleToggleFooter} />
+            </>
+          )}
         </div>
-      ) : isNoticePage ? (
-        <>
-          <HeadWithTitle title="Notice" />
-          <AppRoutes />
-          <Footer onToggle={handleToggleFooter} />
-        </>
-      ) : isSearchPage ? (
-        <>
-          <AppRoutes />
-          <Footer onToggle={handleToggleFooter} />
-        </>
-      ) : isNotficeFormPage ? (
-        <div id="root">
-          <AppRoutes />
-        </div>
-      ) : isNoticeDetailPage ? (
-        <div id="root">
-          <AppRoutes />
-        </div>
-      ) : (
-        <>
-          {isMainPage ? <Head /> : <HeadWithTitle title="Lounge" />}
-          {isMainPage && <Header />}
-          <div className="container">
-            <AppRoutes />
-          </div>
-          <Footer onToggle={handleToggleFooter} />
-        </>
-      )}
-    </div>
+      </UserProvider>
+    </ErrorBoundary>
   );
 };
 

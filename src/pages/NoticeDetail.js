@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faEdit, faTrash, faHeart, faSave } from '@fortawesome/free-solid-svg-icons';
 import { api } from '../api/Api';
 import CommentList from './CommentList';
+import { UserContext } from '../contexts/UserContext'; 
 import '../styles/NoticeDetail.css';
 
 const NoticeDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { user: currentUser } = useContext(UserContext);
   const [post, setPost] = useState(null);
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -18,9 +20,6 @@ const NoticeDetail = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedTitle, setEditedTitle] = useState('');
   const [editedContent, setEditedContent] = useState('');
-
-  const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-  const currentUser = token ? JSON.parse(atob(token.split('.')[1])) : null; 
 
   useEffect(() => {
     const fetchPost = async () => {

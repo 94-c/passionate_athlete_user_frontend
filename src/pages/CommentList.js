@@ -7,8 +7,29 @@ const CommentList = ({ postId, comments, setComments }) => {
   const [error, setError] = useState(null);
   const [editingCommentId, setEditingCommentId] = useState(null);
   const [editedCommentContent, setEditedCommentContent] = useState('');
+  const [page, setPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
 
   const { user: currentUser } = useContext(UserContext);
+
+  const fetchComments = async (page) => {
+    try {
+      const response = await api.get(`/notices/${postId}/comments`, {
+        params: {
+          page: page,
+          size: 5, // 페이지당 최대 5개의 콘텐츠
+        },
+      });
+      setComments(response.data.content);
+      setTotalPages(response.data.totalPages);
+    } catch (error) {
+      setError('Error fetching comments');
+    }
+  };
+
+  useEffect(() => {
+    fetchComments(page);
+  }, [page]);
 
   const handleCommentChange = (e) => {
     setNewComment(e.target.value);
@@ -53,45 +74,61 @@ const CommentList = ({ postId, comments, setComments }) => {
     }
   };
 
-  useEffect(() => {
-    console.log('Current User:', currentUser);
-  }, [currentUser]);
+  const handlePageChange = (newPage) => {
+    if (newPage >= 0 && newPage < totalPages) {
+      setPage(newPage);
+    }
+  };
 
   return (
     <div className="comments-section">
       <h3>댓글</h3>
-      {comments.map((comment) => (
-        <div key={comment.id} className="comment">
-          <div className="comment-author">
-              <span className="comment-branch">[{currentUser.branchName}]</span> {comment.userName}
-            </div>
-          {editingCommentId === comment.id ? (
-            <div className="edit-comment">
-              <textarea
-                className="edit-comment-textarea"
-                value={editedCommentContent}
-                onChange={handleEditCommentChange}
-                required
-              />
-              <div className="edit-comment-actions">
-                <button onClick={() => handleSaveComment(comment.id)}>저장</button>
-                <button onClick={() => setEditingCommentId(null)}>취소</button>
+      <div className="comments-container">
+        {comments.map((comment) => (
+          <div key={comment.id} className="comment">
+            <div className="comment-header">
+              <div className="comment-author">
+                <span className="comment-branch">{currentUser.branchName}</span> {comment.userName}
               </div>
             </div>
-          ) : (
-            <div className="comment-content">{comment.content}</div>
+            {editingCommentId === comment.id ? (
+              <div className="edit-comment">
+                <textarea
+                  className="edit-comment-textarea"
+                  value={editedCommentContent}
+                  onChange={handleEditCommentChange}
+                  required
+                />
+                <div className="edit-comment-actions">
+                  <button onClick={() => handleSaveComment(comment.id)}>저장</button>
+                  <button onClick={() => setEditingCommentId(null)}>취소</button>
+                </div>
+              </div>
+            ) : (
+              <div className="comment-content">{comment.content}</div>
+            )}
+            <div className="comment-date">{comment.createdDate}</div>
 
-          )}
-          <div className="comment-date">{comment.createdAt}</div>
-
-          {currentUser && currentUser.id === comment.userId && (
-            <div className="comment-actions">
-              <button onClick={() => handleEditComment(comment)}>수정</button>
-              <button onClick={() => handleDeleteComment(comment.id)}>삭제</button>
-            </div>
-          )}
-        </div>
-      ))}
+            {currentUser && currentUser.id === comment.userId && (
+              <div className="comment-actions">
+                <button onClick={() => handleEditComment(comment)}>수정</button>
+                <button onClick={() => handleDeleteComment(comment.id)}>삭제</button>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+      <div className="comment-pagination">
+        {Array.from({ length: totalPages }, (_, index) => (
+          <button
+            key={index}
+            className={`comment-page-button ${page === index ? 'active' : ''}`}
+            onClick={() => handlePageChange(index)}
+          >
+            {index + 1}
+          </button>
+        ))}
+      </div>
       <form onSubmit={handleCommentSubmit} className="comment-form">
         <textarea
           value={newComment}

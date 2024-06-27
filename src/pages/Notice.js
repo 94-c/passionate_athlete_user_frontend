@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../api/Api.js';
 import '../styles/Notice.css';
+import { UserContext } from '../contexts/UserContext';
 
 const Notice = () => {
   const [posts, setPosts] = useState([]);
@@ -10,6 +11,7 @@ const Notice = () => {
   const [kind, setKind] = useState(null);
   const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 480);
   const navigate = useNavigate();
+  const { user: currentUser } = useContext(UserContext);
 
   const fetchPosts = useCallback(async () => {
     try {
@@ -89,7 +91,7 @@ const Notice = () => {
               <h2 className="post-title">{getKindLabel(post.kind)}{post.title}</h2>
               <p className="post-content">{truncateContent(post.content)}</p>
               <div className="post-footer">
-                <span className="post-author">{post.userName}</span> · <span className="post-date">{post.createdDate}</span>
+                <span className="post-author">[{currentUser.branchName}] {post.userName}</span> · <span className="post-date">{post.createdDate}</span>
                 <div className="post-actions">
                   <span className="post-likes">❤ {post.likeCount}</span>
                   <span className="post-comments">💬 {post.comments.length}</span>

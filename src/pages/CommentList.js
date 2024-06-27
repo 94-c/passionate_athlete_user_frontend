@@ -94,7 +94,7 @@ const CommentList = ({ postId, comments = [], setComments }) => {
           <div key={comment.id} className="comment" onClick={() => handleCommentClick(comment.id)}>
             <div className="comment-header">
               <div className="comment-author">
-                {comment.userName}
+                [{currentUser.branchName}] {comment.userName}
               </div>
             </div>
             {editingCommentId === comment.id ? (

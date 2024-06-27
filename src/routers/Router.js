@@ -7,6 +7,7 @@ import Notice from '../pages/Notice';
 import Search from '../pages/Search';
 import NoticeForm from '../pages/NoticeForm';
 import NoticeDetail from '../pages/NoticeDetail';
+import CommentDetail from '../pages/CommentDetail';
 import PrivateRoute from './PrivateRoute';
 
 const Router = () => {
@@ -22,6 +23,7 @@ const Router = () => {
         <Route path="/search" element={<Search />} />
         <Route path="/notices-insert" element={<NoticeForm />} />
         <Route path="/notices/:id" element={<NoticeDetail />} />
+        <Route path="/notices/:noticeId/comments/:commentId" element={<CommentDetail />} />
       </Route>
     </Routes>
   );

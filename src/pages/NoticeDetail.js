@@ -139,7 +139,7 @@ const NoticeDetail = () => {
         </>
       )}
       <div className="post-meta">
-        <span className="post-author">{post.userName}</span> · <span className="post-date">{post.createdDate}</span>
+        <span className="post-author">[{currentUser.branchName}] {post.userName}</span> · <span className="post-date">{post.createdDate}</span>
       </div>
       <div className="post-actions">
         <span className="post-likes" onClick={handleLike}>

@@ -1,23 +1,25 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { api } from '../api/Api';
 import { UserContext } from '../contexts/UserContext';
 
-const CommentList = ({ postId, comments, setComments }) => {
+const CommentList = ({ postId, comments = [], setComments }) => {
   const [newComment, setNewComment] = useState('');
   const [error, setError] = useState(null);
   const [editingCommentId, setEditingCommentId] = useState(null);
   const [editedCommentContent, setEditedCommentContent] = useState('');
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
+  const navigate = useNavigate();
 
   const { user: currentUser } = useContext(UserContext);
 
-  const fetchComments = async (page) => {
+  const fetchComments = useCallback(async (page) => {
     try {
       const response = await api.get(`/notices/${postId}/comments`, {
         params: {
           page: page,
-          size: 5, // 페이지당 최대 5개의 콘텐츠
+          size: 5,
         },
       });
       setComments(response.data.content);
@@ -25,11 +27,11 @@ const CommentList = ({ postId, comments, setComments }) => {
     } catch (error) {
       setError('Error fetching comments');
     }
-  };
+  }, [postId, setComments]);
 
   useEffect(() => {
     fetchComments(page);
-  }, [page]);
+  }, [fetchComments, page]);
 
   const handleCommentChange = (e) => {
     setNewComment(e.target.value);
@@ -80,15 +82,19 @@ const CommentList = ({ postId, comments, setComments }) => {
     }
   };
 
+  const handleCommentClick = (commentId) => {
+    navigate(`/notices/${postId}/comments/${commentId}`);
+  };
+
   return (
     <div className="comments-section">
       <h3>댓글</h3>
       <div className="comments-container">
         {comments.map((comment) => (
-          <div key={comment.id} className="comment">
+          <div key={comment.id} className="comment" onClick={() => handleCommentClick(comment.id)}>
             <div className="comment-header">
               <div className="comment-author">
-                <span className="comment-branch">{currentUser.branchName}</span> {comment.userName}
+                {comment.userName}
               </div>
             </div>
             {editingCommentId === comment.id ? (
@@ -111,8 +117,14 @@ const CommentList = ({ postId, comments, setComments }) => {
 
             {currentUser && currentUser.id === comment.userId && (
               <div className="comment-actions">
-                <button onClick={() => handleEditComment(comment)}>수정</button>
-                <button onClick={() => handleDeleteComment(comment.id)}>삭제</button>
+                <button onClick={(e) => {
+                  e.stopPropagation();
+                  handleEditComment(comment);
+                }}>수정</button>
+                <button onClick={(e) => {
+                  e.stopPropagation();
+                  handleDeleteComment(comment.id);
+                }}>삭제</button>
               </div>
             )}
           </div>

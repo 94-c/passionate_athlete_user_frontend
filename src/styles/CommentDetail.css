@@ -1,0 +1,207 @@
+.comment-detail {
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.comment-detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.back-button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.comment-detail h3 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.comment {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 10px;
+}
+
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.comment-author {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.comment-date {
+  font-size: 12px;
+  color: #999;
+  margin-bottom: 10px;
+}
+
+.comment-content {
+  font-size: 16px;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.replies-section {
+  margin-top: 30px;
+}
+
+.replies-section h4 {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.replies-container {
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+.reply {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 10px;
+  position: relative; /* Added for reply-actions */
+}
+
+.reply-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.reply-author {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.reply-date {
+  font-size: 12px;
+  color: #999;
+  margin-bottom: 10px;
+}
+
+.reply-actions {
+  display: flex;
+  gap: 10px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.reply-actions button {
+  background: none;
+  border: none;
+  font-size: 12px;
+  cursor: pointer;
+  color: #ff6600;
+}
+
+.reply-content {
+  font-size: 14px;
+}
+
+.reply-form {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.reply-form textarea {
+  flex-grow: 1;
+  resize: none;
+  height: 100px;
+  padding: 10px;
+  margin-right: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.reply-form .submit-reply {
+  padding: 10px 20px;
+  background-color: #ff6600;
+  border: none;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  height: 100px;
+}
+
+.error {
+  color: red;
+  margin-top: 10px;
+}
+
+/* New styles for editing replies */
+.edit-reply {
+  margin-bottom: 10px;
+}
+
+.edit-reply-textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  resize: none;
+  box-sizing: border-box;
+}
+
+.edit-reply-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.edit-reply-actions button {
+  padding: 5px 10px;
+  border: 1px solid #ff6600;
+  border-radius: 5px;
+  background-color: #fff;
+  color: #ff6600;
+  cursor: pointer;
+}
+
+.edit-reply-actions button:hover {
+  background-color: #ff6600;
+  color: #fff;
+}
+
+/* Pagination styles */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  margin-top: 20px;
+}
+
+.pagination-button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  background-color: #ff6600;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.pagination-button:hover {
+  background-color: #e65c00;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.pagination-button.active {
+  background-color: #ddd;
+  cursor: not-allowed;
+  color: #666;
+}

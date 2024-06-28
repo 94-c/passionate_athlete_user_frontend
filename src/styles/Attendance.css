@@ -1,9 +1,6 @@
 .attendance-page {
     padding: 0;
     margin-top: 0;
-    /* 헤더 아래 여백 제거 */
-    height: 100vh;
-    /* 전체 페이지 높이를 100vh로 설정 */
     display: flex;
     flex-direction: column;
   }
@@ -13,16 +10,26 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 10px;
     background: transparent;
-    /* 배경 투명 */
+  }
+  
+  .calendar-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .button-container {
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
   }
   
   .react-calendar {
-    flex: 1;
     width: 100%;
+    max-height: 80%; /* 캘린더의 최대 높이를 80%로 설정 */
     background: transparent;
-    /* 배경 투명 */
     border: none;
     border-radius: 10px;
     font-family: Arial, Helvetica, sans-serif;
@@ -33,7 +40,6 @@
     color: #ff6600;
     min-width: 44px;
     background: transparent;
-    /* 배경 투명 */
     font-size: 16px;
     margin-top: 8px;
   }
@@ -41,7 +47,6 @@
   .react-calendar__tile {
     max-width: 100%;
     background: transparent;
-    /* 배경 투명 */
     text-align: center;
     line-height: 2.5em;
     border-radius: 10px;
@@ -62,7 +67,6 @@
   }
   
   .attendance-button {
-    margin-top: 10px;
     padding: 10px 20px;
     background-color: #ff6600;
     border: none;
@@ -71,7 +75,6 @@
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s, box-shadow 0.3s;
-    align-self: center;
   }
   
   .attendance-button:hover {

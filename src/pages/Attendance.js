@@ -13,14 +13,15 @@ const Attendance = () => {
   return (
     <div className="attendance-page">
       <div className="attendance-container">
-        <Calendar
-          onChange={onDateChange}
-          value={date}
-          calendarType="gregory"
-          formatDay={(locale, date) => date.toLocaleString('en', { day: 'numeric' })}
-          locale="ko-KR"
-        />
-        <button className="attendance-button">출석</button>
+        <div className="calendar-container">
+          <Calendar
+            onChange={onDateChange}
+            value={date}
+            calendarType="gregory"
+            formatDay={(locale, date) => date.toLocaleString('en', { day: 'numeric' })}
+            locale="ko-KR"
+          />
+        </div>
       </div>
     </div>
   );

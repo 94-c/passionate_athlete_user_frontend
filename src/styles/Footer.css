@@ -32,6 +32,11 @@
     color: #ffffff;
 }
 
+.menu-text {
+    margin-top: 4px;
+    font-size: 12px;
+}
+
 .footer-text {
     color: white;
     font-size: 1rem;

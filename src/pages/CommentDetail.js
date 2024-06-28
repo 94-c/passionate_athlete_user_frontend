@@ -54,7 +54,7 @@ const CommentDetail = () => {
             </div>
             <div className="comment-content">{comment.content}</div>
           </div>
-          <ReplyList commentId={comment.id} />
+          <ReplyList commentId={comment.id} noticeId={noticeId} />
         </>
       )}
     </div>

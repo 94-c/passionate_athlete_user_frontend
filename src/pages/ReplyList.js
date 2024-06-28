@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect, useCallback } from 'react';
 import { api } from '../api/Api';
 import { UserContext } from '../contexts/UserContext';
 
-const ReplyList = ({ commentId }) => {
+const ReplyList = ({ commentId, noticeId }) => {
   const [replies, setReplies] = useState([]);
   const [newReply, setNewReply] = useState('');
   const [error, setError] = useState(null);
@@ -40,7 +40,7 @@ const ReplyList = ({ commentId }) => {
   const handleReplySubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await api.post(`/comments/${commentId}/replies`, { content: newReply });
+      const response = await api.post(`/comments/${commentId}/replies`, { content: newReply, noticeId });
       setReplies([...replies, response.data]);
       setNewReply('');
     } catch (error) {
@@ -69,7 +69,7 @@ const ReplyList = ({ commentId }) => {
 
   const handleDeleteReply = async (replyId) => {
     try {
-      await api.delete(`/api/v1/comments/${commentId}/replies/${replyId}`);
+      await api.delete(`/comments/${commentId}/replies/${replyId}`);
       setReplies(replies.filter(reply => reply.id !== replyId));
     } catch (error) {
       setError('Error deleting reply');

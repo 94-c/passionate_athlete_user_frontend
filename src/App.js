@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { UserProvider } from './contexts/UserContext';
 import Head from './components/Head';
 import HeadWithTitle from './components/HeadWithTitle';
@@ -19,56 +19,74 @@ import './styles/NoticeDetail.css';
 const App = () => {
   const [isFooterOpen, setIsFooterOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+
   const isAuthPage = location.pathname === '/login' || location.pathname === '/register' || location.pathname === '/';
   const isMainPage = location.pathname === '/main';
   const isNoticePage = location.pathname === '/notices';
   const isSearchPage = location.pathname === '/search';
-  const isNotficeFormPage = location.pathname === '/notices-insert';
+  const isNoticeFormPage = location.pathname === '/notices-insert';
   const isNoticeDetailPage = location.pathname.startsWith('/notices/');
 
   const handleToggleFooter = (isOpen) => {
     setIsFooterOpen(isOpen);
   };
 
-  return (
-    <ErrorBoundary>
-      <UserProvider>
-        <div id="root" className={isFooterOpen ? 'footer-open' : ''}>
-          {isAuthPage ? (
+  useEffect(() => {
+    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+
+    if (token && (location.pathname === '/login' || location.pathname === '/')) {
+      navigate('/main');
+    } else if (!token && location.pathname !== '/login' && location.pathname !== '/register') {
+      navigate('/login');
+    }
+  }, [location.pathname, navigate]);
+
+  const AuthContent = () => (
+    <div className="container">
+      <AppRoutes />
+    </div>
+  );
+
+  const MainContent = () => (
+    <UserProvider>
+      <div id="root" className={isFooterOpen ? 'footer-open' : ''}>
+        {isNoticePage ? (
+          <>
+            <HeadWithTitle title="Notice" />
+            <AppRoutes />
+            <Footer onToggle={handleToggleFooter} />
+          </>
+        ) : isSearchPage ? (
+          <>
+            <AppRoutes />
+            <Footer onToggle={handleToggleFooter} />
+          </>
+        ) : isNoticeFormPage ? (
+          <div id="root">
+            <AppRoutes />
+          </div>
+        ) : isNoticeDetailPage ? (
+          <div id="root">
+            <AppRoutes />
+          </div>
+        ) : (
+          <>
+            {isMainPage ? <Head /> : <HeadWithTitle title="Lounge" />}
+            {isMainPage && <Header />}
             <div className="container">
               <AppRoutes />
             </div>
-          ) : isNoticePage ? (
-            <>
-              <HeadWithTitle title="Notice" />
-              <AppRoutes />
-              <Footer onToggle={handleToggleFooter} />
-            </>
-          ) : isSearchPage ? (
-            <>
-              <AppRoutes />
-              <Footer onToggle={handleToggleFooter} />
-            </>
-          ) : isNotficeFormPage ? (
-            <div id="root">
-              <AppRoutes />
-            </div>
-          ) : isNoticeDetailPage ? (
-            <div id="root">
-              <AppRoutes />
-            </div>
-          ) : (
-            <>
-              {isMainPage ? <Head /> : <HeadWithTitle title="Lounge" />}
-              {isMainPage && <Header />}
-              <div className="container">
-                <AppRoutes />
-              </div>
-              <Footer onToggle={handleToggleFooter} />
-            </>
-          )}
-        </div>
-      </UserProvider>
+            <Footer onToggle={handleToggleFooter} />
+          </>
+        )}
+      </div>
+    </UserProvider>
+  );
+
+  return (
+    <ErrorBoundary>
+      {isAuthPage ? <AuthContent /> : <MainContent />}
     </ErrorBoundary>
   );
 };

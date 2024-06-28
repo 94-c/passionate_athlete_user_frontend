@@ -33,7 +33,7 @@ const Footer = ({ onToggle }) => {
                     <FontAwesomeIcon icon={faUserFriends} />
                     <div className="menu-text">커뮤니티</div>
                 </div>
-                <div className="menu-item">
+                <div className="menu-item" onClick={() => handleNavigate('/attendance')}>
                     <FontAwesomeIcon icon={faUserCheck} />
                     <div className="menu-text">출석</div>
                 </div>

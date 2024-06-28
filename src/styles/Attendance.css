@@ -1,0 +1,125 @@
+.attendance-page {
+    padding: 0;
+    margin-top: 0;
+    /* 헤더 아래 여백 제거 */
+    height: 100vh;
+    /* 전체 페이지 높이를 100vh로 설정 */
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .attendance-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10px;
+    background: transparent;
+    /* 배경 투명 */
+  }
+  
+  .react-calendar {
+    flex: 1;
+    width: 100%;
+    background: transparent;
+    /* 배경 투명 */
+    border: none;
+    border-radius: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.125em;
+  }
+  
+  .react-calendar__navigation button {
+    color: #ff6600;
+    min-width: 44px;
+    background: transparent;
+    /* 배경 투명 */
+    font-size: 16px;
+    margin-top: 8px;
+  }
+  
+  .react-calendar__tile {
+    max-width: 100%;
+    background: transparent;
+    /* 배경 투명 */
+    text-align: center;
+    line-height: 2.5em;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    font-size: 14px;
+  }
+  
+  .react-calendar__tile--now {
+    background: #ffcc99;
+    border-radius: 10px;
+  }
+  
+  .react-calendar__tile--active {
+    background: #ff6600;
+    color: white;
+    border-radius: 10px;
+  }
+  
+  .attendance-button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #ff6600;
+    border: none;
+    border-radius: 20px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    align-self: center;
+  }
+  
+  .attendance-button:hover {
+    background-color: #e65c00;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* 반응형 디자인 */
+  @media (max-width: 768px) {
+    .attendance-container {
+      padding: 5px;
+    }
+  
+    .react-calendar__navigation button {
+      font-size: 14px;
+    }
+  
+    .react-calendar__tile {
+      font-size: 12px;
+    }
+  
+    .attendance-button {
+      font-size: 14px;
+    }
+  }
+  
+  /* 360px 이상의 화면 크기에서 적용 */
+  @media (min-width: 360px) {
+    .react-calendar__tile {
+      font-size: 12px; /* 작은 화면에서의 폰트 크기 */
+    }
+  }
+  
+  /* 768px 이상의 화면 크기에서 적용 */
+  @media (min-width: 768px) {
+    .react-calendar__tile {
+      font-size: 14px; /* 중간 화면에서의 폰트 크기 */
+    }
+  }
+  
+  /* 1024px 이상의 화면 크기에서 적용 */
+  @media (min-width: 1024px) {
+    .react-calendar__tile {
+      font-size: 16px; /* 큰 화면에서의 폰트 크기 */
+    }
+  
+    .attendance-button {
+      font-size: 16px;
+    }
+  }
+  

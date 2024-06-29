@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { UserContext } from '../contexts/UserContext';
 import '../styles/HeadWithTitle.css';
 
-const HeadWithTitle = ({ title }) => {
+const HeadWithTitle = ({ title, isAttendancePage }) => {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
 
@@ -24,16 +24,18 @@ const HeadWithTitle = ({ title }) => {
           {title}
         </Link>
       </h1>
-      <div className="head-buttons">
-        {user && user.roles.includes('USER','MANAGER','ADMIN') && (
-          <button className="insert-button-head" onClick={handleInsertClick}>
-            <FontAwesomeIcon icon={faPenClip} />
+      {!isAttendancePage && (
+        <div className="head-buttons">
+          {user && user.roles.includes('USER','MANAGER','ADMIN') && (
+            <button className="insert-button-head" onClick={handleInsertClick}>
+              <FontAwesomeIcon icon={faPenClip} />
+            </button>
+          )}
+          <button className="search-button-head" onClick={handleSearchClick}>
+            <FontAwesomeIcon icon={faSearch} />
           </button>
-        )}
-        <button className="search-button-head" onClick={handleSearchClick}>
-          <FontAwesomeIcon icon={faSearch} />
-        </button>
-      </div>
+        </div>
+      )}
     </div>
   );
 };

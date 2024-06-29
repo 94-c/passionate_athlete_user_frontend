@@ -1,4 +1,3 @@
-// App.js
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { UserProvider } from './contexts/UserContext';
@@ -16,7 +15,6 @@ import './styles/Main.css';
 import './styles/Search.css';
 import './styles/NoticeForm.css';
 import './styles/NoticeDetail.css';
-import './styles/Attendance.css';
 
 const App = () => {
   const [isFooterOpen, setIsFooterOpen] = useState(false);
@@ -29,7 +27,7 @@ const App = () => {
   const isSearchPage = location.pathname === '/search';
   const isNoticeFormPage = location.pathname === '/notices-insert';
   const isNoticeDetailPage = location.pathname.startsWith('/notices/');
-  const isAttendancePage = location.pathname === '/attendance'; // Attendance 페이지 조건 추가
+  const isAttendancePage = location.pathname === '/attendance';
 
   const handleToggleFooter = (isOpen) => {
     setIsFooterOpen(isOpen);
@@ -56,7 +54,7 @@ const App = () => {
       <div id="root" className={isFooterOpen ? 'footer-open' : ''}>
         {isNoticePage || isAttendancePage ? ( 
           <>
-            <HeadWithTitle title={isNoticePage ? "커뮤니티" : "출석"} />
+            <HeadWithTitle title={isNoticePage ? "커뮤니티" : "출석"} isAttendancePage={isAttendancePage} />
             <AppRoutes />
             <Footer onToggle={handleToggleFooter} />
           </>

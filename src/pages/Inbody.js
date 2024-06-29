@@ -1,26 +1,43 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import '../styles/Inbody.css';
 import { Line } from 'react-chartjs-2';
 import 'chart.js/auto';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faCalendarAlt, faChartBar } from '@fortawesome/free-solid-svg-icons';
-import Footer from '../components/Footer'; // Head 컴포넌트 import 추가
+import { UserContext } from '../contexts/UserContext';
+import axios from 'axios'; // axios를 사용하여 API 호출
 
 const Inbody = () => {
-    const [data, setData] = useState({ weight: [], muscle: [], fat: [] });
+    const [data, setData] = useState({ weight: [], muscle: [], fat: [], measureDate: [] });
+    const { user: currentUser } = useContext(UserContext);
 
     useEffect(() => {
-        // 7일치 가짜 데이터
-        const fakeData = {
-            weight: [70, 71, 69, 72, 70, 68, 71],
-            muscle: [30, 31, 30, 32, 31, 29, 32],
-            fat: [15, 14, 15, 13, 14, 16, 15]
+        const fetchInbodyData = async () => {
+            try {
+                const response = await axios.get('/physicals/all', {
+                    headers: {
+                        Authorization: `Bearer ${currentUser.token}`
+                    }
+                });
+                const allData = response.data.content;
+                const limitedData = allData.slice(-7); // 마지막 7일치 데이터로 제한
+                const chartData = {
+                    weight: limitedData.map(item => item.weight),
+                    muscle: limitedData.map(item => item.muscleMass),
+                    fat: limitedData.map(item => item.bodyFatMass),
+                    measureDate: limitedData.map(item => item.measureDate)
+                };
+                setData(chartData);
+            } catch (error) {
+                console.error("Error fetching inbody data", error);
+            }
         };
-        setData(fakeData);
-    }, []);
+
+        fetchInbodyData();
+    }, [currentUser]);
 
     const chartData = {
-        labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'],
+        labels: data.measureDate.map(date => new Date(date).toLocaleDateString()), // 날짜를 로컬 형식으로 변환
         datasets: [
             {
                 label: '체중(kg)',
@@ -66,7 +83,6 @@ const Inbody = () => {
                 </div>
             </div>
         </div>
-
     );
 };
 

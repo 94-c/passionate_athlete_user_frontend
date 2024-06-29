@@ -109,7 +109,13 @@ const Attendance = () => {
             ) : error ? (
               <p>{error}</p>
             ) : attendanceInfo ? (
-              <p>{attendanceInfo.username} 님의 {selectedDate.toISOString().split('T')[0]}일날 출석하셨습니다.</p>
+              <>
+                <p>{attendanceInfo.username} 님의 {selectedDate.toISOString().split('T')[0]}일날 출석하셨습니다.</p>
+                <div className="workout-details">
+                  <h3>운동 정보</h3>
+                  <p>{attendanceInfo.workoutDetails}</p>
+                </div>
+              </>
             ) : (
               <p>출석 정보를 가져올 수 없습니다.</p>
             )}

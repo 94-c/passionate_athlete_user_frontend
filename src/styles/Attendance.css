@@ -111,6 +111,12 @@
   background-color: #e65c00;
 }
 
+.workout-details {
+  margin-top: 20px;
+  text-align: center;
+}
+
+
 /* 반응형 디자인 */
 @media (max-width: 768px) {
   .attendance-container {

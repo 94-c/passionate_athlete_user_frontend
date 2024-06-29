@@ -1,9 +1,10 @@
-/* Inbody.css */
 .inbody-page {
     padding: 0;
     margin-top: 0;
     display: flex;
     flex-direction: column;
+    transform: scale(0.9); 
+    transform-origin: top center; 
 }
 .inbody-container {
     display: flex;
@@ -75,7 +76,7 @@
     text-align: center;
     font-size: 1.5em;
     font-weight: bold;
-    margin: 10px 0;
+    margin: 20px 0; /* 기본 간격 설정 */
 }
 
 .chart-container {
@@ -85,5 +86,26 @@
     align-items: center;
     padding: 10px;
     height: 60%;
-    margin-top: -120px;
+    margin-top: -120px; /* 기본 간격 설정 */
+}
+
+/* 반응형 디자인을 위한 미디어 쿼리 */
+@media (max-width: 768px) {
+    .chart-label {
+        margin: 10px 0; /* 작은 화면에서는 간격을 줄임 */
+    }
+
+    .chart-container {
+        margin-top: -100px; /* 작은 화면에서는 간격을 줄임 */
+    }
+}
+
+@media (max-width: 480px) {
+    .chart-label {
+        margin: 10px 0; /* 더 작은 화면에서는 간격을 더 줄임 */
+    }
+
+    .chart-container {
+        margin-top: -120px; /* 더 작은 화면에서는 간격을 더 줄임 */
+    }
 }

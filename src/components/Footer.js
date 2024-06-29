@@ -86,7 +86,7 @@ const Footer = ({ onToggle }) => {
                 ) : (
                     <div className="menu-item" onClick={() => navigate(-1)}>
                         <FontAwesomeIcon icon={faArrowLeft} />
-                        <div className="menu-text">이전</div>
+                        <div className="menu-text">이전화면</div>
                     </div>
                 )}
             </div>

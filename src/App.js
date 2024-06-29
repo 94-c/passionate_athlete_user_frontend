@@ -6,7 +6,7 @@ import HeadWithTitle from './components/HeadWithTitle';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import AppRoutes from './routers/Router';
-import ErrorBoundary from './components/ErrorBoundary'; 
+import ErrorBoundary from './components/ErrorBoundary';
 
 import './styles/App.css';
 import './styles/Login.css';
@@ -51,17 +51,20 @@ const App = () => {
 
   const MainContent = () => (
     <UserProvider>
-      <div id="root" className={isFooterOpen ? 'footer-open' : ''}>
-        {isNoticePage || isAttendancePage ? ( 
+        {isNoticePage || isAttendancePage ? (
           <>
-            <HeadWithTitle title={isNoticePage ? "커뮤니티" : "출석"} isAttendancePage={isAttendancePage} />
-            <AppRoutes />
-            <Footer onToggle={handleToggleFooter} />
+            <div className="root">
+              <HeadWithTitle title={isNoticePage ? "커뮤니티" : "출석"} isAttendancePage={isAttendancePage} />
+              <AppRoutes />
+              <Footer onToggle={handleToggleFooter} />
+            </div>
           </>
         ) : isSearchPage ? (
           <>
-            <AppRoutes />
-            <Footer onToggle={handleToggleFooter} />
+            <div className="root">
+              <AppRoutes />
+              <Footer onToggle={handleToggleFooter} />
+            </div>
           </>
         ) : isNoticeFormPage ? (
           <div id="root">
@@ -72,14 +75,13 @@ const App = () => {
             <AppRoutes />
           </div>
         ) : (
-          <>           
+          <>
             <div className="root">
               <AppRoutes />
             </div>
             <Footer onToggle={handleToggleFooter} />
           </>
         )}
-      </div>
     </UserProvider>
   );
 

@@ -62,12 +62,10 @@
 }
 
 .present-day {
-  background: #ff6600 !important;
-  color: white !important;
-  border-radius: 50%;
+  position: relative;
 }
 
-.highlight-dot {
+.present-day .highlight-dot {
   position: absolute;
   bottom: 5px;  /* Adjust the position if needed */
   left: 50%;
@@ -115,7 +113,6 @@
   margin-top: 20px;
   text-align: center;
 }
-
 
 /* 반응형 디자인 */
 @media (max-width: 768px) {

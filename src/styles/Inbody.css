@@ -7,7 +7,6 @@
 .inbody-container {
     display: flex;
     flex-direction: column;
-    height: 100vh;
     width: 100vw;
 }
 
@@ -91,6 +90,7 @@
 @media (max-width: 768px) {
     .chart-label {
         margin: 10px 0; /* 작은 화면에서는 간격을 줄임 */
+        font-size: 18px;
     }
 
     .chart-container {
@@ -101,6 +101,7 @@
 @media (max-width: 480px) {
     .chart-label {
         margin: 5px 0; /* 더 작은 화면에서는 간격을 더 줄임 */
+        font-size: 18px;
     }
 
     .chart-container {

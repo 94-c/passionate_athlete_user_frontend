@@ -1,0 +1,68 @@
+/* src/styles/InbodyDashboard.css */
+.dashboard-page {
+    display: flex;
+    justify-content: center; /* 수평 중앙 정렬 */
+    align-items: center; /* 수직 중앙 정렬 */
+    height: 75vh; /* 전체 화면 높이 설정 */
+}
+
+.dashboard-container {
+    width: 100%;
+    max-width: 600px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+}
+
+.dashboard-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.date-picker {
+    border: none;
+    border-bottom: 2px solid #ff6600;
+    font-size: 1.2em;
+    text-align: center;
+    margin: 0 10px;
+}
+
+.nav-icon {
+    cursor: pointer;
+    color: #ff6600;
+    font-size: 1.5em;
+    margin: 0 10px;
+}
+
+.dashboard-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.dashboard-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-item h3 {
+    margin: 0;
+    font-size: 1.2em;
+}
+
+.dashboard-item .value {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.dashboard-item .change {
+    font-size: 1em;
+    color: #ff6600; /* 변화량 색상 (양수는 빨강, 음수는 파랑 등으로 조건부 변경 가능) */
+}

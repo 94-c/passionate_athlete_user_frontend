@@ -11,6 +11,7 @@ import CommentDetail from '../pages/CommentDetail';
 import PrivateRoute from './PrivateRoute';
 import Attendance from '../pages/Attendance';
 import Inbody from '../pages/Inbody';
+import InbodyDashboard from '../pages/InbodyDashboard';
 
 const Router = () => {
   return (
@@ -28,6 +29,7 @@ const Router = () => {
         <Route path="/notices/:noticeId/comments/:commentId" element={<CommentDetail />} />
         <Route path="/attendance" element={<Attendance />} />
         <Route path="/inbody" element={<Inbody />} />
+        <Route path="/inbody-dashboard" element={<InbodyDashboard />} />
       </Route>
     </Routes>
   );

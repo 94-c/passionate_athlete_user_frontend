@@ -1,13 +1,19 @@
 import React, { useState, useEffect, useContext, useCallback } from 'react';
 import '../styles/Inbody.css';
+import { useNavigate } from 'react-router-dom';
 import { Line } from 'react-chartjs-2';
 import 'chart.js/auto';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faCalendarAlt, faChartBar } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faTachometerAlt, faChartBar } from '@fortawesome/free-solid-svg-icons';
 import { UserContext } from '../contexts/UserContext';
 import { api } from '../api/Api.js';
 
 const Inbody = () => {
+    const navigate = useNavigate();
+
+    const handleNavigate = (path) => {
+        navigate(path);
+    };
     const [data, setData] = useState({ weight: [], muscle: [], fat: [], measureDate: [] });
     const { user: currentUser } = useContext(UserContext);
 
@@ -75,8 +81,8 @@ const Inbody = () => {
                         <span className="button-title">등록</span>
                     </button>
                     <button className="btn btn-details">
-                        <FontAwesomeIcon icon={faCalendarAlt} className="button-icon" />
-                        <span className="button-title">보기</span>
+                        <FontAwesomeIcon icon={faTachometerAlt} className="button-icon" onClick={() => handleNavigate('/inbody-dashboard')} />
+                        <span className="button-title">대시보드</span>
                     </button>
                     <button className="btn btn-stats">
                         <FontAwesomeIcon icon={faChartBar} className="button-icon" />

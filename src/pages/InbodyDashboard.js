@@ -10,59 +10,72 @@ const InbodyDashboard = () => {
     const [data, setData] = useState(null);
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
-    const [excludeDates, setExcludeDates] = useState([]);
+    const [availableDates, setAvailableDates] = useState([]);
+    const [physicals, setPhysicals] = useState([]);
 
     const handleDateChange = (date) => {
         setSelectedDate(date);
         setIsDatePickerOpen(false);
-        fetchData(date);
+        updateDataForDate(date);
     };
 
     const handlePrevDate = () => {
-        const prevDate = new Date(selectedDate);
-        prevDate.setDate(prevDate.getDate() - 1);
-        handleDateChange(prevDate);
+        const currentIndex = availableDates.findIndex(date => date.toISOString().split('T')[0] === selectedDate.toISOString().split('T')[0]);
+        if (currentIndex > 0) {
+            handleDateChange(new Date(availableDates[currentIndex - 1]));
+        }
     };
 
     const handleNextDate = () => {
-        const nextDate = new Date(selectedDate);
-        nextDate.setDate(nextDate.getDate() + 1);
-        handleDateChange(nextDate);
+        const currentIndex = availableDates.findIndex(date => date.toISOString().split('T')[0] === selectedDate.toISOString().split('T')[0]);
+        if (currentIndex < availableDates.length - 1) {
+            handleDateChange(new Date(availableDates[currentIndex + 1]));
+        }
     };
 
     const getChangeStyle = (value) => {
         return value > 0 ? 'positive' : 'negative';
     };
 
-    const fetchData = async (date) => {
-        const formattedDate = date.toISOString().split('T')[0];
+    const fetchData = async () => {
         try {
             const response = await api.get('/physicals/all');
-            const physicals = response.data.content;
+            const physicalsData = response.data.content;
+            setPhysicals(physicalsData);
 
-            const selectedData = physicals.find(item => item.measureDate === formattedDate);
+            const availableDates = physicalsData.map(item => new Date(item.measureDate));
+            setAvailableDates(availableDates);
 
-            if (selectedData) {
-                setData(selectedData);
-                setExcludeDates([]);
-            } else {
-                setData(null);
-                setExcludeDates(physicals.map(item => new Date(item.measureDate)));
-            }
+            // Initialize with the latest date's data
+            const latestData = physicalsData.reduce((latest, item) => {
+                return new Date(item.measureDate) > new Date(latest.measureDate) ? item : latest;
+            }, physicalsData[0]);
+
+            setSelectedDate(new Date(latestData.measureDate));
+            setData(latestData);
         } catch (error) {
             console.error('Failed to fetch data', error);
         }
     };
 
+    const updateDataForDate = (date) => {
+        const formattedDate = date.toISOString().split('T')[0];
+        const selectedData = physicals.find(item => item.measureDate === formattedDate);
+        setData(selectedData || null);
+    };
+
     useEffect(() => {
-        fetchData(selectedDate);
+        fetchData();
     }, []);
+
+    const isPrevDisabled = availableDates.findIndex(date => date.toISOString().split('T')[0] === selectedDate.toISOString().split('T')[0]) === 0;
+    const isNextDisabled = availableDates.findIndex(date => date.toISOString().split('T')[0] === selectedDate.toISOString().split('T')[0]) === availableDates.length - 1;
 
     return (
         <div className="dashboard-page">
             <div className="dashboard-container">
                 <div className="dashboard-header">
-                    <div className="nav-icon-circle" onClick={handlePrevDate}>
+                    <div className={`nav-icon-circle ${isPrevDisabled ? 'disabled' : ''}`} onClick={!isPrevDisabled ? handlePrevDate : undefined}>
                         <FontAwesomeIcon icon={faChevronLeft} className="nav-icon" />
                     </div>
                     <div className="date-display" onClick={() => setIsDatePickerOpen(!isDatePickerOpen)}>
@@ -76,15 +89,15 @@ const InbodyDashboard = () => {
                                 inline
                                 calendarClassName="custom-calendar"
                                 dayClassName={(date) =>
-                                    excludeDates.some(d => d.toISOString().split('T')[0] === date.toISOString().split('T')[0])
+                                    availableDates.some(d => d.toISOString().split('T')[0] === date.toISOString().split('T')[0])
                                         ? 'custom-day'
                                         : ''
                                 }
-                                excludeDates={excludeDates}
+                                excludeDates={availableDates.filter(date => !date)}
                             />
                         </div>
                     )}
-                    <div className="nav-icon-circle" onClick={handleNextDate}>
+                    <div className={`nav-icon-circle ${isNextDisabled ? 'disabled' : ''}`} onClick={!isNextDisabled ? handleNextDate : undefined}>
                         <FontAwesomeIcon icon={faChevronRight} className="nav-icon" />
                     </div>
                 </div>

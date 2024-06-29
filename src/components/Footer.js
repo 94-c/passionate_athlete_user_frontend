@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUserFriends, faUserCheck, faUser, faSync, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { faUserFriends, faCalendarAlt, faUserCheck, faUser, faSync, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate, useLocation } from 'react-router-dom';
 import '../styles/Footer.css';
 
@@ -34,10 +34,16 @@ const Footer = ({ onToggle }) => {
                     <div className="menu-text">커뮤니티</div>
                 </div>
                 <div className="menu-item" onClick={() => handleNavigate('/attendance')}>
-                    <FontAwesomeIcon icon={faUserCheck} />
+                    <FontAwesomeIcon icon={faCalendarAlt} />
+                    <div className="menu-text">캘린더</div>
+                </div>
+                <div className="menu-item attendance-item" onClick={() => handleNavigate('/attendance')}>
+                    <div className="attendance-icon">
+                        <FontAwesomeIcon icon={faUserCheck} />
+                    </div>
                     <div className="menu-text">출석</div>
                 </div>
-                <div className="menu-item">
+                <div className="menu-item" onClick={() => handleNavigate('/my')}>
                     <FontAwesomeIcon icon={faUser} />
                     <div className="menu-text">마이</div>
                 </div>

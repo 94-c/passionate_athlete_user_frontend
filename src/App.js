@@ -72,10 +72,8 @@ const App = () => {
             <AppRoutes />
           </div>
         ) : (
-          <>
-            {isMainPage ? <Head /> : <HeadWithTitle title="Lounge" />}
-            {isMainPage && <Header />}
-            <div className="container">
+          <>           
+            <div className="root">
               <AppRoutes />
             </div>
             <Footer onToggle={handleToggleFooter} />

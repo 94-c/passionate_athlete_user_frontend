@@ -1,40 +1,36 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
 import '../styles/Inbody.css';
 import { Line } from 'react-chartjs-2';
 import 'chart.js/auto';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faCalendarAlt, faChartBar } from '@fortawesome/free-solid-svg-icons';
 import { UserContext } from '../contexts/UserContext';
-import axios from 'axios'; // axios를 사용하여 API 호출
+import { api } from '../api/Api.js';
 
 const Inbody = () => {
     const [data, setData] = useState({ weight: [], muscle: [], fat: [], measureDate: [] });
     const { user: currentUser } = useContext(UserContext);
 
-    useEffect(() => {
-        const fetchInbodyData = async () => {
-            try {
-                const response = await axios.get('/physicals/all', {
-                    headers: {
-                        Authorization: `Bearer ${currentUser.token}`
-                    }
-                });
-                const allData = response.data.content;
-                const limitedData = allData.slice(-7); // 마지막 7일치 데이터로 제한
-                const chartData = {
-                    weight: limitedData.map(item => item.weight),
-                    muscle: limitedData.map(item => item.muscleMass),
-                    fat: limitedData.map(item => item.bodyFatMass),
-                    measureDate: limitedData.map(item => item.measureDate)
-                };
-                setData(chartData);
-            } catch (error) {
-                console.error("Error fetching inbody data", error);
-            }
-        };
-
-        fetchInbodyData();
+    const fetchInbodyData = useCallback(async () => {
+        try {
+            const response = await api.get('/physicals/all');
+            const allData = response.data.content;
+            const limitedData = allData.slice(-7); // 마지막 7일치 데이터로 제한
+            const chartData = {
+                weight: limitedData.map(item => item.weight),
+                muscle: limitedData.map(item => item.muscleMass),
+                fat: limitedData.map(item => item.bodyFatMass),
+                measureDate: limitedData.map(item => item.measureDate)
+            };
+            setData(chartData);
+        } catch (error) {
+            console.error("Error fetching inbody data", error);
+        }
     }, [currentUser]);
+
+    useEffect(() => {
+        fetchInbodyData();
+    }, [fetchInbodyData]);
 
     const chartData = {
         labels: data.measureDate.map(date => new Date(date).toLocaleDateString()), // 날짜를 로컬 형식으로 변환
@@ -60,6 +56,16 @@ const Inbody = () => {
         ]
     };
 
+    const options = {
+        scales: {
+            y: {
+                ticks: {
+                    stepSize: 5 // Y축 눈금을 5단위로 설정
+                }
+            }
+        }
+    };
+
     return (
         <div className="inbody-page">
             <div className="inbody-container">
@@ -79,7 +85,7 @@ const Inbody = () => {
                 </div>
                 <div className="chart-label">변화그래프</div>
                 <div className="chart-container">
-                    <Line data={chartData} />
+                    <Line data={chartData} options={options} />
                 </div>
             </div>
         </div>

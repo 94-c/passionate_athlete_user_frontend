@@ -10,6 +10,7 @@ import NoticeDetail from '../pages/NoticeDetail';
 import CommentDetail from '../pages/CommentDetail';
 import PrivateRoute from './PrivateRoute';
 import Attendance from '../pages/Attendance';
+import Inbody from '../pages/Inbody';
 
 const Router = () => {
   return (
@@ -26,6 +27,7 @@ const Router = () => {
         <Route path="/notices/:id" element={<NoticeDetail />} />
         <Route path="/notices/:noticeId/comments/:commentId" element={<CommentDetail />} />
         <Route path="/attendance" element={<Attendance />} />
+        <Route path="/inbody" element={<Inbody />} />
       </Route>
     </Routes>
   );

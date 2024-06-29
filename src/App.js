@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { UserProvider } from './contexts/UserContext';
-import Head from './components/Head';
 import HeadWithTitle from './components/HeadWithTitle';
-import Header from './components/Header';
 import Footer from './components/Footer';
 import AppRoutes from './routers/Router';
-import ErrorBoundary from './components/ErrorBoundary';
+import ErrorBoundary from './components/ErrorBoundary'; 
 
 import './styles/App.css';
 import './styles/Login.css';
@@ -27,7 +25,7 @@ const App = () => {
   const isSearchPage = location.pathname === '/search';
   const isNoticeFormPage = location.pathname === '/notices-insert';
   const isNoticeDetailPage = location.pathname.startsWith('/notices/');
-  const isAttendancePage = location.pathname === '/attendance';
+  const isAttendancePage = location.pathname === '/attendance' || location.pathname === '/inbody';
 
   const handleToggleFooter = (isOpen) => {
     setIsFooterOpen(isOpen);
@@ -51,20 +49,17 @@ const App = () => {
 
   const MainContent = () => (
     <UserProvider>
-        {isNoticePage || isAttendancePage ? (
+      <div id="root" className={isFooterOpen ? 'footer-open' : ''}>
+        {isNoticePage || isAttendancePage ? ( 
           <>
-              <HeadWithTitle title={isNoticePage ? "커뮤니티" : "출석"} isAttendancePage={isAttendancePage} />
-            <div className="root">
-              <AppRoutes />
-              <Footer onToggle={handleToggleFooter} />
-            </div>
+            <HeadWithTitle title={isAttendancePage ? "인바디" : "커뮤니티"} isAttendancePage={isAttendancePage} />
+            <AppRoutes />
+            <Footer onToggle={handleToggleFooter} />
           </>
         ) : isSearchPage ? (
           <>
-            <div className="root">
-              <AppRoutes />
-              <Footer onToggle={handleToggleFooter} />
-            </div>
+            <AppRoutes />
+            <Footer onToggle={handleToggleFooter} />
           </>
         ) : isNoticeFormPage ? (
           <div id="root">
@@ -74,14 +69,15 @@ const App = () => {
           <div id="root">
             <AppRoutes />
           </div>
-        ) : (
+        ) :  (
           <>
-            <div className="root">
+            <div className="container">
               <AppRoutes />
             </div>
             <Footer onToggle={handleToggleFooter} />
           </>
         )}
+      </div>
     </UserProvider>
   );
 

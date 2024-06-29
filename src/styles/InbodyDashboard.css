@@ -109,6 +109,11 @@
     border: 2px solid #ff6600;
 }
 
+.custom-calendar .custom-day {
+    background-color: #ff6600;
+    color: white;
+}
+
 .dashboard-content {
     display: flex;
     flex-direction: column;
@@ -160,4 +165,10 @@
 
 .dashboard-item .change.negative {
     color: #ff6600;
+}
+
+.no-data-message {
+    font-size: 1.2em;
+    color: black;
+    text-align: center;
 }

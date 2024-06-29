@@ -28,6 +28,8 @@ html, body {
     flex-grow: 1;
     margin-bottom: 100px;
     width: 100%; /* 전체 너비를 사용 */
+    height: 100%; /* 높이를 100%로 설정 */
+    min-height: 100vh; /* 최소 높이를 100vh로 설정 */
 }
 
 /* 추가된 스타일 */
@@ -39,4 +41,30 @@ html, body {
     flex-grow: 1;
     width: 100%; /* 전체 너비를 사용 */
     text-align: center; /* 텍스트 중앙 정렬 */
+}
+
+/* 반응형 디자인을 위한 미디어 쿼리 */
+@media (max-width: 1200px) {
+    .container {
+        padding: 20px; /* 큰 화면에서의 여백 조정 */
+    }
+}
+
+@media (max-width: 992px) {
+    .container {
+        padding: 15px; /* 중간 화면에서의 여백 조정 */
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 10px; /* 작은 화면에서의 여백 조정 */
+    }
+}
+
+@media (max-width: 576px) {
+    .container {
+        padding: 5px; /* 매우 작은 화면에서의 여백 조정 */
+        margin-top: -35px; /* 매우 작은 화면에서의 하단 여백 조정 */
+    }
 }

@@ -19,20 +19,20 @@ const Main = () => {
       <Header /> 
       <div className="button-container">
         <button className="button-item" onClick={() => handleNavigate('/exercise')}>
-          <FontAwesomeIcon icon={faDumbbell} className="button-icon" />
-          <span className="button-title">운동</span>
+          <FontAwesomeIcon icon={faDumbbell} className="main-button-icon" />
+          <span className="main-button-title">운동</span>
         </button>
         <button className="button-item">
-          <FontAwesomeIcon icon={faChartBar} className="button-icon" />
-          <span className="button-title">통계</span>
+          <FontAwesomeIcon icon={faChartBar} className="main-button-icon" />
+          <span className="main-button-title">통계</span>
         </button>
         <button className="button-item">
-          <FontAwesomeIcon icon={faRunning} className="button-icon" />
-          <span className="button-title">오늘의 운동</span>
+          <FontAwesomeIcon icon={faRunning} className="main-button-icon" />
+          <span className="main-button-title">오늘의 운동</span>
         </button>
         <button className="button-item" onClick={() => handleNavigate('/inbody')}>
-          <FontAwesomeIcon icon={faWeight} className="button-icon" />
-          <span className="button-title">인바디</span>
+          <FontAwesomeIcon icon={faWeight} className="main-button-icon" />
+          <span className="main-button-title">인바디</span>
         </button>
       </div>
     </div>

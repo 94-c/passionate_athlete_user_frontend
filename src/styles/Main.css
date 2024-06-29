@@ -59,13 +59,13 @@
     background-color: #ff8c00e4; /* 호버시 배경색 변경 */
   }
   
-  .button-icon {
+  .main-button-icon {
     font-size: 40px; /* 아이콘 크기 설정 */
     color: white;
     pointer-events: none;
   }
   
-  .button-title {
+  .main-button-title {
     position: absolute;
     bottom: 8px;
     right: 16px;
@@ -78,31 +78,40 @@
   /* 반응형 디자인 */
   @media (min-width: 360px) {
     .button-container {
-      grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr 1fr;
     }
     .button-item:nth-child(1),
     .button-item:nth-child(4) {
-      grid-column: span 2;
+        grid-column: span 2;
     }
-  }
-  
-  @media (min-width: 768px) {
+}
+
+@media (min-width: 576px) {
     .button-container {
-      grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr 1fr;
     }
     .button-item:nth-child(1),
     .button-item:nth-child(4) {
-      grid-column: span 2;
+        grid-column: span 2;
     }
-  }
-  
-  @media (min-width: 1024px) {
+}
+
+@media (min-width: 768px) {
     .button-container {
-      grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr 1fr;
     }
     .button-item:nth-child(1),
     .button-item:nth-child(4) {
-      grid-column: span 2;
+        grid-column: span 2;
     }
-  }
-  
+}
+
+@media (min-width: 1024px) {
+    .button-container {
+        grid-template-columns: 1fr 1fr;
+    }
+    .button-item:nth-child(1),
+    .button-item:nth-child(4) {
+        grid-column: span 2;
+    }
+}

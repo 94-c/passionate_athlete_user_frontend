@@ -1,4 +1,3 @@
-/* src/styles/InbodyDashboard.css */
 .dashboard-page {
     display: flex;
     justify-content: center; /* 수평 중앙 정렬 */
@@ -12,6 +11,7 @@
     padding: 20px;
     background-color: #fff;
     border-radius: 10px;
+    position: relative; /* DatePicker 위치를 위해 추가 */
 }
 
 .dashboard-header {
@@ -21,19 +21,92 @@
     margin-bottom: 20px;
 }
 
-.date-picker {
-    border: none;
-    border-bottom: 2px solid #ff6600;
-    font-size: 1.2em;
-    text-align: center;
+.date-display {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 220px;
+    height: 50px;
+    border: 2px solid #ff6600;
+    border-radius: 25px;
+    font-size: 1.4em;
+    color: #ff6600;
+    background-color: white;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.date-display:hover {
+    background-color: #ff6600;
+    color: white;
+}
+
+.nav-icon-circle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    border: 2px solid #ff6600;
+    background-color: #ff6600;
+    color: #fff;
+    border-radius: 50%;
     margin: 0 10px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-icon-circle:hover {
+    background-color: white;
+    color: #ff6600;
+}
+
+.nav-icon-circle:active {
+    background-color: white;
+    color: #ff6600;
 }
 
 .nav-icon {
-    cursor: pointer;
-    color: #ff6600;
+    color: inherit; /* 부모 요소의 색상 상속 */
     font-size: 1.5em;
-    margin: 0 10px;
+}
+
+.date-picker-overlay {
+    position: absolute;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    background-color: white;
+    border: 2px solid #ff6600;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.custom-calendar .react-datepicker__header {
+    background-color: #ff6600;
+    border-bottom: none;
+}
+
+.custom-calendar .react-datepicker__current-month,
+.custom-calendar .react-datepicker__day-name {
+    color: white;
+}
+
+.custom-calendar .react-datepicker__day {
+    color: #ff6600;
+    font-weight: bold;
+}
+
+.custom-calendar .react-datepicker__day:hover,
+.custom-calendar .react-datepicker__day--selected,
+.custom-calendar .react-datepicker__day--keyboard-selected {
+    background-color: #ff6600;
+    color: white;
+}
+
+.custom-calendar .react-datepicker__day--today {
+    border: 2px solid #ff6600;
 }
 
 .dashboard-content {
@@ -52,9 +125,24 @@
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
+.dashboard-item.orange-background {
+    background-color: #ff6600;
+    color: white;
+}
+
 .dashboard-item h3 {
     margin: 0;
     font-size: 1.2em;
+}
+
+.dashboard-item .item-title {
+    color: #ff6600;
+}
+
+.dashboard-item .value-orange {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #ff6600;
 }
 
 .dashboard-item .value {
@@ -64,5 +152,12 @@
 
 .dashboard-item .change {
     font-size: 1em;
-    color: #ff6600; /* 변화량 색상 (양수는 빨강, 음수는 파랑 등으로 조건부 변경 가능) */
+}
+
+.dashboard-item .change.positive {
+    color: green;
+}
+
+.dashboard-item .change.negative {
+    color: #ff6600;
 }

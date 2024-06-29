@@ -13,7 +13,7 @@ html, body {
 #root {
     display: flex;
     flex-direction: column;
-    height: 120%;
+    height: 100%; /* 높이를 100%로 설정 */
     transition: transform 0.3s ease;
     background-color: white; /* root 배경색을 흰색으로 설정 */
 }
@@ -26,6 +26,17 @@ html, body {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    justify-content: center;
     margin-bottom: 100px;
+    width: 100%; /* 전체 너비를 사용 */
+}
+
+/* 추가된 스타일 */
+.page {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 수평 중앙 정렬 */
+    justify-content: center; /* 수직 중앙 정렬 */
+    flex-grow: 1;
+    width: 100%; /* 전체 너비를 사용 */
+    text-align: center; /* 텍스트 중앙 정렬 */
 }

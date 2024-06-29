@@ -117,6 +117,7 @@
 /* 반응형 디자인 */
 @media (max-width: 768px) {
   .attendance-container {
+    margin-top: 35px;
     padding: 5px;
   }
 

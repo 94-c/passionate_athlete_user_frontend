@@ -53,8 +53,8 @@ const App = () => {
     <UserProvider>
         {isNoticePage || isAttendancePage ? (
           <>
-            <div className="root">
               <HeadWithTitle title={isNoticePage ? "커뮤니티" : "출석"} isAttendancePage={isAttendancePage} />
+            <div className="root">
               <AppRoutes />
               <Footer onToggle={handleToggleFooter} />
             </div>

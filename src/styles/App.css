@@ -65,6 +65,5 @@ html, body {
 @media (max-width: 576px) {
     .container {
         padding: 5px; /* 매우 작은 화면에서의 여백 조정 */
-        margin-top: -35px; /* 매우 작은 화면에서의 하단 여백 조정 */
     }
 }

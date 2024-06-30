@@ -13,6 +13,7 @@ import Attendance from '../pages/Attendance';
 import Inbody from '../pages/Inbody';
 import InbodyDashboard from '../pages/InbodyDashboard';
 import InbodyRegister from '../pages/InbodyRegister';
+import InbodyStats from '../pages/InbodyStats';
 
 const Router = () => {
   return (
@@ -32,6 +33,7 @@ const Router = () => {
         <Route path="/inbody" element={<Inbody />} />
         <Route path="/inbody-dashboard" element={<InbodyDashboard />} />
         <Route path="/inbody-register" element={<InbodyRegister />} />
+        <Route path="/inbody-status" element={<InbodyStats />} />
       </Route>
     </Routes>
   );

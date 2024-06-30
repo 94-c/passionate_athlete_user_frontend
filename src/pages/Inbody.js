@@ -95,7 +95,7 @@ const Inbody = () => {
                         <span className="button-title">대시보드</span>
                     </button>
                     <button className="btn btn-stats">
-                        <FontAwesomeIcon icon={faChartBar} className="button-icon" />
+                        <FontAwesomeIcon icon={faChartBar} className="button-icon" onClick={() => handleNavigate('/inbody-status')} />
                         <span className="button-title">통계</span>
                     </button>
                 </div>

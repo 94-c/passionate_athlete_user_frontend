@@ -1,0 +1,61 @@
+/* styles/InbodyStats.css */
+.inbody-stats-page {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 80vh; /* 전체 화면 높이 */
+    overflow-y: auto; /* 세로 스크롤 활성화 */
+}
+
+.inbody-stats-container {
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.chart-card {
+    width: 100%;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+}
+
+.chart-title {
+    margin: 10px 0;
+    text-align: left;
+    font-size: 1.5em; /* 제목 글자 크기 조정 */
+    color: black; 
+    font-weight: bold; /* 볼드 처리 */
+    padding: 0 15px;
+}
+
+.chart-item {
+    width: 100%;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .chart-card {
+        padding: 10px;
+    }
+
+    .chart-title {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .chart-card {
+        padding: 5px;
+    }
+
+    .chart-title {
+        font-size: 18px;
+    }
+}

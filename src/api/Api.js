@@ -4,7 +4,6 @@ const api = axios.create({
   baseURL: 'http://localhost:9081/api/v1',
 });
 
-
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token') || sessionStorage.getItem('token');
@@ -14,6 +13,19 @@ api.interceptors.request.use(
     return config;
   },
   (error) => {
+    return Promise.reject(error);
+  }
+);
+
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      // JWT 토큰이 만료된 경우
+      localStorage.removeItem('token');
+      sessionStorage.removeItem('token');
+      window.location.href = '/login'; // 로그인 페이지로 리디렉션
+    }
     return Promise.reject(error);
   }
 );

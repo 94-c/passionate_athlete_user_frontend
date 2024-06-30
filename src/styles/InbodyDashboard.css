@@ -172,3 +172,9 @@
     color: black;
     text-align: center;
 }
+
+.highlighted-day {
+    background-color: #ff6600;
+    color: white;
+    border-radius: 50%;
+}

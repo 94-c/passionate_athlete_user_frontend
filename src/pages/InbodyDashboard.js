@@ -13,10 +13,15 @@ const InbodyDashboard = () => {
     const [availableDates, setAvailableDates] = useState([]);
     const [physicals, setPhysicals] = useState([]);
 
+    const toUTCDate = (date) => {
+        return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+    };
+
     const handleDateChange = (date) => {
-        setSelectedDate(date);
+        const utcDate = toUTCDate(date);
+        setSelectedDate(utcDate);
         setIsDatePickerOpen(false);
-        updateDataForDate(date);
+        updateDataForDate(utcDate);
     };
 
     const handlePrevDate = () => {
@@ -42,7 +47,7 @@ const InbodyDashboard = () => {
             const response = await api.get('/physicals/all');
             const physicalsData = response.data.content.map(item => ({
                 ...item,
-                measureDate: new Date(item.measureDate.split('T')[0]), // Date 객체로 변환
+                measureDate: toUTCDate(new Date(item.measureDate.split('T')[0])),
                 weight: parseFloat(item.weight.toFixed(1)),
                 height: parseFloat(item.height.toFixed(1)),
                 muscleMass: parseFloat(item.muscleMass.toFixed(1)),
@@ -66,8 +71,7 @@ const InbodyDashboard = () => {
             const latestData = physicalsData.reduce((latest, item) => {
                 return new Date(item.measureDate) > new Date(latest.measureDate) ? item : latest;
             }, physicalsData[0]);
-
-            setSelectedDate(new Date(latestData.measureDate));
+            setSelectedDate(toUTCDate(new Date(latestData.measureDate)));
             setData(latestData);
         } catch (error) {
             console.error('Failed to fetch data', error);
@@ -104,14 +108,15 @@ const InbodyDashboard = () => {
                                 onChange={handleDateChange}
                                 inline
                                 calendarClassName="custom-calendar"
-                                dayClassName={(date) =>
-                                    availableDates.some(d => d === date.toISOString().split('T')[0])
-                                        ? 'custom-day'
-                                        : ''
-                                }
-                                filterDate={(date) =>
-                                    availableDates.some(d => d === date.toISOString().split('T')[0])
-                                }
+                                dayClassName={(date) => {
+                                    const dateWithoutTime = toUTCDate(date).toISOString().split('T')[0];
+                                    const dayClass = availableDates.includes(dateWithoutTime) ? 'highlighted-day' : '';
+                                    return dayClass;
+                                }}
+                                filterDate={(date) => {
+                                    const dateWithoutTime = toUTCDate(date).toISOString().split('T')[0];
+                                    return availableDates.includes(dateWithoutTime);
+                                }}
                             />
                         </div>
                     )}

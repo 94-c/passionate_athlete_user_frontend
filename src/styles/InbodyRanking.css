@@ -156,7 +156,19 @@
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.inbody-ranking-rank, .inbody-ranking-user-id, .inbody-ranking-score {
+.no-data-item {
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.no-data {
+    font-size: 1.2em;
+    color: #ff6600;
+}
+
+.inbody-ranking-rank, .inbody-ranking-username, .inbody-ranking-body-fat-change {
     font-size: 1.2em;
 }
 
@@ -194,7 +206,7 @@
         padding: 8px;
     }
 
-    .inbody-ranking-rank, .inbody-ranking-user-id, .inbody-ranking-score {
+    .inbody-ranking-rank, .inbody-ranking-username, .inbody-ranking-body-fat-change {
         font-size: 1em;
     }
 

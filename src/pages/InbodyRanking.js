@@ -1,9 +1,12 @@
+// InbodyRanking.js
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMale, faFemale, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { UserContext } from '../contexts/UserContext';
 import '../styles/InbodyRanking.css';
+import { api } from '../api/Api.js';
+import dayjs from 'dayjs'; // 날짜 처리 라이브러리
 
 const InbodyRanking = () => {
     const navigate = useNavigate();
@@ -11,11 +14,12 @@ const InbodyRanking = () => {
     const [gender, setGender] = useState('');
     const [rankingPeriod, setRankingPeriod] = useState('daily');
     const [title, setTitle] = useState('일간 인바디 랭킹');
+    const [rankingData, setRankingData] = useState([]);
 
     useEffect(() => {
         if (user) {
             setGender(user.gender);
-            console.log('Gender:', user.gender); // gender 값을 콘솔에 출력
+            fetchRankingData('daily', dayjs().toISOString());
         }
     }, [user]);
 
@@ -41,6 +45,27 @@ const InbodyRanking = () => {
                 break;
             default:
                 setTitle('인바디 랭킹');
+        }
+        fetchRankingData(period, dayjs().toISOString());
+    };
+
+    const fetchRankingData = async (type, date) => {
+        try {
+            const response = await api.get('/physicals/rankings', {
+                params: {
+                    type: type,
+                    date: date
+                }
+            });
+            console.log('Ranking Data:', response.data.rankings); 
+            if (response.data && response.data.rankings) {
+                setRankingData(response.data.rankings);
+            } else {
+                setRankingData([]); 
+            }
+        } catch (error) {
+            console.error('Error fetching ranking data:', error);
+            setRankingData([]); 
         }
     };
 
@@ -103,34 +128,19 @@ const InbodyRanking = () => {
                     </div>
                 </div>
                 <ul className="inbody-ranking-list">
-                    <li className="inbody-ranking-item">
-                        <span className="inbody-ranking-rank">1</span>
-                        <span className="inbody-ranking-new">NEW</span>
-                        <span className="inbody-ranking-user-id">7545</span>
-                        <span className="inbody-ranking-score">125점</span>
-                    </li>
-                    <li className="inbody-ranking-item">
-                        <span className="inbody-ranking-rank">2</span>
-                        <span className="inbody-ranking-user-id">7717</span>
-                        <span className="inbody-ranking-score">105점</span>
-                    </li>
-                    <li className="inbody-ranking-item">
-                        <span className="inbody-ranking-rank">3</span>
-                        <span className="inbody-ranking-change">▲1</span>
-                        <span className="inbody-ranking-user-id">0406</span>
-                        <span className="inbody-ranking-score">103점</span>
-                    </li>
-                    <li className="inbody-ranking-item">
-                        <span className="inbody-ranking-rank">4</span>
-                        <span className="inbody-ranking-user-id">2714</span>
-                        <span className="inbody-ranking-score">100점</span>
-                    </li>
-                    <li className="inbody-ranking-item">
-                        <span className="inbody-ranking-rank">5</span>
-                        <span className="inbody-ranking-new">NEW</span>
-                        <span className="inbody-ranking-user-id">7942</span>
-                        <span className="inbody-ranking-score">99점</span>
-                    </li>
+                    {rankingData.length > 0 ? (
+                        rankingData.map((item, index) => (
+                            <li key={index} className="inbody-ranking-item">
+                                <span className="inbody-ranking-rank">{index + 1}</span>
+                                <span className="inbody-ranking-username">{item.username}</span>
+                                <span className="inbody-ranking-body-fat-change">{item.bodyFatMassChange} kg</span>
+                            </li>
+                        ))
+                    ) : (
+                        <li className="inbody-ranking-item no-data-item">
+                            <span className="no-data">데이터가 없습니다.</span>
+                        </li>
+                    )}
                 </ul>
             </div>
         </div>

@@ -1,0 +1,143 @@
+.mypage-page {
+    padding: 20px;
+    background-color: #f9f9f9;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: Arial, sans-serif;
+}
+
+.mypage-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.mypage-title {
+    color: #333;
+    font-size: 1.5em;
+    margin-bottom: 10px;
+    width: 100%;
+    text-align: left;
+    padding-left: 20px;
+}
+
+.mypage-user-info, .mypage-membership-info {
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    width: 90%;
+    max-width: 600px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.mypage-user-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.mypage-branch-name {
+    font-size: 1.2em;
+    color: #555;
+}
+
+.mypage-username {
+    font-size: 2em;
+    color: #ff6600;
+    font-weight: bold;
+}
+
+.mypage-average-level {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.mypage-average-level div:first-child {
+    font-size: 1.2em;
+    color: #555;
+}
+
+.mypage-level {
+    font-size: 3em;
+    color: #ff6600;
+    font-weight: bold;
+}
+
+.mypage-actions {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.mypage-edit-button, .mypage-password-button {
+    background-color: #ff6600;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 45%;
+}
+
+.mypage-edit-button:hover, .mypage-password-button:hover {
+    background-color: #e65c00;
+}
+
+.mypage-membership-dates, .mypage-remaining-days {
+    text-align: center;
+    font-size: 1.2em;
+    color: #555;
+}
+
+/* 반응형 디자인을 위한 미디어 쿼리 */
+@media (max-width: 768px) {
+    .mypage-user-info, .mypage-membership-info {
+        width: 100%;
+    }
+
+    .mypage-user-details {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .mypage-average-level {
+        margin-top: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .mypage-title {
+        font-size: 1.2em;
+    }
+
+    .mypage-branch-name {
+        font-size: 1em;
+    }
+
+    .mypage-username {
+        font-size: 1.5em;
+    }
+
+    .mypage-level {
+        font-size: 2.5em;
+    }
+
+    .mypage-membership-dates, .mypage-remaining-days {
+        font-size: 1em;
+    }
+
+    .mypage-edit-button, .mypage-password-button {
+        padding: 8px 16px;
+        font-size: 0.9em;
+    }
+}

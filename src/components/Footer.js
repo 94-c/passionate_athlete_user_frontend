@@ -74,7 +74,7 @@ const Footer = ({ onToggle }) => {
                     </div>
                     <div className="menu-text">출석</div>
                 </div>
-                <div className="menu-item" onClick={() => handleNavigate('/my')}>
+                <div className="menu-item" onClick={() => handleNavigate('/mypage')}>
                     <FontAwesomeIcon icon={faUser} />
                     <div className="menu-text">마이</div>
                 </div>

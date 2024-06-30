@@ -3,6 +3,7 @@ import '../styles/Inbody.css';
 import { useNavigate } from 'react-router-dom';
 import { Line } from 'react-chartjs-2';
 import 'chart.js/auto';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faTachometerAlt, faChartBar } from '@fortawesome/free-solid-svg-icons';
 import { UserContext } from '../contexts/UserContext';
@@ -42,42 +43,98 @@ const Inbody = () => {
         fetchInbodyData();
     }, [fetchInbodyData]);
 
-    const chartData = {
-        labels: data.measureDate.map(date => new Date(date).toLocaleDateString()), // 날짜를 로컬 형식으로 변환
+    const createChartData = () => ({
+        labels: data.measureDate.map(date => new Date(date).toLocaleDateString()),
         datasets: [
             {
                 label: '체중(kg)',
                 data: data.weight,
                 borderColor: 'orange',
-                fill: false,
+                backgroundColor: 'rgba(255, 165, 0, 0.2)', // 배경 색상 추가
+                borderWidth: 2,
+                pointRadius: 3,
+                pointBackgroundColor: 'orange',
+                tension: 0.3, // 곡선형 그래프를 위해 추가
+                fill: true, // 그래프 아래 부분을 채움
+                datalabels: {
+                    anchor: 'end',
+                    align: 'start',
+                    offset: 4,
+                    formatter: (value) => value.toFixed(1),
+                    font: {
+                        size: 10,
+                        weight: 'bold'
+                    },
+                    color: '#ff6600',
+                }
             },
             {
                 label: '근육량(kg)',
                 data: data.muscle,
                 borderColor: 'green',
-                fill: false,
+                backgroundColor: 'rgba(0, 128, 0, 0.2)',
+                borderWidth: 2,
+                pointRadius: 3,
+                pointBackgroundColor: 'green',
+                tension: 0.3,
+                fill: true,
+                datalabels: {
+                    anchor: 'end',
+                    align: 'start',
+                    offset: 4,
+                    formatter: (value) => value.toFixed(1),
+                    font: {
+                        size: 10,
+                        weight: 'bold'
+                    },
+                    color: '#ff6600',
+                }
             },
             {
                 label: '체지방(kg)',
                 data: data.fat,
                 borderColor: 'red',
-                fill: false,
+                backgroundColor: 'rgba(255, 0, 0, 0.2)',
+                borderWidth: 2,
+                pointRadius: 3,
+                pointBackgroundColor: 'red',
+                tension: 0.3,
+                fill: true,
+                datalabels: {
+                    anchor: 'end',
+                    align: 'start',
+                    offset: 4,
+                    formatter: (value) => value.toFixed(1),
+                    font: {
+                        size: 10,
+                        weight: 'bold'
+                    },
+                    color: '#ff6600',
+                }
             }
         ]
-    };
+    });
 
     const options = {
         scales: {
             y: {
-                ticks: {
-                    stepSize: 5 // Y축 눈금을 5단위로 설정
-                },
-                beginAtZero: true // 0부터 시작
+                display: false // Y축을 숨김
             }
         },
         plugins: {
             legend: {
                 display: false // 범례를 숨김
+            },
+            datalabels: {
+                color: '#ff6600', // 오렌지색으로 변경
+                anchor: 'end',
+                align: 'start', // 모든 점에 숫자가 표시되도록 설정
+                offset: 4,
+                font: {
+                    size: 10,
+                    weight: 'bold'
+                },
+                formatter: (value) => value.toFixed(1) // 소수점 한자리로 표시
             }
         }
     };
@@ -101,7 +158,7 @@ const Inbody = () => {
                 </div>
                 <div className="chart-label">변화그래프</div>
                 <div className="chart-container">
-                    <Line data={chartData} options={options} />
+                    <Line data={createChartData()} options={options} plugins={[ChartDataLabels]} />
                 </div>
             </div>
         </div>

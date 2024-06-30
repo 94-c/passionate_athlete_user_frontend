@@ -21,17 +21,18 @@ const InbodyStats = () => {
         try {
             const response = await api.get('/physicals/all');
             const allData = response.data.content;
+            const limitedData = allData.slice(-10); // 마지막 10일치 데이터로 제한
 
             // 날짜순으로 정렬
-            allData.sort((a, b) => new Date(a.measureDate) - new Date(b.measureDate));
+            limitedData.sort((a, b) => new Date(a.measureDate) - new Date(b.measureDate));
 
             const chartData = {
-                weight: allData.map(item => item.weight),
-                muscle: allData.map(item => item.muscleMass),
-                fat: allData.map(item => item.bodyFatMass),
-                bmi: allData.map(item => item.bmi),
-                bodyFatPercentage: allData.map(item => item.bodyFatPercentage),
-                measureDate: allData.map(item => item.measureDate)
+                weight: limitedData.map(item => item.weight),
+                muscle: limitedData.map(item => item.muscleMass),
+                fat: limitedData.map(item => item.bodyFatMass),
+                bmi: limitedData.map(item => item.bmi),
+                bodyFatPercentage: limitedData.map(item => item.bodyFatPercentage),
+                measureDate: limitedData.map(item => item.measureDate)
             };
             setData(chartData);
         } catch (error) {

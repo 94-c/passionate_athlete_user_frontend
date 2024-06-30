@@ -84,7 +84,7 @@
     align-items: center;
     padding: 10px;
     height: 80%;
-    margin-top: -30px; /* 기본 간격 설정 */
+    margin-top: -120px; /* 기본 간격 설정 */
 }
 
 /* 반응형 디자인을 위한 미디어 쿼리 */

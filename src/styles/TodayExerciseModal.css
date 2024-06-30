@@ -1,0 +1,21 @@
+/* TodayExerciseModal.css */
+.exercise-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.exercise-item {
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.exercise-name {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.exercise-description {
+    color: #555;
+}

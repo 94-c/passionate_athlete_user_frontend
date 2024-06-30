@@ -20,14 +20,14 @@ const InbodyDashboard = () => {
     };
 
     const handlePrevDate = () => {
-        const currentIndex = availableDates.findIndex(date => date.toISOString().split('T')[0] === selectedDate.toISOString().split('T')[0]);
+        const currentIndex = availableDates.findIndex(date => date === selectedDate.toISOString().split('T')[0]);
         if (currentIndex > 0) {
             handleDateChange(new Date(availableDates[currentIndex - 1]));
         }
     };
 
     const handleNextDate = () => {
-        const currentIndex = availableDates.findIndex(date => date.toISOString().split('T')[0] === selectedDate.toISOString().split('T')[0]);
+        const currentIndex = availableDates.findIndex(date => date === selectedDate.toISOString().split('T')[0]);
         if (currentIndex < availableDates.length - 1) {
             handleDateChange(new Date(availableDates[currentIndex + 1]));
         }
@@ -40,10 +40,26 @@ const InbodyDashboard = () => {
     const fetchData = async () => {
         try {
             const response = await api.get('/physicals/all');
-            const physicalsData = response.data.content;
+            const physicalsData = response.data.content.map(item => ({
+                ...item,
+                measureDate: new Date(item.measureDate.split('T')[0]), // Date 객체로 변환
+                weight: parseFloat(item.weight.toFixed(1)),
+                height: parseFloat(item.height.toFixed(1)),
+                muscleMass: parseFloat(item.muscleMass.toFixed(1)),
+                bodyFatMass: parseFloat(item.bodyFatMass.toFixed(1)),
+                bmi: parseFloat(item.bmi.toFixed(1)),
+                bodyFatPercentage: parseFloat(item.bodyFatPercentage.toFixed(1)),
+                visceralFatPercentage: parseFloat(item.visceralFatPercentage.toFixed(1)),
+                bmr: parseFloat(item.bmr.toFixed(1)),
+                weightChange: item.weightChange !== null ? parseFloat(item.weightChange.toFixed(1)) : null,
+                heightChange: item.heightChange !== null ? parseFloat(item.heightChange.toFixed(1)) : null,
+                muscleMassChange: item.muscleMassChange !== null ? parseFloat(item.muscleMassChange.toFixed(1)) : null,
+                bodyFatMassChange: item.bodyFatMassChange !== null ? parseFloat(item.bodyFatMassChange.toFixed(1)) : null
+            }));
             setPhysicals(physicalsData);
 
-            const availableDates = physicalsData.map(item => new Date(item.measureDate));
+            const availableDates = physicalsData.map(item => item.measureDate.toISOString().split('T')[0]);
+            availableDates.sort();  // 날짜를 오름차순으로 정렬
             setAvailableDates(availableDates);
 
             // Initialize with the latest date's data
@@ -60,7 +76,7 @@ const InbodyDashboard = () => {
 
     const updateDataForDate = (date) => {
         const formattedDate = date.toISOString().split('T')[0];
-        const selectedData = physicals.find(item => item.measureDate === formattedDate);
+        const selectedData = physicals.find(item => item.measureDate.toISOString().split('T')[0] === formattedDate);
         setData(selectedData || null);
     };
 
@@ -68,8 +84,8 @@ const InbodyDashboard = () => {
         fetchData();
     }, []);
 
-    const isPrevDisabled = availableDates.findIndex(date => date.toISOString().split('T')[0] === selectedDate.toISOString().split('T')[0]) === 0;
-    const isNextDisabled = availableDates.findIndex(date => date.toISOString().split('T')[0] === selectedDate.toISOString().split('T')[0]) === availableDates.length - 1;
+    const isPrevDisabled = availableDates.findIndex(date => date === selectedDate.toISOString().split('T')[0]) === 0;
+    const isNextDisabled = availableDates.findIndex(date => date === selectedDate.toISOString().split('T')[0]) === availableDates.length - 1;
 
     return (
         <div className="dashboard-page">
@@ -89,11 +105,13 @@ const InbodyDashboard = () => {
                                 inline
                                 calendarClassName="custom-calendar"
                                 dayClassName={(date) =>
-                                    availableDates.some(d => d.toISOString().split('T')[0] === date.toISOString().split('T')[0])
+                                    availableDates.some(d => d === date.toISOString().split('T')[0])
                                         ? 'custom-day'
                                         : ''
                                 }
-                                excludeDates={availableDates.filter(date => !date)}
+                                filterDate={(date) =>
+                                    availableDates.some(d => d === date.toISOString().split('T')[0])
+                                }
                             />
                         </div>
                     )}

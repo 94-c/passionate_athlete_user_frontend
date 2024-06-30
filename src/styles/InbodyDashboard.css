@@ -167,6 +167,11 @@
     color: #ff6600;
 }
 
+.dashboard-item .change.neutral {
+    color: black;
+    font-weight: bold;
+}
+
 .no-data-message {
     font-size: 1.2em;
     color: black;

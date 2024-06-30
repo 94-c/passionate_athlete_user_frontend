@@ -39,7 +39,9 @@ const InbodyDashboard = () => {
     };
 
     const getChangeStyle = (value) => {
-        return value > 0 ? 'positive' : 'negative';
+        if (value > 0) return 'positive';
+        if (value < 0) return 'negative';
+        return 'neutral';
     };
 
     const fetchData = async () => {
@@ -131,21 +133,21 @@ const InbodyDashboard = () => {
                                 <h3 className="item-title">체중</h3>
                                 <div className="value-orange">{data.weight} kg</div>
                                 <div className={`change ${getChangeStyle(data.weightChange)}`}>
-                                    {data.weightChange > 0 ? '▲' : '▼'} {Math.abs(data.weightChange)}
+                                    {data.weightChange > 0 ? '▲' : data.weightChange < 0 ? '▼' : '-'} {Math.abs(data.weightChange)}
                                 </div>
                             </div>
                             <div className="dashboard-item">
                                 <h3 className="item-title">골격근량</h3>
                                 <div className="value-orange">{data.muscleMass} kg</div>
                                 <div className={`change ${getChangeStyle(data.muscleMassChange)}`}>
-                                    {data.muscleMassChange > 0 ? '▲' : '▼'} {Math.abs(data.muscleMassChange)}
+                                    {data.muscleMassChange > 0 ? '▲' : data.muscleMassChange < 0 ? '▼' : '-'} {Math.abs(data.muscleMassChange)}
                                 </div>
                             </div>
                             <div className="dashboard-item">
                                 <h3 className="item-title">체지방량</h3>
                                 <div className="value-orange">{data.bodyFatMass} kg</div>
                                 <div className={`change ${getChangeStyle(data.bodyFatMassChange)}`}>
-                                    {data.bodyFatMassChange > 0 ? '▲' : '▼'} {Math.abs(data.bodyFatMassChange)}
+                                    {data.bodyFatMassChange > 0 ? '▲' : data.bodyFatMassChange < 0 ? '▼' : '-'} {Math.abs(data.bodyFatMassChange)}
                                 </div>
                             </div>
                             <div className="dashboard-item orange-background">

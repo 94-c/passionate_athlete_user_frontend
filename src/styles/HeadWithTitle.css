@@ -1,7 +1,7 @@
 .head-container-title {
   display: flex;
   align-items: center;
-  padding: 20px;
+  padding: 10px 20px; /* 상하 패딩을 줄임 */
   background-color: #ff6600; /* Orange background */
   position: relative;
   justify-content: space-between; /* Ensure space between title and buttons */
@@ -33,7 +33,8 @@
 }
 
 .insert-button-head,
-.search-button-head {
+.search-button-head,
+.notification-button-head {
   background-color: transparent;
   border: none;
   color: white;
@@ -43,7 +44,8 @@
 }
 
 .insert-button-head:hover,
-.search-button-head:hover {
+.search-button-head:hover,
+.notification-button-head:hover {
   color: #e65c00; /* Slightly darker orange on hover */
   transform: scale(1.1); /* Slightly enlarge on hover */
 }

@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPenClip, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faPenClip, faSearch, faBell } from '@fortawesome/free-solid-svg-icons';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserContext } from '../contexts/UserContext';
 import '../styles/HeadWithTitle.css';
 
-const HeadWithTitle = ({ title, isAttendancePage }) => {
+const HeadWithTitle = ({ title, isAttendancePage, isInbodyPage }) => {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
 
@@ -17,6 +17,10 @@ const HeadWithTitle = ({ title, isAttendancePage }) => {
     navigate('/search');
   };
 
+  const handleNotificationClick = () => {
+    navigate('/notifications');
+  };
+
   return (
     <div className="head-container-title with-title">
       <h1 className="head-title">
@@ -24,9 +28,16 @@ const HeadWithTitle = ({ title, isAttendancePage }) => {
           {title}
         </Link>
       </h1>
-      {!isAttendancePage && (
+      {isInbodyPage && (
         <div className="head-buttons">
-          {user && user.roles.includes('USER','MANAGER','ADMIN') && (
+          <button className="notification-button-head" onClick={handleNotificationClick}>
+            <FontAwesomeIcon icon={faBell} />
+          </button>
+        </div>
+      )}
+      {!isAttendancePage && !isInbodyPage && (
+        <div className="head-buttons">
+          {user && user.roles.includes('USER', 'MANAGER', 'ADMIN') && (
             <button className="insert-button-head" onClick={handleInsertClick}>
               <FontAwesomeIcon icon={faPenClip} />
             </button>

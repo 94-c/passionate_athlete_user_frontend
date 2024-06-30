@@ -25,7 +25,8 @@ const App = () => {
   const isSearchPage = location.pathname === '/search';
   const isNoticeFormPage = location.pathname === '/notices-insert';
   const isNoticeDetailPage = location.pathname.startsWith('/notices/');
-  const isAttendancePage = location.pathname === '/attendance' || location.pathname === '/inbody' || location.pathname === '/inbody-dashboard';
+  const isAttendancePage = location.pathname === '/attendance';
+  const isInbodyPage = location.pathname === '/inbody' || location.pathname === '/inbody-dashboard';
 
   const handleToggleFooter = (isOpen) => {
     setIsFooterOpen(isOpen);
@@ -42,7 +43,7 @@ const App = () => {
   }, [location.pathname, navigate]);
 
   const getTitle = () => {
-    if (isAttendancePage) {
+    if (isInbodyPage) {
       if (location.pathname === '/inbody-dashboard') {
         return "인바디 - 대시보드";
       } else if (location.pathname === '/inbody') {
@@ -61,9 +62,9 @@ const App = () => {
   const MainContent = () => (
     <UserProvider>
       <div id="root" className={isFooterOpen ? 'footer-open' : ''}>
-        {isNoticePage || isAttendancePage ? ( 
+        {isNoticePage || isAttendancePage || isInbodyPage ? ( 
           <>
-            <HeadWithTitle title={getTitle()} isAttendancePage={isAttendancePage} />
+            <HeadWithTitle title={getTitle()} isAttendancePage={isAttendancePage} isInbodyPage={isInbodyPage} />
             <AppRoutes />
             <Footer onToggle={handleToggleFooter} />
           </>

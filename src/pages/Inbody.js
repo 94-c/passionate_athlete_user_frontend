@@ -87,7 +87,7 @@ const Inbody = () => {
             <div className="inbody-container">
                 <div className="button-container">
                     <button className="btn btn-register">
-                        <FontAwesomeIcon icon={faPlus} className="button-icon" />
+                        <FontAwesomeIcon icon={faPlus} className="button-icon" onClick={() => handleNavigate('/inbody-register')} />
                         <span className="button-title">등록</span>
                     </button>
                     <button className="btn btn-details">

@@ -12,6 +12,7 @@ import PrivateRoute from './PrivateRoute';
 import Attendance from '../pages/Attendance';
 import Inbody from '../pages/Inbody';
 import InbodyDashboard from '../pages/InbodyDashboard';
+import InbodyRegister from '../pages/InbodyRegister';
 
 const Router = () => {
   return (
@@ -30,6 +31,7 @@ const Router = () => {
         <Route path="/attendance" element={<Attendance />} />
         <Route path="/inbody" element={<Inbody />} />
         <Route path="/inbody-dashboard" element={<InbodyDashboard />} />
+        <Route path="/inbody-register" element={<InbodyRegister />} />
       </Route>
     </Routes>
   );

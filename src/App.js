@@ -26,7 +26,7 @@ const App = () => {
   const isNoticeFormPage = location.pathname === '/notices-insert';
   const isNoticeDetailPage = location.pathname.startsWith('/notices/');
   const isAttendancePage = location.pathname === '/attendance';
-  const isInbodyPage = location.pathname === '/inbody' || location.pathname === '/inbody-dashboard';
+  const isInbodyPage = location.pathname === '/inbody' || location.pathname === '/inbody-dashboard' || location.pathname === '/inbody-register';
 
   const handleToggleFooter = (isOpen) => {
     setIsFooterOpen(isOpen);
@@ -48,6 +48,8 @@ const App = () => {
         return "인바디 - 대시보드";
       } else if (location.pathname === '/inbody') {
         return "인바디";
+      } else if (location.pathname === '/inbody-register') {
+        return "인바디 - 등록";
       }
     }
     return "커뮤니티";

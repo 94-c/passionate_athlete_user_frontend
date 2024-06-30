@@ -22,6 +22,10 @@ const Inbody = () => {
             const response = await api.get('/physicals/all');
             const allData = response.data.content;
             const limitedData = allData.slice(-7); // 마지막 7일치 데이터로 제한
+
+            // 날짜순으로 정렬
+            limitedData.sort((a, b) => new Date(a.measureDate) - new Date(b.measureDate));
+
             const chartData = {
                 weight: limitedData.map(item => item.weight),
                 muscle: limitedData.map(item => item.muscleMass),
@@ -67,7 +71,13 @@ const Inbody = () => {
             y: {
                 ticks: {
                     stepSize: 5 // Y축 눈금을 5단위로 설정
-                }
+                },
+                beginAtZero: true // 0부터 시작
+            }
+        },
+        plugins: {
+            legend: {
+                display: false // 범례를 숨김
             }
         }
     };

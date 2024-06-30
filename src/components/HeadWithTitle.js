@@ -1,13 +1,15 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenClip, faSearch, faBell } from '@fortawesome/free-solid-svg-icons';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserContext } from '../contexts/UserContext';
+import InbodyTermsModal from './InbodyTermsModal';
 import '../styles/HeadWithTitle.css';
 
 const HeadWithTitle = ({ title, isAttendancePage, isInbodyPage }) => {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
 
   const handleInsertClick = () => {
     navigate('/notices-insert');
@@ -18,7 +20,11 @@ const HeadWithTitle = ({ title, isAttendancePage, isInbodyPage }) => {
   };
 
   const handleNotificationClick = () => {
-    navigate('/notifications');
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
   };
 
   return (
@@ -47,6 +53,7 @@ const HeadWithTitle = ({ title, isAttendancePage, isInbodyPage }) => {
           </button>
         </div>
       )}
+      <InbodyTermsModal show={showModal} handleClose={handleCloseModal} />
     </div>
   );
 };

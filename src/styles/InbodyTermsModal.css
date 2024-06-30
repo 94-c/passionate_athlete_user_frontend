@@ -1,0 +1,28 @@
+/* styles/InbodyTermsModal.css */
+.terms-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  .term-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* Ensure items align at the top */
+  }
+  
+  .term-title {
+    font-weight: bold;
+    flex: 0 0 30%; /* Fixed width for titles */
+    margin-right: 10px;
+    word-wrap: break-word; /* Break long words */
+  }
+  
+  .term-description {
+    flex: 1;
+    word-wrap: break-word; /* Break long words */
+    text-align: left; /* Left align the text */
+    font-size: 0.8rem;
+  }
+  

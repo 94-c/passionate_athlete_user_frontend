@@ -34,7 +34,8 @@
 
 .insert-button-head,
 .search-button-head,
-.notification-button-head {
+.notification-button-head,
+.ranking-button-head {
   background-color: transparent;
   border: none;
   color: white;
@@ -45,7 +46,8 @@
 
 .insert-button-head:hover,
 .search-button-head:hover,
-.notification-button-head:hover {
+.notification-button-head:hover,
+.ranking-button-head:hover {
   color: #e65c00; /* Slightly darker orange on hover */
   transform: scale(1.1); /* Slightly enlarge on hover */
 }

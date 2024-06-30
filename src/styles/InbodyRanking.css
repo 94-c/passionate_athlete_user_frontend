@@ -1,0 +1,204 @@
+/* InbodyRanking.css */
+.inbody-ranking-page {
+    padding: 20px;
+    background-color: #f9f9f9;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: Arial, sans-serif;
+}
+
+.inbody-ranking-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #fff;
+    color: #ff6600;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.inbody-ranking-title {
+    margin: 0;
+    font-size: 1.5em;
+}
+
+.inbody-ranking-back-button {
+    font-size: 1.5em;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #ff6600;
+}
+
+.inbody-ranking-back-button:hover {
+    color: #e65c00;
+}
+
+.inbody-ranking-gender-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.inbody-ranking-gender-buttons button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #ff6600;
+    font-size: 1.5em;
+}
+
+.inbody-ranking-gender-buttons button.active {
+    color: #e65c00;
+}
+
+.inbody-ranking-gender-buttons button:hover {
+    color: #e65c00;
+}
+
+.inbody-ranking-highlight {
+    text-align: center;
+    margin-bottom: 10px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 90%;
+}
+
+.inbody-ranking-highlight p {
+    font-size: 1.2em;
+    color: #333;
+    margin: 0;
+}
+
+.inbody-ranking-highlight p .user-name {
+    color: #ff6600; /* 오렌지색 */
+    font-weight: bold; /* 굵게 */
+}
+
+.inbody-ranking-highlight h2 {
+    font-size: 2.5em;
+    color: green;
+    margin: 10px 0;
+}
+
+.inbody-ranking-highlight-bar {
+    width: 100%;
+    background-color: #fff;
+    color: #ff6600;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.inbody-ranking-section {
+    width: 100%;
+}
+
+.inbody-ranking-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.inbody-ranking-section-header h2 {
+    font-size: 1.5em;
+    color: #ff6600;
+    margin: 0;
+}
+
+.inbody-ranking-period-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.inbody-ranking-period-buttons button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #ff6600;
+    color: white;
+    cursor: pointer;
+    border-radius: 20px;
+    transition: background-color 0.3s;
+}
+
+.inbody-ranking-period-buttons button.active {
+    background-color: #e65c00;
+}
+
+.inbody-ranking-period-buttons button:hover {
+    background-color: #e65c00;
+}
+
+.inbody-ranking-list {
+    list-style: none;
+    padding: 0;
+    width: 100%;
+}
+
+.inbody-ranking-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    background-color: white;
+    margin-bottom: 5px;
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.inbody-ranking-rank, .inbody-ranking-user-id, .inbody-ranking-score {
+    font-size: 1.2em;
+}
+
+.inbody-ranking-new, .inbody-ranking-change {
+    font-size: 0.8em;
+    color: red;
+}
+
+/* 반응형 디자인을 위한 미디어 쿼리 */
+@media (max-width: 768px) {
+    .inbody-ranking-highlight {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .inbody-ranking-header h1 {
+        font-size: 1.2em;
+    }
+
+    .inbody-ranking-highlight p {
+        font-size: 1em;
+    }
+
+    .inbody-ranking-highlight h2 {
+        font-size: 2em;
+    }
+
+    .inbody-ranking-period-buttons button {
+        padding: 5px 10px;
+        font-size: 0.8em;
+    }
+
+    .inbody-ranking-item {
+        padding: 8px;
+    }
+
+    .inbody-ranking-rank, .inbody-ranking-user-id, .inbody-ranking-score {
+        font-size: 1em;
+    }
+
+    .inbody-ranking-new, .inbody-ranking-change {
+        font-size: 0.6em;
+    }
+}

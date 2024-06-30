@@ -23,10 +23,10 @@ const App = () => {
   const isMainPage = location.pathname === '/main';
   const isNoticePage = location.pathname === '/notices';
   const isSearchPage = location.pathname === '/search';
-  const isNoticeFormPage = location.pathname === '/notices-insert';
+  const isNoticeFormPage = location.pathname === '/notices/register' || location.pathname === '/inbody/ranking' ;
   const isNoticeDetailPage = location.pathname.startsWith('/notices/');
   const isAttendancePage = location.pathname === '/attendance';
-  const isInbodyPage = location.pathname === '/inbody' || location.pathname === '/inbody-dashboard' || location.pathname === '/inbody-register' || location.pathname === '/inbody-status';
+  const isInbodyPage = location.pathname === '/inbody' || location.pathname === '/inbody/dashboard' || location.pathname === '/inbody/register' || location.pathname === '/inbody/status';
 
   const handleToggleFooter = (isOpen) => {
     setIsFooterOpen(isOpen);
@@ -44,13 +44,13 @@ const App = () => {
 
   const getTitle = () => {
     if (isInbodyPage) {
-      if (location.pathname === '/inbody-dashboard') {
+      if (location.pathname === '/inbody/dashboard') {
         return "인바디 - 대시보드";
       } else if (location.pathname === '/inbody') {
         return "인바디";
-      } else if (location.pathname === '/inbody-register') {
+      } else if (location.pathname === '/inbody/register') {
         return "인바디 - 등록";
-      } else if (location.pathname === '/inbody-status') {
+      } else if (location.pathname === '/inbody/status') {
         return "인바디 - 통계";
       }
     }

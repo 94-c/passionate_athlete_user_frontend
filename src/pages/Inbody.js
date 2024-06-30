@@ -144,15 +144,15 @@ const Inbody = () => {
             <div className="inbody-container">
                 <div className="button-container">
                     <button className="btn btn-register">
-                        <FontAwesomeIcon icon={faPlus} className="button-icon" onClick={() => handleNavigate('/inbody-register')} />
+                        <FontAwesomeIcon icon={faPlus} className="button-icon" onClick={() => handleNavigate('/inbody/register')} />
                         <span className="button-title">등록</span>
                     </button>
                     <button className="btn btn-details">
-                        <FontAwesomeIcon icon={faTachometerAlt} className="button-icon" onClick={() => handleNavigate('/inbody-dashboard')} />
+                        <FontAwesomeIcon icon={faTachometerAlt} className="button-icon" onClick={() => handleNavigate('/inbody/dashboard')} />
                         <span className="button-title">대시보드</span>
                     </button>
                     <button className="btn btn-stats">
-                        <FontAwesomeIcon icon={faChartBar} className="button-icon" onClick={() => handleNavigate('/inbody-status')} />
+                        <FontAwesomeIcon icon={faChartBar} className="button-icon" onClick={() => handleNavigate('/inbody/status')} />
                         <span className="button-title">통계</span>
                     </button>
                 </div>

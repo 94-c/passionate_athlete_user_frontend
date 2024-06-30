@@ -1,7 +1,6 @@
-// components/HeadWithTitle.js
 import React, { useContext, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPenClip, faSearch, faBell } from '@fortawesome/free-solid-svg-icons';
+import { faPenClip, faSearch, faBell, faTrophy } from '@fortawesome/free-solid-svg-icons';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserContext } from '../contexts/UserContext';
 import InbodyTermsModal from './InbodyTermsModal';
@@ -13,7 +12,7 @@ const HeadWithTitle = ({ title, isAttendancePage, isInbodyPage }) => {
   const [showModal, setShowModal] = useState(false);
 
   const handleInsertClick = () => {
-    navigate('/notices-insert');
+    navigate('/notices/register');
   };
 
   const handleSearchClick = () => {
@@ -23,6 +22,10 @@ const HeadWithTitle = ({ title, isAttendancePage, isInbodyPage }) => {
   const handleNotificationClick = () => {
     console.log('Notification button clicked');
     setShowModal(true);
+  };
+
+  const handleRankingClick = () => {
+    navigate('/inbody/ranking');
   };
 
   const handleCloseModal = () => {
@@ -38,6 +41,9 @@ const HeadWithTitle = ({ title, isAttendancePage, isInbodyPage }) => {
       </h1>
       {isInbodyPage && (
         <div className="head-buttons">
+          <button className="ranking-button-head" onClick={handleRankingClick}>
+            <FontAwesomeIcon icon={faTrophy} />
+          </button>
           <button
             className="notification-button-head"
             onClick={handleNotificationClick}

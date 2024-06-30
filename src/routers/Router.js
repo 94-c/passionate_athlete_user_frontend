@@ -14,6 +14,7 @@ import Inbody from '../pages/Inbody';
 import InbodyDashboard from '../pages/InbodyDashboard';
 import InbodyRegister from '../pages/InbodyRegister';
 import InbodyStats from '../pages/InbodyStats';
+import InbodyRanking from '../pages/InbodyRanking';
 
 const Router = () => {
   return (
@@ -26,14 +27,15 @@ const Router = () => {
         <Route path="/main" element={<Main />} />
         <Route path="/notices" element={<Notice />} />
         <Route path="/search" element={<Search />} />
-        <Route path="/notices-insert" element={<NoticeForm />} />
+        <Route path="/notices/register" element={<NoticeForm />} />
         <Route path="/notices/:id" element={<NoticeDetail />} />
         <Route path="/notices/:noticeId/comments/:commentId" element={<CommentDetail />} />
         <Route path="/attendance" element={<Attendance />} />
         <Route path="/inbody" element={<Inbody />} />
-        <Route path="/inbody-dashboard" element={<InbodyDashboard />} />
-        <Route path="/inbody-register" element={<InbodyRegister />} />
-        <Route path="/inbody-status" element={<InbodyStats />} />
+        <Route path="/inbody/dashboard" element={<InbodyDashboard />} />
+        <Route path="/inbody/register" element={<InbodyRegister />} />
+        <Route path="/inbody/status" element={<InbodyStats />} />
+        <Route path="/inbody/ranking" element={<InbodyRanking />} />
       </Route>
     </Routes>
   );

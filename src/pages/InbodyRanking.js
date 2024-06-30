@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMale, faFemale, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { faMale, faFemale, faArrowLeft, faBell } from '@fortawesome/free-solid-svg-icons';
 import { UserContext } from '../contexts/UserContext';
 import '../styles/InbodyRanking.css';
 import { api } from '../api/Api.js';
@@ -69,6 +69,18 @@ const InbodyRanking = () => {
         }
     };
 
+    const handleRefreshClick = () => {
+        fetchRankingData(rankingPeriod, dayjs().toISOString());
+    };
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            handleRefreshClick();
+        }, 30 * 60 * 1000); // 30분마다 자동 새로고침
+
+        return () => clearInterval(interval);
+    }, [rankingPeriod]);
+
     return (
         <div className="inbody-ranking-page">
             <div className="inbody-ranking-header">
@@ -97,8 +109,9 @@ const InbodyRanking = () => {
                 <p><span className="user-name">[{user?.branchName}] {user?.name}</span>님의 한달 감소 체지방량</p>
                 <h2>4.2 kg</h2>
             </div>
-            <div className="inbody-ranking-highlight-bar">
-                <p>경고문</p>
+            <div className="inbody-ranking-highlight-bar" onClick={handleRefreshClick}>
+                <FontAwesomeIcon icon={faBell} className="bell-icon" />
+                <p>랭킹은 매 시간 <span className="orange-text">30분</span> 단위로 자동 업데이트 됩니다. 수동 새로고침을 하시려면 클릭하세요.</p>
             </div>
             <div className="inbody-ranking-section">
                 <div className="inbody-ranking-section-header">

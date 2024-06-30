@@ -1,3 +1,4 @@
+// components/HeadWithTitle.js
 import React, { useContext, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenClip, faSearch, faBell } from '@fortawesome/free-solid-svg-icons';
@@ -20,6 +21,7 @@ const HeadWithTitle = ({ title, isAttendancePage, isInbodyPage }) => {
   };
 
   const handleNotificationClick = () => {
+    console.log('Notification button clicked');
     setShowModal(true);
   };
 
@@ -36,7 +38,10 @@ const HeadWithTitle = ({ title, isAttendancePage, isInbodyPage }) => {
       </h1>
       {isInbodyPage && (
         <div className="head-buttons">
-          <button className="notification-button-head" onClick={handleNotificationClick}>
+          <button
+            className="notification-button-head"
+            onClick={handleNotificationClick}
+          >
             <FontAwesomeIcon icon={faBell} />
           </button>
         </div>

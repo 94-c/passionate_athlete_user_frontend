@@ -1,6 +1,8 @@
 /* styles/Modal.css */
 .modal {
-    display: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     position: fixed;
     z-index: 1000;
     left: 0;
@@ -9,39 +11,58 @@
     height: 100%;
     overflow: auto;
     background-color: rgba(0, 0, 0, 0.4);
-  }
-  
-  .modal.show {
-    display: block;
-  }
-  
-  .modal-content {
+}
+
+.modal-content {
     background-color: #fefefe;
-    margin: auto;
     padding: 20px;
     border: 1px solid #888;
     width: 90%;
     max-width: 500px;
     border-radius: 10px;
-    position: absolute; /* Position absolute to place close button */
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%); /* Center the modal */
-  }
-  
-  .close-button {
+    position: relative; /* Position relative to place close button */
+    max-height: 80%; /* Ensure the modal doesn't exceed 80% of the viewport height */
+    overflow-y: auto; /* Add vertical scrollbar if content exceeds max-height */
+}
+
+/* Close button styles */
+.close-button {
     position: absolute;
     top: 10px;
     right: 10px;
     color: #aaa;
     font-size: 28px;
     font-weight: bold;
-  }
-  
-  .close-button:hover,
-  .close-button:focus {
+}
+
+.close-button:hover,
+.close-button:focus {
     color: black;
     text-decoration: none;
     cursor: pointer;
-  }
-  
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .modal-content {
+        width: 95%; /* Adjust width for smaller screens */
+        padding: 15px;
+        max-height: 70%; /* Adjust max-height for smaller screens */
+    }
+    
+    .close-button {
+        font-size: 24px; /* Adjust close button size for smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .modal-content {
+        width: 100%; /* Adjust width for very small screens */
+        padding: 10px;
+        max-height: 60%; /* Increase max-height for very small screens */
+    }
+    
+    .close-button {
+        font-size: 20px; /* Adjust close button size for very small screens */
+    }
+}

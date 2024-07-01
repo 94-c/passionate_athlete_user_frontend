@@ -20,7 +20,6 @@ const HeadWithTitle = ({ title, isAttendancePage, isInbodyPage }) => {
   };
 
   const handleNotificationClick = () => {
-    console.log('Notification button clicked');
     setShowModal(true);
   };
 

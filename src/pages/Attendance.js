@@ -37,8 +37,6 @@ const Attendance = () => {
 
   const isSameDay = (date1, date2) => {
     const utcDate2 = new Date(Date.UTC(date2.getFullYear(), date2.getMonth(), date2.getDate()));
-    console.log('date1:', date1.toUTCString());
-    console.log('date2:', utcDate2.toUTCString());
     return date1.getUTCDate() === utcDate2.getUTCDate() &&
            date1.getUTCMonth() === utcDate2.getUTCMonth() &&
            date1.getUTCFullYear() === utcDate2.getUTCFullYear();

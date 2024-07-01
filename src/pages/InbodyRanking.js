@@ -57,7 +57,6 @@ const InbodyRanking = () => {
                     date: date
                 }
             });
-            console.log('Ranking Data:', response.data.rankings); 
             if (response.data && response.data.rankings) {
                 setRankingData(response.data.rankings);
             } else {

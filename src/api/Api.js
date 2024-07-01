@@ -32,13 +32,10 @@ api.interceptors.response.use(
 
 const postData = async (url, data, isMultipart = false) => {
   try {
-    console.log('Sending request to:', url);
-    console.log('Data:', data);
     const headers = isMultipart
       ? { 'Content-Type': 'multipart/form-data' }
       : { 'Content-Type': 'application/json' };
     const response = await api.post(url, data, { headers });
-    console.log('Response:', response);
     return response.data;
   } catch (error) {
     console.error('Error occurred:', error);

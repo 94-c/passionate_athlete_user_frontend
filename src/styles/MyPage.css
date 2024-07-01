@@ -1,7 +1,7 @@
 .mypage-page {
     padding: 20px;
     background-color: #f9f9f9;
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -24,7 +24,7 @@
     padding-left: 20px;
 }
 
-.mypage-user-info, .mypage-membership-info {
+.mypage-user-info, .mypage-body-info, .mypage-membership-info {
     border: 1px solid #ccc;
     padding: 20px;
     border-radius: 10px;
@@ -53,22 +53,26 @@
     font-weight: bold;
 }
 
-.mypage-average-level {
+.mypage-body-info {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
-    text-align: center;
+    margin-bottom: 20px;
 }
 
-.mypage-average-level div:first-child {
+.mypage-body-info-row {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.mypage-body-info-row div {
+    flex: 1;
+    text-align: center;
     font-size: 1.2em;
     color: #555;
-}
-
-.mypage-level {
-    font-size: 3em;
-    color: #ff6600;
-    font-weight: bold;
 }
 
 .mypage-actions {
@@ -101,17 +105,13 @@
 
 /* 반응형 디자인을 위한 미디어 쿼리 */
 @media (max-width: 768px) {
-    .mypage-user-info, .mypage-membership-info {
+    .mypage-user-info, .mypage-body-info, .mypage-membership-info {
         width: 100%;
     }
 
     .mypage-user-details {
         flex-direction: column;
         align-items: center;
-    }
-
-    .mypage-average-level {
-        margin-top: 10px;
     }
 }
 
@@ -128,8 +128,8 @@
         font-size: 1.5em;
     }
 
-    .mypage-level {
-        font-size: 2.5em;
+    .mypage-body-info-row div {
+        font-size: 1em;
     }
 
     .mypage-membership-dates, .mypage-remaining-days {

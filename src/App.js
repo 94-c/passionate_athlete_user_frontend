@@ -53,6 +53,12 @@ const App = () => {
       } else if (location.pathname === '/inbody/status') {
         return "인바디 - 통계";
       }
+    } else if (isAttendancePage) {
+      if (location.pathname === '/attendance') {
+        return "캘런더";
+      } else if (location.pathname === '/mypage') {
+        return "마이";
+      }
     }
     return "커뮤니티";
   };

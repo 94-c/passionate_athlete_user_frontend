@@ -1,54 +1,87 @@
 .mypage-page {
-    padding: 20px;
+    padding: 10px;
+    background-color: #fff; /* 흰색 배경 */
     display: flex;
     flex-direction: column;
     align-items: center;
+    box-sizing: border-box; /* padding을 포함하여 box 크기 계산 */
+    margin-top: 10px;
 }
 
-.mypage-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.user-info {
     width: 100%;
-}
-
-.mypage-title {
-    color: #333;
-    font-size: 1.5em;
-    margin-bottom: 10px;
-    width: 100%;
-    text-align: left;
-    padding-left: 20px;
-    position: relative;
-}
-
-.mypage-user-info, .mypage-body-info, .mypage-membership-info {
-    border: 1px solid #ccc;
-    padding: 20px;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    background-color: #fff;
-    width: 90%;
     max-width: 600px;
+    text-align: center;
+    margin-bottom: 10px;
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box; /* padding을 포함하여 box 크기 계산 */
 }
 
-.mypage-user-details {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.mypage-branch-name {
-    font-size: 1.2em;
-    color: #555;
-}
-
-.mypage-username {
-    font-size: 2em;
-    color: #ff6600;
+.user-info-title {
+    font-size: 1.5em;
     font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.user-name {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.mypage-user-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 10px;
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box; /* padding을 포함하여 box 크기 계산 */
+}
+
+.user-actions {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    box-sizing: border-box; /* padding을 포함하여 box 크기 계산 */
+}
+
+.action-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 1em;
+    background-color: #ff6600; /* 주황색 버튼 */
+    color: white;
+    border: none;
+    padding: 10px 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    width: 30%;
+    text-align: center; /* 텍스트 가운데 정렬 */
+    box-sizing: border-box; /* padding을 포함하여 box 크기 계산 */
+}
+
+.action-icon {
+    font-size: 2em;
+    margin-bottom: 5px;
+}
+
+.action-item div {
+    font-size: 0.9em; /* 텍스트 크기 조정 */
+}
+
+.action-item:hover {
+    background-color: #e65c00;
+    transform: scale(1.05); /* hover 시 약간 커지는 효과 */
 }
 
 .mypage-body-info {
@@ -56,21 +89,25 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-bottom: 20px;
-    padding: 30px;
-    border-radius: 20px;
-    background-color: #f1f1f1;
+    margin-bottom: 10px;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #ff6600; /* 주황색 배경 */
+    width: 100%;
+    max-width: 600px;
+    box-sizing: border-box; /* padding을 포함하여 box 크기 계산 */
+    color: white; /* 텍스트 색상 흰색 */
 }
 
 .mypage-body-info-header {
     width: 100%;
     text-align: left;
     margin-bottom: 10px;
-    font-size: 0.9em;
-    color: #999;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    font-size: 1.5em; /* 제목 글자 크기 조정 */
+    color: white; /* 텍스트 색상 흰색 */
+    font-weight: bold; /* 볼드 처리 */
+    padding: 0 15px;
+    box-sizing: border-box; /* padding을 포함하여 box 크기 계산 */
 }
 
 .mypage-body-info-row {
@@ -78,19 +115,20 @@
     justify-content: space-between;
     width: 100%;
     margin-bottom: 10px;
+    box-sizing: border-box; /* padding을 포함하여 box 크기 계산 */
 }
 
 .mypage-body-info-row div {
     flex: 1;
     text-align: center;
     font-size: 1.2em;
-    color: #555;
+    color: white; /* 텍스트 색상 흰색 */
     position: relative;
 }
 
 .main-number {
     font-weight: bold;
-    color: black;
+    color: white; /* 텍스트 색상 흰색 */
     display: block;
     font-size: 2em;
 }
@@ -101,11 +139,11 @@
 }
 
 .positive-change {
-    color: green;
+    color: lightgreen; /* 양수 변화 색상 연녹색 */
 }
 
 .negative-change {
-    color: orange;
+    color: #ffcccb; /* 음수 변화 색상 연분홍색 */
 }
 
 .main-number-container {
@@ -119,6 +157,7 @@
     justify-content: space-between;
     width: 100%;
     margin-top: 10px;
+    box-sizing: border-box; /* padding을 포함하여 box 크기 계산 */
 }
 
 .mypage-edit-button, .mypage-password-button {
@@ -140,6 +179,14 @@
     text-align: center;
     font-size: 1.2em;
     color: #555;
+}
+
+.mypage-title {
+    margin: 10px 0;
+    text-align: left;
+    color: black; 
+    font-weight: bold; /* 볼드 처리 */
+    padding: 0 15px;
 }
 
 /* 반응형 디자인을 위한 미디어 쿼리 */

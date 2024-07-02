@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import '../styles/Main.css';
 import Head from '../components/Head';
 import Header from '../components/Header';
-import Modal from '../components/Modal';
 import TodayExerciseModal from '../components/TodayExerciseModal'; // TodayExerciseModal 컴포넌트 import 추가
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDumbbell, faChartBar, faWeight, faRunning } from '@fortawesome/free-solid-svg-icons';

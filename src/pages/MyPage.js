@@ -2,6 +2,8 @@ import React, { useContext, useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../contexts/UserContext';
 import { api } from '../api/Api.js';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit, faIdBadge, faBell } from '@fortawesome/free-solid-svg-icons';
 import '../styles/MyPage.css';
 
 const MyPage = () => {
@@ -35,45 +37,56 @@ const MyPage = () => {
 
   return (
     <div className="mypage-page">
-      <h2 className="mypage-title">회원정보</h2>
-      <div className="mypage-container">
-        <div className="mypage-user-info">
-          <div className="mypage-user-details">
-            <div>
-              <div className="mypage-branch-name">[{currentUser?.branchName}]</div>
-              <div className="mypage-username">{currentUser?.name}</div>
+      <div className="mypage-body-info-header">
+        <h1 className="mypage-title">회원 정보</h1>
+      </div>
+      <div className="user-info">
+        <div className="user-name">[{currentUser?.branchName}] {currentUser?.name} 님</div>
+      </div>
+      <div className="mypage-user-info">
+        <div className="user-actions">
+          <button className="action-item">
+            <FontAwesomeIcon icon={faEdit} className="action-icon" />
+            <div>회원정보</div>
+          </button>
+          <button className="action-item">
+            <FontAwesomeIcon icon={faIdBadge} className="action-icon" />
+            <div>회원권</div>
+          </button>
+          <button className="action-item">
+            <FontAwesomeIcon icon={faBell} className="action-icon" />
+            <div>공지사항</div>
+          </button>
+        </div>
+      </div>
+      {bodyInfo && (
+        <>
+          <div className="mypage-body-info-header">
+            <h2 className="mypage-title">최근 인바디 정보</h2>
+          </div>
+          <div className="mypage-body-info">
+            <div className="mypage-body-info-row">
+              <div>체중</div>
+              <div>골격근량</div>
+              <div>체지방량</div>
+            </div>
+            <div className="mypage-body-info-row">
+              <div className="main-number-container">
+                <span className="main-number">{bodyInfo.weight}</span>
+                {formatChange(bodyInfo.weightChange)}
+              </div>
+              <div className="main-number-container">
+                <span className="main-number">{bodyInfo.muscleMass}</span>
+                {formatChange(bodyInfo.muscleMassChange)}
+              </div>
+              <div className="main-number-container">
+                <span className="main-number">{bodyInfo.bodyFatMass}</span>
+                {formatChange(bodyInfo.bodyFatMassChange)}
+              </div>
             </div>
           </div>
-        </div>
-        {bodyInfo && (
-          <>
-            <div className="mypage-body-info-header">
-              <h2 className="mypage-title">최근 인바디 정보</h2>
-            </div>
-            <div className="mypage-body-info">
-              <div className="mypage-body-info-row">
-                <div>체중</div>
-                <div>골격근량</div>
-                <div>체지방량</div>
-              </div>
-              <div className="mypage-body-info-row">
-                <div className="main-number-container">
-                  <span className="main-number">{bodyInfo.weight}</span>
-                  {formatChange(bodyInfo.weightChange)}
-                </div>
-                <div className="main-number-container">
-                  <span className="main-number">{bodyInfo.muscleMass}</span>
-                  {formatChange(bodyInfo.muscleMassChange)}
-                </div>
-                <div className="main-number-container">
-                  <span className="main-number">{bodyInfo.bodyFatMass}</span>
-                  {formatChange(bodyInfo.bodyFatMassChange)}
-                </div>
-              </div>
-            </div>
-          </>
-        )}
-      </div>
+        </>
+      )}
     </div>
   );
 };

@@ -30,20 +30,26 @@ api.interceptors.response.use(
   }
 );
 
-const postData = async (url, data, isMultipart = false) => {
+
+export const getData = async (url, config = {}) => {
   try {
-    console.log('Sending request to:', url);
-    console.log('Data:', data);
-    const headers = isMultipart
-      ? { 'Content-Type': 'multipart/form-data' }
-      : { 'Content-Type': 'application/json' };
-    const response = await api.post(url, data, { headers });
-    console.log('Response:', response);
-    return response.data;
+    const response = await api.get(url, config);
+    return response;
   } catch (error) {
-    console.error('Error occurred:', error);
+    console.error('API getData error:', error);
     throw error;
   }
 };
 
-export { api, postData };
+export const postData = async (url, data, isFormData = false) => {
+  try {
+    const headers = isFormData ? { 'Content-Type': 'multipart/form-data' } : {};
+    const response = await api.post(url, data, { headers });
+    return response;
+  } catch (error) {
+    console.error('API postData error:', error);
+    throw error;
+  }
+};
+
+export { api };

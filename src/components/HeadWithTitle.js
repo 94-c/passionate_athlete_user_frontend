@@ -32,6 +32,11 @@ const HeadWithTitle = ({ title, isAttendancePage, isInbodyPage }) => {
     setShowModal(false);
   };
 
+  const hasRole = (roles) => {
+    const requiredRoles = ['USER', 'MANAGER', 'ADMIN'];
+    return roles.some(role => requiredRoles.includes(role));
+  };
+
   return (
     <div className="head-container-title with-title">
       <h1 className="head-title">
@@ -54,7 +59,7 @@ const HeadWithTitle = ({ title, isAttendancePage, isInbodyPage }) => {
       )}
       {!isAttendancePage && !isInbodyPage && (
         <div className="head-buttons">
-          {user && user.roles.includes('USER', 'MANAGER', 'ADMIN') && (
+          {user && hasRole(user.roles) && (
             <button className="insert-button-head" onClick={handleInsertClick}>
               <FontAwesomeIcon icon={faPenClip} />
             </button>

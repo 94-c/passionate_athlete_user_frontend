@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faCamera } from '@fortawesome/free-solid-svg-icons';
-import { postData, getData } from '../api/Api.js'; // postData와 getData 함수를 임포트합니다.
+import { postData, getData } from '../api/Api.js';
 import '../styles/NoticeForm.css';
 import { UserContext } from '../contexts/UserContext';
 
@@ -19,19 +19,23 @@ const NoticeForm = () => {
     const fetchNoticeTypes = async () => {
       try {
         let response;
-        if (currentUser.roles.includes('ADMIN') || currentUser.roles.includes('MANAGER')) {
+        if (currentUser && (currentUser.roles.includes('ADMIN') || currentUser.roles.includes('MANAGER'))) {
           response = await getData('/notice-type');
-        } else {
+        } else if (currentUser) {
           response = await getData(`/notice-type/roles?role=user`);
         }
-        setNoticeTypes(response.data);
+        if (response) {
+          setNoticeTypes(response.data);
+        }
       } catch (error) {
         console.error('Error fetching notice types:', error);
       }
     };
 
-    fetchNoticeTypes();
-  }, [currentUser.roles]);
+    if (currentUser) {
+      fetchNoticeTypes();
+    }
+  }, [currentUser]);
 
   const handleKindChange = (event) => {
     setKind(event.target.value);
@@ -60,10 +64,8 @@ const NoticeForm = () => {
 
     try {
       if (files.length === 0) {
-        // notice만 전송하는 경우
         await postData('/notices', notice);
       } else {
-        // notice와 파일을 전송하는 경우
         const formData = new FormData();
         formData.append('notice', new Blob([JSON.stringify(notice)], { type: 'application/json' }));
         files.forEach((file) => {
@@ -108,7 +110,7 @@ const NoticeForm = () => {
             ))}
           </select>
           <input type="text" className="post-form-title" placeholder="제목" value={title} onChange={handleTitleChange} />
-          <textarea className="post-form-content" placeholder="내용을 입력하세요." value={content} onChange={handleContentChange} />
+          <textarea className="post-form-textarea" placeholder="내용을 입력하세요." value={content} onChange={handleContentChange} />
           <input type="file" className="file-input" style={{ display: 'none' }} onChange={handleFileChange} multiple />
         </div>
         <div className="post-form-footer">

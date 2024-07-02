@@ -9,9 +9,23 @@ const Notice = () => {
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
   const [kind, setKind] = useState(null);
+  const [noticeTypes, setNoticeTypes] = useState([]);
   const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 480);
   const navigate = useNavigate();
   const { user: currentUser } = useContext(UserContext);
+
+  const fetchNoticeTypes = useCallback(async () => {
+    try {
+      const response = await api.get('/notice-type');
+      if (response.data) {
+        setNoticeTypes(response.data);
+      } else {
+        console.error('Unexpected response format:', response.data);
+      }
+    } catch (error) {
+      console.error('Error fetching notice types:', error);
+    }
+  }, []);
 
   const fetchPosts = useCallback(async () => {
     try {
@@ -37,6 +51,10 @@ const Notice = () => {
   }, [page, kind]);
 
   useEffect(() => {
+    fetchNoticeTypes();
+  }, [fetchNoticeTypes]);
+
+  useEffect(() => {
     fetchPosts();
   }, [fetchPosts]);
 
@@ -60,16 +78,8 @@ const Notice = () => {
   };
 
   const getKindLabel = (kind) => {
-    switch (kind) {
-      case 0:
-        return '[공지] ';
-      case 1:
-        return '[멱살] ';
-      case 2:
-        return '[자랑] ';
-      default:
-        return '';
-    }
+    const kindObj = noticeTypes.find(type => type.id === kind);
+    return kindObj ? `[${kindObj.type}] ` : '';
   };
 
   const handlePostClick = (id) => {
@@ -78,11 +88,13 @@ const Notice = () => {
 
   return (
     <div className="notice-page">
-      <div className="tab-buttons">
-        <button className={`tab-button ${kind === null ? 'active' : ''}`} onClick={() => handleKindChange(null)}>전체</button>
-        <button className={`tab-button ${kind === 0 ? 'active' : ''}`} onClick={() => handleKindChange(0)}>공지</button>
-        <button className={`tab-button ${kind === 1 ? 'active' : ''}`} onClick={() => handleKindChange(1)}>멱살</button>
-        <button className={`tab-button ${kind === 2 ? 'active' : ''}`} onClick={() => handleKindChange(2)}>자랑</button>
+      <div className="tab-buttons-container">
+        <div className="tab-buttons">
+          <button className={`tab-button ${kind === null ? 'active' : ''}`} onClick={() => handleKindChange(null)}>전체</button>
+          {noticeTypes.map((type) => (
+            <button key={type.id} className={`tab-button ${kind === type.id ? 'active' : ''}`} onClick={() => handleKindChange(type.id)}>{type.type}</button>
+          ))}
+        </div>
       </div>
       <div className="posts-container">
         <div className="posts">

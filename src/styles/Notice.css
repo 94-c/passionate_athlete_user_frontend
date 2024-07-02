@@ -3,13 +3,15 @@
   margin-top: 15px; /* HeadWithTitle 아래에 여백 추가 */
 }
 
+.tab-buttons-container {
+  white-space: nowrap;
+}
+
 .tab-buttons {
   display: flex;
-  justify-content: space-between; /* 왼쪽과 오른쪽 끝으로 정렬 */
-  align-items: center; /* 검색 버튼과 검색 폼을 동일한 줄에 정렬 */
-  margin-bottom: 20px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap; /* 한 줄에 나타나도록 설정 */
   gap: 10px;
+  margin-bottom: 20px;
 }
 
 .tab-button {
@@ -20,7 +22,6 @@
   color: white;
   cursor: pointer;
   transition: background-color 0.3s, box-shadow 0.3s;
-  flex-grow: 1;
   text-align: center;
 }
 
@@ -139,9 +140,9 @@
 /* 반응형 디자인 */
 @media (max-width: 768px) {
   .tab-buttons {
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     gap: 10px;
-    margin-top: -20px
+    margin-top: -20px;
   }
 
   .tab-button {

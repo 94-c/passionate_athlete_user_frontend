@@ -53,7 +53,7 @@ const HeadWithTitle = ({ title, isAttendancePage, isInbodyPage }) => {
       )}
       {!isAttendancePage && !isInbodyPage && (
         <div className="head-buttons">
-          {user && user.roles.includes('USER', 'MANAGER', 'ADMIN') && (
+          {user && user.roles && (user.roles.includes('USER') || user.roles.includes('MANAGER') || user.roles.includes('ADMIN')) && (
             <button className="insert-button-head" onClick={handleInsertClick}>
               <FontAwesomeIcon icon={faPenClip} />
             </button>

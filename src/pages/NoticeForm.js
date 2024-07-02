@@ -1,25 +1,40 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faCamera } from '@fortawesome/free-solid-svg-icons';
-import { postData } from '../api/Api.js'; // postData 함수를 임포트합니다.
+import { postData, getData } from '../api/Api.js'; // postData와 getData 함수를 임포트합니다.
 import '../styles/NoticeForm.css';
+import { UserContext } from '../contexts/UserContext';
 
 const NoticeForm = () => {
-  const [kind, setKind] = useState(0);
+  const [kind, setKind] = useState('');
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [files, setFiles] = useState([]);
-  const [roles, setRoles] = useState([]);
+  const [noticeTypes, setNoticeTypes] = useState([]);
+  const { user: currentUser } = useContext(UserContext);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const userRoles = JSON.parse(localStorage.getItem('userRoles') || sessionStorage.getItem('userRoles') || '[]');
-    setRoles(userRoles);
-  }, []);
+    const fetchNoticeTypes = async () => {
+      try {
+        let response;
+        if (currentUser.roles.includes('ADMIN') || currentUser.roles.includes('MANAGER')) {
+          response = await getData('/notice-type');
+        } else {
+          response = await getData(`/notice-type/roles?role=user`);
+        }
+        setNoticeTypes(response.data);
+      } catch (error) {
+        console.error('Error fetching notice types:', error);
+      }
+    };
+
+    fetchNoticeTypes();
+  }, [currentUser.roles]);
 
   const handleKindChange = (event) => {
-    setKind(Number(event.target.value));
+    setKind(event.target.value);
   };
 
   const handleTitleChange = (event) => {
@@ -59,7 +74,7 @@ const NoticeForm = () => {
       }
 
       alert('게시글이 성공적으로 등록되었습니다.');
-      navigate('/notice');
+      navigate('/notices');
     } catch (error) {
       console.error('Error:', error);
       alert('게시글 등록 중 오류가 발생했습니다.');
@@ -86,11 +101,11 @@ const NoticeForm = () => {
         </div>
         <div className="post-form-content">
           <select className="board-select" value={kind} onChange={handleKindChange}>
-            {(roles.includes('admin') || roles.includes('manage') || roles.includes('MANAGER')) && (
-              <option value={0}>공지</option>
-            )}
-            <option value={1}>멱살</option>
-            <option value={2}>자랑</option>
+            {noticeTypes.map((type) => (
+              <option key={type.id} value={type.id}>
+                {type.type}
+              </option>
+            ))}
           </select>
           <input type="text" className="post-form-title" placeholder="제목" value={title} onChange={handleTitleChange} />
           <textarea className="post-form-content" placeholder="내용을 입력하세요." value={content} onChange={handleContentChange} />

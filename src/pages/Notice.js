@@ -8,7 +8,7 @@ const Notice = () => {
   const [posts, setPosts] = useState([]);
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
-  const [kind, setKind] = useState(null);
+  const [kind, setKind] = useState(0); // Default to 0 to show all notices
   const [noticeTypes, setNoticeTypes] = useState([]);
   const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 480);
   const navigate = useNavigate();
@@ -33,9 +33,8 @@ const Notice = () => {
         page: page,
         perPage: 5,
         status: true,
+        kindId: kind !== null ? kind : 0, // Set kindId to 0 if it's null
       };
-
-      if (kind !== null) params.kind = kind;
 
       const response = await api.get('/notices', { params });
 
@@ -56,7 +55,7 @@ const Notice = () => {
 
   useEffect(() => {
     fetchPosts();
-  }, [fetchPosts]);
+  }, [fetchPosts, kind]); // 추가: kind 상태가 변경될 때마다 fetchPosts 호출
 
   useEffect(() => {
     const handleResize = () => setIsMobileView(window.innerWidth <= 480);
@@ -90,7 +89,7 @@ const Notice = () => {
     <div className="notice-page">
       <div className="tab-buttons-container">
         <div className="tab-buttons">
-          <button className={`tab-button ${kind === null ? 'active' : ''}`} onClick={() => handleKindChange(null)}>전체</button>
+          <button className={`tab-button ${kind === 0 ? 'active' : ''}`} onClick={() => handleKindChange(0)}>전체</button>
           {noticeTypes.map((type) => (
             <button key={type.id} className={`tab-button ${kind === type.id ? 'active' : ''}`} onClick={() => handleKindChange(type.id)}>{type.type}</button>
           ))}
@@ -100,7 +99,7 @@ const Notice = () => {
         <div className="posts">
           {posts.map((post, index) => (
             <div key={index} className="post" onClick={() => handlePostClick(post.id)}>
-              <h2 className="post-title">{getKindLabel(post.kind)}{post.title}</h2>
+              <h2 className="post-title">[{post.kind}] {post.title}</h2>
               <p className="post-content">{truncateContent(post.content)}</p>
               <div className="post-footer">
                 <span className="post-author">[{currentUser.branchName}] {post.userName}</span> · <span className="post-date">{post.createdDate}</span>

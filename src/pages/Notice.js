@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useContext } from 'react';
+import React, { useState, useEffect, useCallback, useContext, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../api/Api.js';
 import '../styles/Notice.css';
@@ -10,9 +10,9 @@ const Notice = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [kind, setKind] = useState(0); // Default to 0 to show all notices
   const [noticeTypes, setNoticeTypes] = useState([]);
-  const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 480);
   const navigate = useNavigate();
   const { user: currentUser } = useContext(UserContext);
+  const tabContainerRef = useRef(null); // Ref for the tab container
 
   const fetchNoticeTypes = useCallback(async () => {
     try {
@@ -57,12 +57,6 @@ const Notice = () => {
     fetchPosts();
   }, [fetchPosts, kind]); // 추가: kind 상태가 변경될 때마다 fetchPosts 호출
 
-  useEffect(() => {
-    const handleResize = () => setIsMobileView(window.innerWidth <= 480);
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
   const handlePageClick = (pageNum) => {
     setPage(pageNum);
   };
@@ -85,9 +79,50 @@ const Notice = () => {
     navigate(`/notices/${id}`);
   };
 
+  // Scroll handling logic
+  const isDragging = useRef(false);
+  const startX = useRef(0);
+  const scrollLeft = useRef(0);
+
+  useEffect(() => {
+    const tabContainer = tabContainerRef.current;
+
+    const mouseDownHandler = (e) => {
+      isDragging.current = true;
+      startX.current = e.pageX - tabContainer.offsetLeft;
+      scrollLeft.current = tabContainer.scrollLeft;
+    };
+
+    const mouseLeaveOrUpHandler = () => {
+      isDragging.current = false;
+    };
+
+    const mouseMoveHandler = (e) => {
+      if (!isDragging.current) return;
+      e.preventDefault();
+      const x = e.pageX - tabContainer.offsetLeft;
+      const walk = (x - startX.current) * 2; // Scroll speed
+      tabContainer.scrollLeft = scrollLeft.current - walk;
+    };
+
+    // Add mouse event listeners
+    tabContainer.addEventListener('mousedown', mouseDownHandler);
+    tabContainer.addEventListener('mouseleave', mouseLeaveOrUpHandler);
+    tabContainer.addEventListener('mouseup', mouseLeaveOrUpHandler);
+    tabContainer.addEventListener('mousemove', mouseMoveHandler);
+
+    return () => {
+      // Cleanup event listeners
+      tabContainer.removeEventListener('mousedown', mouseDownHandler);
+      tabContainer.removeEventListener('mouseleave', mouseLeaveOrUpHandler);
+      tabContainer.removeEventListener('mouseup', mouseLeaveOrUpHandler);
+      tabContainer.removeEventListener('mousemove', mouseMoveHandler);
+    };
+  }, []);
+
   return (
     <div className="notice-page">
-      <div className="tab-buttons-container">
+      <div className="tab-buttons-container" ref={tabContainerRef}>
         <div className="tab-buttons">
           <button className={`tab-button ${kind === 0 ? 'active' : ''}`} onClick={() => handleKindChange(0)}>전체</button>
           {noticeTypes.map((type) => (

@@ -7,6 +7,7 @@
   overflow-x: auto; /* 가로 스크롤 추가 */
   white-space: nowrap;
   margin-bottom: 20px;
+  -webkit-overflow-scrolling: touch; /* 스크롤 부드럽게 */
 }
 
 .tab-buttons {
@@ -24,6 +25,8 @@
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
   text-align: center;
+  flex: 0 0 auto; /* 버튼이 축소되지 않도록 설정 */
+  white-space: nowrap; /* 버튼 내용이 줄바꿈되지 않도록 설정 */
 }
 
 .tab-button.active {
@@ -145,14 +148,19 @@
 
 /* 반응형 디자인 */
 @media (max-width: 768px) {
+  .tab-buttons-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch; /* 스크롤 부드럽게 */
+  }
+
   .tab-buttons {
+    display: flex;
     flex-wrap: nowrap;
     gap: 10px;
   }
 
   .tab-button {
-    flex-grow: 1;
-    text-align: center;
+    flex: 0 0 auto;
   }
 
   .search-button-head {
@@ -168,6 +176,10 @@
 
 /* 360px 이상의 화면 크기에서 적용 */
 @media (min-width: 360px) {
+  .tab-buttons-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch; /* 스크롤 부드럽게 */
+  }
   .tab-button {
     font-size: 12px; /* 작은 화면에서의 폰트 크기 */
   }

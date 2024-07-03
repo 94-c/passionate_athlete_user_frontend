@@ -9,16 +9,29 @@ import { api } from '../api/Api.js';
 const InbodyRanking = () => {
     const navigate = useNavigate();
     const { user } = useContext(UserContext);
-    const [gender, setGender] = useState(user?.gender || 'male'); 
-    const [rankingPeriod, setRankingPeriod] = useState('weekly'); 
+    const [gender, setGender] = useState(user?.gender || 'male');
+    const [rankingPeriod, setRankingPeriod] = useState('weekly');
     const [title, setTitle] = useState('주간 인바디 랭킹');
     const [rankingData, setRankingData] = useState([]);
+    const [monthlyFatChange, setMonthlyFatChange] = useState(0);
+
 
     useEffect(() => {
         if (user) {
-            fetchRankingData('weekly', user.gender || 'male'); 
+            fetchRankingData('weekly', user.gender || 'male');
         }
     }, [user]);
+
+    const fetchMonthlyFatChange = async () => {
+        try {
+            const response = await api.get('/physicals/monthly-fat-change');
+            if (response.data) {
+                setMonthlyFatChange(response.data.fatChange);
+            }
+        } catch (error) {
+            console.error('Error fetching monthly fat change:', error);
+        }
+    };
 
     const handleBackClick = () => {
         navigate('/inbody');
@@ -41,7 +54,7 @@ const InbodyRanking = () => {
             default:
                 setTitle('인바디 랭킹');
         }
-        fetchRankingData(period, gender); 
+        fetchRankingData(period, gender);
     };
 
     const fetchRankingData = async (type, gender) => {
@@ -50,7 +63,7 @@ const InbodyRanking = () => {
                 params: {
                     type: type,
                     gender: gender,
-                    limit: 5 
+                    limit: 5
                 }
             });
             if (response.data && Array.isArray(response.data)) {
@@ -111,7 +124,7 @@ const InbodyRanking = () => {
             </div>
             <div className="inbody-ranking-highlight">
                 <p><span className="user-name">[{user?.branchName}] {user?.name}</span>님의 한달 감소 체지방량</p>
-                <h2>4.2 kg</h2>
+                <h2>{monthlyFatChange.toFixed(1)} kg</h2>
             </div>
             <div className="inbody-ranking-highlight-bar" onClick={handleRefreshClick}>
                 <FontAwesomeIcon icon={faBell} className="bell-icon" />

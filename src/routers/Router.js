@@ -16,6 +16,7 @@ import InbodyRegister from '../pages/InbodyRegister';
 import InbodyStats from '../pages/InbodyStats';
 import InbodyRanking from '../pages/InbodyRanking';
 import MyPage from '../pages/MyPage';
+import UserInfo from '../pages/UserInfo';
 
 const Router = () => {
   return (
@@ -38,6 +39,7 @@ const Router = () => {
         <Route path="/inbody/status" element={<InbodyStats />} />
         <Route path="/inbody/ranking" element={<InbodyRanking />} />
         <Route path="/mypage" element={<MyPage />} />
+        <Route path="/mypage/user-info" element={<UserInfo />} />
       </Route>
     </Routes>
   );

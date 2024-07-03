@@ -38,6 +38,10 @@ const MyPage = () => {
     );
   };
 
+  const handleNavigate = (path) => {
+    navigate(path);
+};
+
   return (
     <div className="mypage-page">
       <div className="mypage-body-info-header">
@@ -60,7 +64,7 @@ const MyPage = () => {
       </div>
       <div className="user-actions">
         <button className="action-item">
-          <FontAwesomeIcon icon={faEdit} className="action-icon" />
+          <FontAwesomeIcon icon={faEdit} className="action-icon" onClick={() => handleNavigate('/mypage/user-info')} />
           <div>회원정보</div>
         </button>
         <button className="action-item">

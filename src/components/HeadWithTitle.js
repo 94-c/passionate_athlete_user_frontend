@@ -1,12 +1,12 @@
 import React, { useContext, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPenClip, faSearch, faBell, faTrophy } from '@fortawesome/free-solid-svg-icons';
+import { faPenClip, faSearch, faBell, faTrophy, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserContext } from '../contexts/UserContext';
 import InbodyTermsModal from './InbodyTermsModal';
 import '../styles/HeadWithTitle.css';
 
-const HeadWithTitle = ({ title, isAttendancePage, isInbodyPage }) => {
+const HeadWithTitle = ({ title, isAttendancePage, isInbodyPage, isUserInfoPage }) => {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
@@ -25,6 +25,10 @@ const HeadWithTitle = ({ title, isAttendancePage, isInbodyPage }) => {
 
   const handleRankingClick = () => {
     navigate('/inbody/ranking');
+  };
+
+  const handleEditClick = () => {
+    navigate('/mypage/user-info'); // 페이지 경로는 실제 설정된 경로로 변경 필요
   };
 
   const handleCloseModal = () => {
@@ -56,7 +60,7 @@ const HeadWithTitle = ({ title, isAttendancePage, isInbodyPage }) => {
           </button>
         </div>
       )}
-      {!isAttendancePage && !isInbodyPage && (
+      {!isAttendancePage && !isInbodyPage && !isUserInfoPage && (
         <div className="head-buttons">
           {user && user.roles && (user.roles.includes('USER') || user.roles.includes('MANAGER') || user.roles.includes('ADMIN')) && (
             <button className="insert-button-head" onClick={handleInsertClick}>
@@ -65,6 +69,13 @@ const HeadWithTitle = ({ title, isAttendancePage, isInbodyPage }) => {
           )}
           <button className="search-button-head" onClick={handleSearchClick}>
             <FontAwesomeIcon icon={faSearch} />
+          </button>
+        </div>
+      )}
+      {isUserInfoPage && (
+        <div className="head-buttons">
+          <button className="edit-button-head" onClick={handleEditClick}>
+            <FontAwesomeIcon icon={faEdit} />
           </button>
         </div>
       )}

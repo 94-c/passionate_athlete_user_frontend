@@ -27,6 +27,7 @@ const App = () => {
   const isNoticeDetailPage = location.pathname.startsWith('/notices/');
   const isAttendancePage = location.pathname === '/attendance' || location.pathname === '/mypage';
   const isInbodyPage = location.pathname === '/inbody' || location.pathname === '/inbody/dashboard' || location.pathname === '/inbody/register' || location.pathname === '/inbody/status';
+  const isUserInfoPage = location.pathname === '/mypage/user-info';
 
   const handleToggleFooter = (isOpen) => {
     setIsFooterOpen(isOpen);
@@ -56,9 +57,11 @@ const App = () => {
     } else if (isAttendancePage) {
       if (location.pathname === '/attendance') {
         return "캘런더";
-      } else if (location.pathname === '/mypage') {
+      } else if (location.pathname === '/mypage/user-info') {
         return "마이";
       }
+    } else if (isUserInfoPage) {
+      return "회원 정보";
     }
     return "커뮤니티";
   };
@@ -72,9 +75,9 @@ const App = () => {
   const MainContent = () => (
     <UserProvider>
       <div id="root" className={isFooterOpen ? 'footer-open' : ''}>
-        {isNoticePage || isAttendancePage || isInbodyPage ? ( 
+        {isNoticePage || isAttendancePage || isInbodyPage || isUserInfoPage ? ( 
           <>
-            <HeadWithTitle title={getTitle()} isAttendancePage={isAttendancePage} isInbodyPage={isInbodyPage} />
+            <HeadWithTitle title={getTitle()} isAttendancePage={isAttendancePage} isInbodyPage={isInbodyPage} isUserInfoPage={isUserInfoPage} />
             <AppRoutes />
             <Footer onToggle={handleToggleFooter} />
           </>

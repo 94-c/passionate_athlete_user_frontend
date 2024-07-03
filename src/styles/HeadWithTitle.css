@@ -35,7 +35,8 @@
 .insert-button-head,
 .search-button-head,
 .notification-button-head,
-.ranking-button-head {
+.ranking-button-head,
+.edit-button-head { /* Add edit button class */
   background-color: transparent;
   border: none;
   color: white;
@@ -47,7 +48,8 @@
 .insert-button-head:hover,
 .search-button-head:hover,
 .notification-button-head:hover,
-.ranking-button-head:hover {
+.ranking-button-head:hover,
+.edit-button-head:hover { /* Add hover effect for edit button */
   color: #e65c00; /* Slightly darker orange on hover */
   transform: scale(1.1); /* Slightly enlarge on hover */
 }

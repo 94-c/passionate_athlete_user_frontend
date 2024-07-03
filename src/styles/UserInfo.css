@@ -1,0 +1,60 @@
+.user-info-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: #fff;
+  }
+  
+  .user-info-header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .user-info-title {
+    font-size: 2rem;
+    color: #FF6600;
+  }
+  
+  .user-info-content {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    max-width: 400px;
+    width: 100%;
+  }
+  
+  .user-info-item {
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+  }
+  
+  .user-info-item strong {
+    color: #FF6600;
+  }
+  
+  .button-box {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .btn {
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .btn-primary {
+    background-color: #FF6600;
+    color: white;
+  }
+  
+  .btn-primary:hover {
+    background-color: #e55d00;
+  }
+  

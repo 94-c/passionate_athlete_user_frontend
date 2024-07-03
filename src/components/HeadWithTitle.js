@@ -20,7 +20,6 @@ const HeadWithTitle = ({ title, isAttendancePage, isInbodyPage }) => {
   };
 
   const handleNotificationClick = () => {
-    console.log('Notification button clicked');
     setShowModal(true);
   };
 
@@ -59,7 +58,7 @@ const HeadWithTitle = ({ title, isAttendancePage, isInbodyPage }) => {
       )}
       {!isAttendancePage && !isInbodyPage && (
         <div className="head-buttons">
-          {user && hasRole(user.roles) && (
+          {user && user.roles && (user.roles.includes('USER') || user.roles.includes('MANAGER') || user.roles.includes('ADMIN')) && (
             <button className="insert-button-head" onClick={handleInsertClick}>
               <FontAwesomeIcon icon={faPenClip} />
             </button>

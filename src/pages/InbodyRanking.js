@@ -1,4 +1,3 @@
-// InbodyRanking.js
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -6,20 +5,18 @@ import { faMale, faFemale, faArrowLeft, faBell } from '@fortawesome/free-solid-s
 import { UserContext } from '../contexts/UserContext';
 import '../styles/InbodyRanking.css';
 import { api } from '../api/Api.js';
-import dayjs from 'dayjs'; // 날짜 처리 라이브러리
 
 const InbodyRanking = () => {
     const navigate = useNavigate();
     const { user } = useContext(UserContext);
-    const [gender, setGender] = useState('');
-    const [rankingPeriod, setRankingPeriod] = useState('daily');
-    const [title, setTitle] = useState('일간 인바디 랭킹');
+    const [gender, setGender] = useState(user?.gender || 'male'); 
+    const [rankingPeriod, setRankingPeriod] = useState('weekly'); 
+    const [title, setTitle] = useState('주간 인바디 랭킹');
     const [rankingData, setRankingData] = useState([]);
 
     useEffect(() => {
         if (user) {
-            setGender(user.gender);
-            fetchRankingData('daily', dayjs().toISOString());
+            fetchRankingData('weekly', user.gender || 'male'); 
         }
     }, [user]);
 
@@ -29,14 +26,12 @@ const InbodyRanking = () => {
 
     const handleGenderChange = (gender) => {
         setGender(gender);
+        fetchRankingData(rankingPeriod, gender);
     };
 
     const handlePeriodChange = (period) => {
         setRankingPeriod(period);
         switch (period) {
-            case 'daily':
-                setTitle('일간 인바디 랭킹');
-                break;
             case 'weekly':
                 setTitle('주간 인바디 랭킹');
                 break;
@@ -46,30 +41,31 @@ const InbodyRanking = () => {
             default:
                 setTitle('인바디 랭킹');
         }
-        fetchRankingData(period, dayjs().toISOString());
+        fetchRankingData(period, gender); 
     };
 
-    const fetchRankingData = async (type, date) => {
+    const fetchRankingData = async (type, gender) => {
         try {
             const response = await api.get('/physicals/rankings', {
                 params: {
                     type: type,
-                    date: date
+                    gender: gender,
+                    limit: 5 
                 }
             });
-            if (response.data && response.data.rankings) {
-                setRankingData(response.data.rankings);
+            if (response.data && Array.isArray(response.data)) {
+                setRankingData(response.data);
             } else {
-                setRankingData([]); 
+                setRankingData([]);
             }
         } catch (error) {
             console.error('Error fetching ranking data:', error);
-            setRankingData([]); 
+            setRankingData([]);
         }
     };
 
     const handleRefreshClick = () => {
-        fetchRankingData(rankingPeriod, dayjs().toISOString());
+        fetchRankingData(rankingPeriod, gender);
     };
 
     useEffect(() => {
@@ -78,7 +74,16 @@ const InbodyRanking = () => {
         }, 30 * 60 * 1000); // 30분마다 자동 새로고침
 
         return () => clearInterval(interval);
-    }, [rankingPeriod]);
+    }, [rankingPeriod, gender]);
+
+    const paddedRankingData = [...rankingData];
+    while (paddedRankingData.length < 5) {
+        paddedRankingData.push({
+            branchName: '',
+            username: '순위 없음',
+            bodyFatMassChange: '-'
+        });
+    }
 
     return (
         <div className="inbody-ranking-page">
@@ -88,15 +93,15 @@ const InbodyRanking = () => {
                 </button>
                 <h1 className="inbody-ranking-title">인바디 랭킹</h1>
                 <div className="inbody-ranking-gender-buttons">
-                    <button 
-                        className={gender === 'male' ? 'active' : ''} 
+                    <button
+                        className={gender === 'male' ? 'active' : ''}
                         onClick={() => handleGenderChange('male')}
                         data-hover-text="남성"
                     >
                         <FontAwesomeIcon icon={faMale} />
                     </button>
-                    <button 
-                        className={gender === 'female' ? 'active' : ''} 
+                    <button
+                        className={gender === 'female' ? 'active' : ''}
                         onClick={() => handleGenderChange('female')}
                         data-hover-text="여성"
                     >
@@ -116,22 +121,15 @@ const InbodyRanking = () => {
                 <div className="inbody-ranking-section-header">
                     <h2>{title}</h2>
                     <div className="inbody-ranking-period-buttons">
-                        <button 
-                            className={rankingPeriod === 'daily' ? 'active' : ''} 
-                            onClick={() => handlePeriodChange('daily')}
-                            data-hover-text="일간"
-                        >
-                            일간
-                        </button>
-                        <button 
-                            className={rankingPeriod === 'weekly' ? 'active' : ''} 
+                        <button
+                            className={rankingPeriod === 'weekly' ? 'active' : ''}
                             onClick={() => handlePeriodChange('weekly')}
                             data-hover-text="주간"
                         >
                             주간
                         </button>
-                        <button 
-                            className={rankingPeriod === 'monthly' ? 'active' : ''} 
+                        <button
+                            className={rankingPeriod === 'monthly' ? 'active' : ''}
                             onClick={() => handlePeriodChange('monthly')}
                             data-hover-text="월간"
                         >
@@ -139,21 +137,21 @@ const InbodyRanking = () => {
                         </button>
                     </div>
                 </div>
-                <ul className="inbody-ranking-list">
-                    {rankingData.length > 0 ? (
-                        rankingData.map((item, index) => (
-                            <li key={index} className="inbody-ranking-item">
-                                <span className="inbody-ranking-rank">{index + 1}</span>
-                                <span className="inbody-ranking-username">{item.username}</span>
+                {rankingData.length > 0 ? (
+                    <ul className="inbody-ranking-list">
+                        {paddedRankingData.map((item, index) => (
+                            <li key={index} className={`inbody-ranking-item ${index < 3 ? 'top-rank' : ''}`}>
+                                <span className={`inbody-ranking-rank ${index < 3 ? `rank-${index + 1}` : ''}`}>{index + 1}</span>
+                                <span className="inbody-ranking-username">{item.username === '순위 없음' ? item.username : `[${item.branchName}] ${item.username}`}</span>
                                 <span className="inbody-ranking-body-fat-change">{item.bodyFatMassChange} kg</span>
                             </li>
-                        ))
-                    ) : (
-                        <li className="inbody-ranking-item no-data-item">
-                            <span className="no-data">데이터가 없습니다.</span>
-                        </li>
-                    )}
-                </ul>
+                        ))}
+                    </ul>
+                ) : (
+                    <div className="inbody-ranking-item no-data-item">
+                        <span className="no-data">데이터가 없습니다.</span>
+                    </div>
+                )}
             </div>
         </div>
     );

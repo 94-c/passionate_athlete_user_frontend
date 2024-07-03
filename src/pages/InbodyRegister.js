@@ -33,11 +33,7 @@ const InbodyRegister = () => {
                 navigate('/inbody');
             }
         } catch (error) {
-            if (error.response && error.response.status === 404) {
-                alert(error.response.data.message);
-            } else {
-                console.error('Failed to register inbody data', error);
-            }
+            console.error('Failed to register inbody data', error);
         }
     };
 
@@ -46,9 +42,12 @@ const InbodyRegister = () => {
             const response = await api.get('/physicals/last');
             if (response.status === 200) {
                 setLastMeasure(response.data);
+            } else {
+                setLastMeasure(null);
             }
         } catch (error) {
             console.error('Failed to fetch last measure', error);
+            setLastMeasure(null); // 에러 발생 시 lastMeasure를 null로 설정
         }
     };
 

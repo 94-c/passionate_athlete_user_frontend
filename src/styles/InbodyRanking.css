@@ -7,6 +7,7 @@
     flex-direction: column;
     align-items: center;
     font-family: Arial, sans-serif;
+    overflow: hidden; /* 스크롤을 방지 */
 }
 
 .inbody-ranking-header {
@@ -50,10 +51,11 @@
     cursor: pointer;
     color: #ff6600;
     font-size: 1.5em;
+    transition: color 0.3s;
 }
 
 .inbody-ranking-gender-buttons button.active {
-    color: #e65c00;
+    color: green; /* 활성화된 성별 버튼 색상을 녹색으로 */
 }
 
 .inbody-ranking-gender-buttons button:hover {
@@ -94,12 +96,13 @@
     padding: 20px; /* 패딩 조정 */
     border-radius: 10px;
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column; /* 요소를 수직 정렬 */
 }
 
 .inbody-ranking-highlight-bar .orange-text {
@@ -107,11 +110,16 @@
 }
 
 .inbody-ranking-highlight-bar .bell-icon {
-    margin-right: 10px; /* 아이콘과 텍스트 사이 간격 조정 */
+    margin-bottom: 10px; /* 아이콘과 텍스트 사이 간격 조정 */
+    font-size: 2em; /* 아이콘 크기 조정 */
 }
 
 .inbody-ranking-section {
     width: 100%;
+    flex-grow: 1; /* 남은 공간을 모두 차지 */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .inbody-ranking-section-header {
@@ -154,6 +162,9 @@
     list-style: none;
     padding: 0;
     width: 100%;
+    flex-grow: 1;
+    overflow-y: auto; /* 세로 스크롤 가능 */
+    margin-bottom: 20px; /* 마지막 아이템 아래 여백 추가 */
 }
 
 .inbody-ranking-item {
@@ -169,14 +180,26 @@
 }
 
 .no-data-item {
-    height: 100px;
+    height: 250px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
+.no-data-box {
+    width: 100%;
+    height: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
 .no-data {
-    font-size: 1.2em;
+    font-size: 1.5em;
     color: #ff6600;
 }
 
@@ -187,6 +210,25 @@
 .inbody-ranking-new, .inbody-ranking-change {
     font-size: 0.8em;
     color: red;
+}
+
+.top-rank {
+    font-weight: bold;
+}
+
+.rank-1 {
+    color: gold;
+    font-size: 1.5em;
+}
+
+.rank-2 {
+    color: silver;
+    font-size: 1.4em;
+}
+
+.rank-3 {
+    color: #cd7f32; /* 동색 */
+    font-size: 1.3em;
 }
 
 /* 반응형 디자인을 위한 미디어 쿼리 */

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../contexts/UserContext';
 import { api } from '../api/Api.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faIdBadge, faBell } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faIdBadge, faBell, faUser } from '@fortawesome/free-solid-svg-icons';
 import '../styles/MyPage.css';
 
 const MyPage = () => {
@@ -41,26 +41,36 @@ const MyPage = () => {
   return (
     <div className="mypage-page">
       <div className="mypage-body-info-header">
-        <h1 className="mypage-title">회원 정보</h1>
+        <h2 className="mypage-title">회원 정보</h2>
       </div>
-      <div className="user-info">
-        <div className="user-name">[{currentUser?.branchName}] {currentUser?.name} 님</div>
-      </div>
-      <div className="mypage-user-info">
-        <div className="user-actions">
-          <button className="action-item">
-            <FontAwesomeIcon icon={faEdit} className="action-icon" />
-            <div>회원정보</div>
-          </button>
-          <button className="action-item">
-            <FontAwesomeIcon icon={faIdBadge} className="action-icon" />
-            <div>회원권</div>
-          </button>
-          <button className="action-item">
-            <FontAwesomeIcon icon={faBell} className="action-icon" />
-            <div>공지사항</div>
-          </button>
+      <div className="user-header">
+        <div className="profile-pic">
+          {currentUser?.profilePicture ? (
+            <img src={currentUser.profilePicture} alt="프로필" />
+          ) : (
+            <div className="default-profile-pic">
+              <FontAwesomeIcon icon={faUser} className="default-profile-icon" />
+            </div>
+          )}
         </div>
+        <div className="user-info">
+          <div className="user-name">{currentUser?.name}</div>
+          <div className="user-branch">{currentUser?.branchName}</div>
+        </div>
+      </div>
+      <div className="user-actions">
+        <button className="action-item">
+          <FontAwesomeIcon icon={faEdit} className="action-icon" />
+          <div>회원정보</div>
+        </button>
+        <button className="action-item">
+          <FontAwesomeIcon icon={faIdBadge} className="action-icon" />
+          <div>회원권</div>
+        </button>
+        <button className="action-item">
+          <FontAwesomeIcon icon={faBell} className="action-icon" />
+          <div>공지사항</div>
+        </button>
       </div>
       {bodyInfo && (
         <>

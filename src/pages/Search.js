@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { api } from '../api/Api.js';
 import '../styles/Search.css';
 
@@ -8,6 +9,7 @@ const Search = () => {
   const [results, setResults] = useState([]);
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
+  const navigate = useNavigate();
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -41,6 +43,10 @@ const Search = () => {
     handleSearch({ preventDefault: () => {} });
   };
 
+  const handleResultClick = (id) => {
+    navigate(`/notices/${id}`);
+  };
+
   return (
     <div className="search-page">
       <div className="search-container">
@@ -63,7 +69,7 @@ const Search = () => {
         <div className="search-results">
           {results.length > 0 ? (
             results.map((result, index) => (
-              <div key={index} className="result">
+              <div key={index} className="result" onClick={() => handleResultClick(result.id)}>
                 <h2 className="result-title">{result.title}</h2>
                 <p className="result-content">{result.content}</p>
                 <div className="result-footer">

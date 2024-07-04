@@ -17,6 +17,7 @@ import InbodyStats from '../pages/InbodyStats';
 import InbodyRanking from '../pages/InbodyRanking';
 import MyPage from '../pages/MyPage';
 import UserInfo from '../pages/UserInfo';
+import UserEdit from '../pages/UserEdit';
 
 const Router = () => {
   return (
@@ -39,7 +40,8 @@ const Router = () => {
         <Route path="/inbody/status" element={<InbodyStats />} />
         <Route path="/inbody/ranking" element={<InbodyRanking />} />
         <Route path="/mypage" element={<MyPage />} />
-        <Route path="/mypage/user-info" element={<UserInfo />} />
+        <Route path="/mypage/user/info" element={<UserInfo />} />
+        <Route path="/mypage/user/edit" element={<UserEdit />} />
       </Route>
     </Routes>
   );

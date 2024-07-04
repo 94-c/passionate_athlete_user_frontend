@@ -36,7 +36,8 @@
 .search-button-head,
 .notification-button-head,
 .ranking-button-head,
-.edit-button-head { /* Add edit button class */
+.edit-button-head,
+.check-button-head {
   background-color: transparent;
   border: none;
   color: white;
@@ -49,7 +50,16 @@
 .search-button-head:hover,
 .notification-button-head:hover,
 .ranking-button-head:hover,
-.edit-button-head:hover { /* Add hover effect for edit button */
+.edit-button-head:hover,
+.check-button-head:hover {
   color: #e65c00; /* Slightly darker orange on hover */
   transform: scale(1.1); /* Slightly enlarge on hover */
+}
+
+.edit-button-container .edit-button-head {
+  color: white; /* Differentiates the edit button */
+}
+
+.edit-button-container .edit-button-head:hover {
+  color: white; /* Slightly lighter yellow on hover */
 }

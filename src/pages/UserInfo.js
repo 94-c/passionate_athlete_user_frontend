@@ -20,6 +20,19 @@ const UserInfo = () => {
     fetchUserInfo();
   }, []);
 
+  const translateRole = (role) => {
+    switch (role) {
+      case 'MANAGER':
+        return '코치';
+      case 'ADMIN':
+        return '관리자';
+      case 'USER':
+        return '회원';
+      default:
+        return role;
+    }
+  };
+
   return (
     <div className="user-info-page">
       {userInfo ? (
@@ -49,7 +62,7 @@ const UserInfo = () => {
             <strong>지점명:</strong> {userInfo.branchName}
           </div>
           <div className="user-info-item">
-            <strong>역할:</strong> {userInfo.roles.join(', ')}
+            <strong>역할:</strong> {userInfo.roles.map(translateRole).join(', ')}
           </div>
           <div className="user-info-item">
             <strong>가입일:</strong> {userInfo.createdDate}

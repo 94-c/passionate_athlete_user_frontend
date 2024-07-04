@@ -57,7 +57,7 @@ const App = () => {
     } else if (isAttendancePage) {
       if (location.pathname === '/attendance') {
         return "캘런더";
-      } else if (location.pathname === '/mypage/user-info') {
+      } else if (location.pathname === '/mypage') {
         return "마이";
       }
     } else if (isUserInfoPage) {

@@ -31,7 +31,7 @@ const Register = () => {
     useEffect(() => {
         const fetchBranches = async () => {
             try {
-                const response = await api.get('/branches/find-all');
+                const response = await api.get('/branches');
                 setBranches(response.data);
             } catch (error) {
                 console.error('지점 데이터 가져오기 오류:', error);

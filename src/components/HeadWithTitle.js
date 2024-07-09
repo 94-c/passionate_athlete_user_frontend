@@ -1,12 +1,12 @@
 import React, { useContext, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPenClip, faSearch, faBell, faTrophy, faEdit } from '@fortawesome/free-solid-svg-icons';
+import { faPenClip, faSearch, faBell, faTrophy, faEdit, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserContext } from '../contexts/UserContext';
 import InbodyTermsModal from './InbodyTermsModal';
 import '../styles/HeadWithTitle.css';
 
-const HeadWithTitle = ({ title, isAttendancePage, isInbodyPage, isUserInfoPage }) => {
+const HeadWithTitle = ({ title, isAttendancePage, isInbodyPage, isUserInfoPage, isUserEditPage }) => {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
@@ -28,7 +28,12 @@ const HeadWithTitle = ({ title, isAttendancePage, isInbodyPage, isUserInfoPage }
   };
 
   const handleEditClick = () => {
-    navigate('/mypage/user-info'); // 페이지 경로는 실제 설정된 경로로 변경 필요
+    navigate('/mypage/user/edit');
+  };
+
+  const handleCheckClick = () => {
+    // Logic for completing the edit
+    alert('회원 정보 수정 완료'); // Example action
   };
 
   const handleCloseModal = () => {
@@ -52,10 +57,7 @@ const HeadWithTitle = ({ title, isAttendancePage, isInbodyPage, isUserInfoPage }
           <button className="ranking-button-head" onClick={handleRankingClick}>
             <FontAwesomeIcon icon={faTrophy} />
           </button>
-          <button
-            className="notification-button-head"
-            onClick={handleNotificationClick}
-          >
+          <button className="notification-button-head" onClick={handleNotificationClick}>
             <FontAwesomeIcon icon={faBell} />
           </button>
         </div>
@@ -72,10 +74,17 @@ const HeadWithTitle = ({ title, isAttendancePage, isInbodyPage, isUserInfoPage }
           </button>
         </div>
       )}
-      {isUserInfoPage && (
-        <div className="head-buttons">
+      {isUserInfoPage && !isUserEditPage && (
+        <div className="head-buttons edit-button-container">
           <button className="edit-button-head" onClick={handleEditClick}>
             <FontAwesomeIcon icon={faEdit} />
+          </button>
+        </div>
+      )}
+      {isUserEditPage && (
+        <div className="head-buttons">
+          <button className="check-button-head" onClick={handleCheckClick}>
+            <FontAwesomeIcon icon={faCheck} />
           </button>
         </div>
       )}

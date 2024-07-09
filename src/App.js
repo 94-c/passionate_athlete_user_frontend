@@ -23,11 +23,11 @@ const App = () => {
   const isMainPage = location.pathname === '/main';
   const isNoticePage = location.pathname === '/notices';
   const isSearchPage = location.pathname === '/search';
-  const isNoticeFormPage = location.pathname === '/notices/register' || location.pathname === '/inbody/ranking' ;
+  const isNoticeFormPage = location.pathname === '/notices/register' || location.pathname === '/inbody/ranking' || location.pathname === '/mypage/user/edit';
   const isNoticeDetailPage = location.pathname.startsWith('/notices/');
   const isAttendancePage = location.pathname === '/attendance' || location.pathname === '/mypage';
   const isInbodyPage = location.pathname === '/inbody' || location.pathname === '/inbody/dashboard' || location.pathname === '/inbody/register' || location.pathname === '/inbody/status';
-  const isUserInfoPage = location.pathname === '/mypage/user-info';
+  const isUserInfoPage = location.pathname === '/mypage/user/info';
 
   const handleToggleFooter = (isOpen) => {
     setIsFooterOpen(isOpen);
@@ -57,7 +57,7 @@ const App = () => {
     } else if (isAttendancePage) {
       if (location.pathname === '/attendance') {
         return "캘런더";
-      } else if (location.pathname === '/mypage/user-info') {
+      } else if (location.pathname === '/mypage') {
         return "마이";
       }
     } else if (isUserInfoPage) {

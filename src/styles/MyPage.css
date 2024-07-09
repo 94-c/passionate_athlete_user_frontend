@@ -1,18 +1,17 @@
 .mypage-page {
-    padding: 10px;
+    padding: 20px;
     background-color: #fff;
     display: flex;
     flex-direction: column;
     align-items: center;
     box-sizing: border-box;
-    margin-top: 10px;
 }
 
 .user-header {
     display: flex;
     align-items: center;
     width: 100%;
-    max-width: 600px;
+    max-width: 800px; /* Increased max-width for larger screens */
     margin-bottom: 20px;
     padding: 10px;
     background-color: #fff;
@@ -73,7 +72,7 @@
     display: flex;
     justify-content: space-around;
     width: 100%;
-    max-width: 600px;
+    max-width: 800px; /* Increased max-width for larger screens */
     margin-bottom: 20px;
 }
 
@@ -106,6 +105,7 @@
 
 .mypage-body-info-header {
     width: 100%;
+    max-width: 800px; /* Increased max-width for larger screens */
     text-align: left;
     margin-bottom: 10px;
     font-size: 1.5em;
@@ -125,7 +125,7 @@
     border-radius: 10px;
     background-color: #ff6600;
     width: 100%;
-    max-width: 600px;
+    max-width: 800px; /* Increased max-width for larger screens */
     box-sizing: border-box;
     color: white;
 }

@@ -64,7 +64,7 @@ const MyPage = () => {
       </div>
       <div className="user-actions">
         <button className="action-item">
-          <FontAwesomeIcon icon={faEdit} className="action-icon" onClick={() => handleNavigate('/mypage/user-info')} />
+          <FontAwesomeIcon icon={faEdit} className="action-icon" onClick={() => handleNavigate('/mypage/user/info')} />
           <div>회원정보</div>
         </button>
         <button className="action-item">

@@ -53,7 +53,7 @@ const NoticeDetail = () => {
           setIsEditing(false);
         })
         .catch((error) => {
-          setError('게시물 수정에 실패하였습니다.');
+          setError('Failed to edit post.');
         });
     } else {
       setIsEditing(true);
@@ -61,7 +61,7 @@ const NoticeDetail = () => {
   };
 
   const handleDelete = async () => {
-    if (window.confirm('게시물을 삭제하시겠습니까?')) {
+    if (window.confirm('Are you sure you want to delete this post?')) {
       try {
         await api.put(`/notices/${id}/is-active`, { isActive: false });
         navigate('/notices');
@@ -84,7 +84,19 @@ const NoticeDetail = () => {
       }
     } catch (error) {
       console.error('Error liking/unliking post', error);
-      setError('Error liking/unliking post');
+      if (error.response && error.response.data && error.response.data.message === '이미 좋아요를 누르셨습니다.') {
+        alert('이미 좋아요를 누르셨습니다.');
+      } else {
+        setError('Failed to update like status. Please try again.');
+      }
+  
+      if (!liked) {
+        setLikeCount((prev) => prev - 1);
+        setLiked(false);
+      } else {
+        setLikeCount((prev) => prev + 1);
+        setLiked(true);
+      }
     }
   };
 

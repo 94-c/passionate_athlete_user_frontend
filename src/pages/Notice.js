@@ -33,17 +33,13 @@ const Notice = () => {
         page: page,
         perPage: 5,
         status: true,
-        kindId: kind !== null ? kind : 0, // Set kindId to 0 if it's null
+        kindId: kind !== 0 ? kind : null, // null로 설정하여 모든 게시물 가져오기
       };
-
-      const response = await api.get('/notices', { params });
-
-      // 데이터 로그 확인
-      console.log('Response data:', response.data);
-
-      if (response.data && Array.isArray(response.data)) {
-        setPosts(response.data);
-        setTotalPages(Math.ceil(response.data.length / params.perPage)); // 페이지 계산 로직 수정
+      const response = await api.get('/notices/search', { params });
+  
+      if (response.data && response.data.content) {
+        setPosts(response.data.content);
+        setTotalPages(response.data.totalPages);
       } else {
         console.error('Unexpected response format:', response.data);
       }

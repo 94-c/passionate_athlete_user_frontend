@@ -91,7 +91,7 @@ const NoticeForm = () => {
 
     try {
       const formData = new FormData();
-      formData.append('noticeJson', JSON.stringify(notice)); // JSON 문자열로 변환
+      formData.append('noticeJson', new Blob([JSON.stringify(notice)], { type: 'application/json' }));
       files.forEach((file) => {
         formData.append('files', file);
       });

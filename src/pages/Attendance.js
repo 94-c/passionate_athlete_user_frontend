@@ -69,7 +69,7 @@ const Attendance = () => {
       if (error.response && error.response.status === 404) {
         setError(error.response.data.message);
       } else {
-        setError("Failed to fetch attendance data.");
+        setError("출석을 하지 않으셨습니다.");
       }
     } finally {
       setLoading(false);

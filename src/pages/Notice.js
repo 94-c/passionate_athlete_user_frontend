@@ -33,12 +33,12 @@ const Notice = () => {
         page: page,
         perPage: 5,
         status: true,
-        kindId: kind !== null ? kind : 0, // Set kindId to 0 if it's null
+        kindId: kind !== 0 ? kind : null, // null로 설정하여 모든 게시물 가져오기
       };
-
-      const response = await api.get('/notices', { params });
-
-      if (response.data && Array.isArray(response.data.content)) {
+  
+      const response = await api.get('/notices/search', { params });
+  
+      if (response.data && response.data.content) {
         setPosts(response.data.content);
         setTotalPages(response.data.totalPages);
       } else {

@@ -53,35 +53,32 @@ const NoticeForm = () => {
     setFiles([...event.target.files]);
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+const handleSubmit = async (event) => {
+  event.preventDefault();
 
-    const notice = {
-      kind: kind,
-      title: title,
-      content: content,
-    };
-
-    try {
-      if (files.length === 0) {
-        await postData('/notices', notice);
-      } else {
-        const formData = new FormData();
-        formData.append('notice', new Blob([JSON.stringify(notice)], { type: 'application/json' }));
-        files.forEach((file) => {
-          formData.append('file', file);
-        });
-
-        await postData('/notices', formData, true);
-      }
-
-      alert('게시글이 성공적으로 등록되었습니다.');
-      navigate('/notices');
-    } catch (error) {
-      console.error('Error:', error);
-      alert('게시글 등록 중 오류가 발생했습니다.');
-    }
+  const notice = {
+    kindId: kind,
+    title: title,
+    content: content,
   };
+
+  try {
+    const formData = new FormData();
+    formData.append('notice', new Blob([JSON.stringify(notice)], { type: 'application/json' }));
+
+    files.forEach((file) => {
+      formData.append('files', file);
+    });
+
+    await postData('/notices', formData, true);
+
+    alert('게시글이 성공적으로 등록되었습니다.');
+    navigate('/notices');
+  } catch (error) {
+    console.error('Error:', error);
+    alert('게시글 등록 중 오류가 발생했습니다.');
+  }
+};
 
   const handleClose = () => {
     navigate('/notices');

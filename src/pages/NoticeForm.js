@@ -1,16 +1,17 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes, faCamera } from '@fortawesome/free-solid-svg-icons';
+import { faTimes, faCamera, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { postData, getData } from '../api/Api.js';
 import '../styles/NoticeForm.css';
 import { UserContext } from '../contexts/UserContext';
 
 const NoticeForm = () => {
-  const [kind, setKind] = useState('');
+  const [kindId, setKindId] = useState('');
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [files, setFiles] = useState([]);
+  const [previewImgUrls, setPreviewImgUrls] = useState([]);
   const [noticeTypes, setNoticeTypes] = useState([]);
   const { user: currentUser } = useContext(UserContext);
   const navigate = useNavigate();
@@ -38,7 +39,7 @@ const NoticeForm = () => {
   }, [currentUser]);
 
   const handleKindChange = (event) => {
-    setKind(event.target.value);
+    setKindId(event.target.value);
   };
 
   const handleTitleChange = (event) => {
@@ -50,30 +51,52 @@ const NoticeForm = () => {
   };
 
   const handleFileChange = (event) => {
-    setFiles([...event.target.files]);
+    const selectedFiles = [...event.target.files];
+    setFiles(selectedFiles);
+
+    const fileReaders = selectedFiles.map(file => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+      return fileReader;
+    });
+
+    Promise.all(fileReaders.map(fr => {
+      return new Promise(resolve => {
+        fr.onload = () => {
+          resolve(fr.result);
+        };
+      });
+    })).then(imgUrls => {
+      setPreviewImgUrls(imgUrls);
+    });
+  };
+
+  const handleDeleteImg = (index) => {
+    const newFiles = [...files];
+    const newPreviewImgUrls = [...previewImgUrls];
+    newFiles.splice(index, 1);
+    newPreviewImgUrls.splice(index, 1);
+    setFiles(newFiles);
+    setPreviewImgUrls(newPreviewImgUrls);
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     const notice = {
-      kind: kind,
+      kindId: kindId,
       title: title,
       content: content,
     };
 
     try {
-      if (files.length === 0) {
-        await postData('/notices', notice);
-      } else {
-        const formData = new FormData();
-        formData.append('notice', new Blob([JSON.stringify(notice)], { type: 'application/json' }));
-        files.forEach((file) => {
-          formData.append('file', file);
-        });
+      const formData = new FormData();
+      formData.append('noticeJson', JSON.stringify(notice)); // JSON 문자열로 변환
+      files.forEach((file) => {
+        formData.append('files', file);
+      });
 
-        await postData('/notices', formData, true);
-      }
+      await postData('/notices', formData, true);
 
       alert('게시글이 성공적으로 등록되었습니다.');
       navigate('/notices');
@@ -102,7 +125,8 @@ const NoticeForm = () => {
           </div>
         </div>
         <div className="post-form-content">
-          <select className="board-select" value={kind} onChange={handleKindChange}>
+          <select className="board-select" value={kindId} onChange={handleKindChange}>
+            <option value="" disabled>게시판 종류 선택</option>
             {noticeTypes.map((type) => (
               <option key={type.id} value={type.id}>
                 {type.type}
@@ -112,6 +136,18 @@ const NoticeForm = () => {
           <input type="text" className="post-form-title" placeholder="제목" value={title} onChange={handleTitleChange} />
           <textarea className="post-form-textarea" placeholder="내용을 입력하세요." value={content} onChange={handleContentChange} />
           <input type="file" className="file-input" style={{ display: 'none' }} onChange={handleFileChange} multiple />
+          {previewImgUrls.length > 0 && (
+            <div className="preview-img-wrap">
+              {previewImgUrls.map((imgUrl, index) => (
+                <div key={index} className="preview-img-container">
+                  <img src={imgUrl} alt="이미지 미리보기" className="preview-img" />
+                  <button type="button" className="delete-img-button" onClick={() => handleDeleteImg(index)}>
+                    <FontAwesomeIcon icon={faTrashAlt} />
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
         <div className="post-form-footer">
           <button type="button" className="footer-icon" onClick={() => document.querySelector('.file-input').click()}>

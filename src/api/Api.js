@@ -30,7 +30,6 @@ api.interceptors.response.use(
   }
 );
 
-
 export const getData = async (url, config = {}) => {
   try {
     const response = await api.get(url, config);

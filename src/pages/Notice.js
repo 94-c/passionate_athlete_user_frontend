@@ -38,9 +38,12 @@ const Notice = () => {
 
       const response = await api.get('/notices', { params });
 
-      if (response.data && Array.isArray(response.data.content)) {
-        setPosts(response.data.content);
-        setTotalPages(response.data.totalPages);
+      // 데이터 로그 확인
+      console.log('Response data:', response.data);
+
+      if (response.data && Array.isArray(response.data)) {
+        setPosts(response.data);
+        setTotalPages(Math.ceil(response.data.length / params.perPage)); // 페이지 계산 로직 수정
       } else {
         console.error('Unexpected response format:', response.data);
       }
@@ -55,7 +58,7 @@ const Notice = () => {
 
   useEffect(() => {
     fetchPosts();
-  }, [fetchPosts, kind]); // 추가: kind 상태가 변경될 때마다 fetchPosts 호출
+  }, [fetchPosts, kind]);
 
   const handlePageClick = (pageNum) => {
     setPage(pageNum);

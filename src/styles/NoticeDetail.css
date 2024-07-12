@@ -3,6 +3,7 @@
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow-x: auto; /* 가로 스크롤 활성화 */
 }
 
 .notice-detail-header {
@@ -49,6 +50,14 @@
   font-size: 16px;
   line-height: 1.6;
   margin-bottom: 20px;
+  overflow-x: auto; /* 가로 스크롤 활성화 */
+  white-space: pre-wrap; /* 내용 줄바꿈 유지 */
+  word-wrap: break-word; /* 단어가 너무 길 경우 줄바꿈 */
+}
+
+.notice-detail img {
+  max-width: 100%; /* 이미지의 최대 너비를 부모 요소의 너비에 맞춤 */
+  height: auto; /* 높이를 자동으로 조정 */
 }
 
 .notice-detail .post-actions {
@@ -225,4 +234,13 @@
 .edit-comment-actions button:hover {
   background-color: #ff6600;
   color: #fff;
+}
+
+.notice-detail .post-content {
+  font-size: 16px;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  max-height: 60vh; /* 최대 높이 설정 */
+  overflow-y: auto; /* 세로 스크롤 추가 */
+  word-wrap: break-word; /* 단어가 너무 길 경우 줄 바꿈 */
 }

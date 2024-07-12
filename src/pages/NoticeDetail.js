@@ -147,7 +147,11 @@ const NoticeDetail = () => {
       ) : (
         <>
           <h2 className="post-title">{post.title}</h2>
-          <div className="post-content">{post.content}</div>
+          <div
+            className="post-content"
+            dangerouslySetInnerHTML={{ __html: post.content }}
+            style={{ maxWidth: '100%', overflowX: 'auto', maxHeight: '60vh', overflowY: 'auto' }} // 스크롤을 추가
+          />
         </>
       )}
       <div className="post-meta">

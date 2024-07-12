@@ -243,11 +243,11 @@ const Register = () => {
                                     <i className="fas fa-weight"></i>
                                         <input
                                             type="number"
-                                            id="weight"
-                                            name="weight"
+                                            id="height"
+                                            name="height"
                                             className="form-control"
                                             placeholder="키 (cm)"
-                                            value={form.weight}
+                                            value={form.height}
                                             onChange={handleChange}
                                         />
                                     </div>
@@ -255,11 +255,11 @@ const Register = () => {
                                         <i className="fas fa-ruler-vertical"></i>
                                         <input
                                             type="number"
-                                            id="height"
-                                            name="height"
+                                            id="weight"
+                                            name="weight"
                                             className="form-control"
                                             placeholder="몸무게 (kg)"
-                                            value={form.height}
+                                            value={form.weight}
                                             onChange={handleChange}
                                         />
                                     </div>

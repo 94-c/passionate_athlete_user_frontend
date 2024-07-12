@@ -6,6 +6,8 @@
   color: black;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
+  height: 100vh; /* 페이지 높이를 전체 화면에 맞춤 */
+  box-sizing: border-box;
 }
 
 .post-form-header {
@@ -49,8 +51,7 @@
 }
 
 .board-select,
-.post-form-title,
-.post-form-textarea {
+.post-form-title {
   background-color: #ffffff;
   border: 1px solid #ddd;
   border-radius: 5px;
@@ -68,14 +69,47 @@
 .post-form-textarea {
   flex-grow: 1;
   resize: none;
-  height: 350px; /* 기존 height 값보다 크게 설정 */
+  height: 50vh; /* 에디터 높이 설정 */
   margin-bottom: 10px; /* 추가: textarea와 footer 사이의 간격 */
 }
 
-.post-form-footer {
+@media (max-width: 768px) {
+  .post-form-page {
+    padding: 10px;
+  }
+  .post-form-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .submit-button {
+    margin-top: 10px;
+  }
+  .post-form-title {
+    font-size: 18px;
+  }
+  .post-form-content {
+    margin-bottom: 20px;
+  }
+}
+
+.preview-img-container {
   display: flex;
-  justify-content: flex-end;
-  padding: 10px 0;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.preview-img {
+  max-width: 100px;
+  max-height: 100px;
+  margin-right: 10px;
+}
+
+.delete-img-button {
+  background: none;
+  border: none;
+  color: red;
+  cursor: pointer;
+  font-size: 16px;
 }
 
 .footer-icon {

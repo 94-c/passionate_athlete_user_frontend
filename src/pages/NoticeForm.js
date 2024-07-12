@@ -1,7 +1,9 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faCamera, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 import { postData, getData } from '../api/Api.js';
 import '../styles/NoticeForm.css';
 import { UserContext } from '../contexts/UserContext';
@@ -15,6 +17,7 @@ const NoticeForm = () => {
   const [noticeTypes, setNoticeTypes] = useState([]);
   const { user: currentUser } = useContext(UserContext);
   const navigate = useNavigate();
+  const quillRef = useRef(null);
 
   useEffect(() => {
     const fetchNoticeTypes = async () => {
@@ -46,13 +49,13 @@ const NoticeForm = () => {
     setTitle(event.target.value);
   };
 
-  const handleContentChange = (event) => {
-    setContent(event.target.value);
+  const handleContentChange = (value) => {
+    setContent(value);
   };
 
   const handleFileChange = (event) => {
     const selectedFiles = [...event.target.files];
-    setFiles(selectedFiles);
+    setFiles([...files, ...selectedFiles]);
 
     const fileReaders = selectedFiles.map(file => {
       const fileReader = new FileReader();
@@ -67,7 +70,15 @@ const NoticeForm = () => {
         };
       });
     })).then(imgUrls => {
-      setPreviewImgUrls(imgUrls);
+      setPreviewImgUrls([...previewImgUrls, ...imgUrls]);
+
+      // 텍스트 에디터에 이미지 URL 삽입
+      const quill = quillRef.current.getEditor();
+      imgUrls.forEach(url => {
+        const range = quill.getSelection();
+        quill.insertEmbed(range.index, 'image', url);
+        quill.setSelection(range.index + 1);
+      });
     });
   };
 
@@ -87,6 +98,7 @@ const NoticeForm = () => {
       kindId: kindId,
       title: title,
       content: content,
+      status: true  // isStatus 값을 true로 설정
     };
 
     try {
@@ -134,7 +146,28 @@ const NoticeForm = () => {
             ))}
           </select>
           <input type="text" className="post-form-title" placeholder="제목" value={title} onChange={handleTitleChange} />
-          <textarea className="post-form-textarea" placeholder="내용을 입력하세요." value={content} onChange={handleContentChange} />
+          <ReactQuill
+            ref={quillRef}
+            value={content}
+            onChange={handleContentChange}
+            modules={{
+              toolbar: {
+                container: [
+                  [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
+                  [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                  ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+                  [{ 'align': [] }],
+                  ['link', 'image'],
+                  ['clean']
+                ],
+              }
+            }}
+            formats={[
+              'header', 'font', 'list', 'bullet', 'bold', 'italic', 'underline', 'strike', 'blockquote', 'align', 'link', 'image'
+            ]}
+            placeholder="내용을 입력하세요."
+            style={{ height: '50vh', marginBottom: '20px' }}  // 에디터 높이 조정
+          />
           <input type="file" className="file-input" style={{ display: 'none' }} onChange={handleFileChange} multiple />
           {previewImgUrls.length > 0 && (
             <div className="preview-img-wrap">
@@ -148,11 +181,6 @@ const NoticeForm = () => {
               ))}
             </div>
           )}
-        </div>
-        <div className="post-form-footer">
-          <button type="button" className="footer-icon" onClick={() => document.querySelector('.file-input').click()}>
-            <FontAwesomeIcon icon={faCamera} />
-          </button>
         </div>
       </form>
     </div>

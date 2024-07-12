@@ -66,7 +66,10 @@ const Notice = () => {
   };
 
   const truncateContent = (content) => {
-    return content.length > 20 ? content.substring(0, 20) + '... 더보기' : content;
+    const tempElement = document.createElement('div');
+    tempElement.innerHTML = content;
+    const textContent = tempElement.textContent || tempElement.innerText || "";
+    return textContent.length > 20 ? textContent.substring(0, 20) + '... 더보기' : textContent;
   };
 
   const getKindLabel = (kind) => {

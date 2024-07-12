@@ -32,8 +32,7 @@ const HeadWithTitle = ({ title, isAttendancePage, isInbodyPage, isUserInfoPage, 
   };
 
   const handleCheckClick = () => {
-    // Logic for completing the edit
-    alert('회원 정보 수정 완료'); // Example action
+    alert('회원 정보 수정 완료'); 
   };
 
   const handleCloseModal = () => {

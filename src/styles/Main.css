@@ -1,117 +1,127 @@
-.main-page {
-    padding: 0;
-    margin-top: 0;
-    display: flex;
-    flex-direction: column;
-    transform: scale(0.8); 
-    transform-origin: top center; 
-  }
-  
-  .header-container {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    padding: 20px;
-    background-color: #ffffff; /* 헤더 배경색 설정 */
-    margin-bottom: 15px;
-  }
-  
-  .head-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    background-color: #fff; /* 헤드 배경색 설정 */
-    margin-bottom: -40px; /* 여백 설정 */
-  }
-  
-  .logo {
-    max-width: 100%;
-    height: auto;
-    object-fit: cover;
-  }
-  
+/* Main.css */
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow-x: auto; /* 가로 스크롤 추가 */
+  white-space: nowrap;
+  margin-bottom: 20px;
+  -webkit-overflow-scrolling: touch; /* 스크롤 부드럽게 */
+  transform: scale(0.8); /* 전체 퍼센트치 줄임 */
+  transform-origin: top center; /* 축소시 기준점 설정 */
+}
+
+.header-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 20px;
+  background-color: #ffffff;
+  margin-bottom: 15px;
+}
+
+.head-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-color: #fff;
+  margin-bottom: -40px;
+}
+
+.logo {
+  max-width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.button-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 20px;
+  width: 100%;
+  max-width: 1200px;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.button-item {
+  position: relative;
+  background-color: #ff6600e3;
+  border: none;
+  border-radius: 20px;
+  height: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.button-item:hover {
+  background-color: #ff8c00e4;
+}
+
+.main-button-icon {
+  font-size: 40px;
+  color: white;
+  pointer-events: none;
+}
+
+.main-button-title {
+  position: absolute;
+  bottom: 8px;
+  right: 16px;
+  color: white;
+  font-size: 1.2em;
+  font-weight: bold;
+  z-index: 10;
+}
+
+@media (min-width: 360px) {
   .button-container {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-gap: 20px;
-    width: 100%;
-    max-width: 1200px; /* 최대 너비 설정 */
-    text-align: center;
-    margin: 0 auto; /* 가운데 정렬 */
+    grid-template-columns: 1fr 1fr;
   }
-  
-  .button-item {
-    position: relative;
-    background-color: #ff6600e3; /* 버튼 배경색 설정 */
-    border: none;
-    border-radius: 20px;
-    height: 150px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    cursor: pointer;
-    transition: background-color 0.3s;
+  .button-item:nth-child(1),
+  .button-item:nth-child(4) {
+    grid-column: span 2;
   }
-  
-  .button-item:hover {
-    background-color: #ff8c00e4; /* 호버시 배경색 변경 */
-  }
-  
-  .main-button-icon {
-    font-size: 40px; /* 아이콘 크기 설정 */
-    color: white;
-    pointer-events: none;
-  }
-  
-  .main-button-title {
-    position: absolute;
-    bottom: 8px;
-    right: 16px;
-    color: white;
-    font-size: 1.2em;
-    font-weight: bold;
-    z-index: 10;
-  }
-  
-  /* 반응형 디자인 */
-  @media (min-width: 360px) {
-    .button-container {
-        grid-template-columns: 1fr 1fr;
-    }
-    .button-item:nth-child(1),
-    .button-item:nth-child(4) {
-        grid-column: span 2;
-    }
 }
 
 @media (min-width: 576px) {
-    .button-container {
-        grid-template-columns: 1fr 1fr;
-    }
-    .button-item:nth-child(1),
-    .button-item:nth-child(4) {
-        grid-column: span 2;
-    }
+  .button-container {
+    grid-template-columns: 1fr 1fr;
+  }
+  .button-item:nth-child(1),
+  .button-item:nth-child(4) {
+    grid-column: span 2;
+  }
 }
 
 @media (min-width: 768px) {
-    .button-container {
-        grid-template-columns: 1fr 1fr;
-    }
-    .button-item:nth-child(1),
-    .button-item:nth-child(4) {
-        grid-column: span 2;
-    }
+  .button-container {
+    grid-template-columns: 1fr 1fr;
+  }
+  .button-item:nth-child(1),
+  .button-item:nth-child(4) {
+    grid-column: span 2;
+  }
 }
 
 @media (min-width: 1024px) {
-    .button-container {
-        grid-template-columns: 1fr 1fr;
-    }
-    .button-item:nth-child(1),
-    .button-item:nth-child(4) {
-        grid-column: span 2;
-    }
+  .button-container {
+    grid-template-columns: 1fr 1fr;
+  }
+  .button-item:nth-child(1),
+  .button-item:nth-child(4) {
+    grid-column: span 2;
+  }
 }

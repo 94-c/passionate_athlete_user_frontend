@@ -20,7 +20,7 @@ const Main = () => {
   };
 
   return (
-    <div className="main-page">
+    <div className="main-content">
       <Head />
       <Header />
       <div className="button-container">

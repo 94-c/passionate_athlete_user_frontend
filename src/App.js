@@ -78,30 +78,32 @@ const App = () => {
         {isNoticePage || isAttendancePage || isInbodyPage || isUserInfoPage ? ( 
           <>
             <HeadWithTitle title={getTitle()} isAttendancePage={isAttendancePage} isInbodyPage={isInbodyPage} isUserInfoPage={isUserInfoPage} />
-            <AppRoutes />
-            <Footer onToggle={handleToggleFooter} />
+            <div className="main-page">
+              <AppRoutes />
+            </div>
           </>
         ) : isSearchPage ? (
           <>
-            <AppRoutes />
-            <Footer onToggle={handleToggleFooter} />
+            <div className="main-page">
+              <AppRoutes />
+            </div>
           </>
         ) : isNoticeFormPage ? (
-          <div id="root">
+          <div className="main-page">
             <AppRoutes />
           </div>
         ) : isNoticeDetailPage ? (
-          <div id="root">
+          <div className="main-page">
             <AppRoutes />
           </div>
         ) :  (
           <>
-            <div className="container">
+            <div className="main-page">
               <AppRoutes />
             </div>
-            <Footer onToggle={handleToggleFooter} />
           </>
         )}
+        <Footer onToggle={handleToggleFooter} />
       </div>
     </UserProvider>
   );

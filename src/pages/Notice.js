@@ -136,12 +136,12 @@ const Notice = () => {
         <div className="posts">
           {posts.map((post, index) => (
             <div key={index} className="post" onClick={() => handlePostClick(post.id)}>
-              <h2 className="post-title">[{post.kind}] {post.title}</h2>
+              <h2 className="post-title">{getKindLabel(post.kindId)} {post.title}</h2>
               <p className="post-content">{truncateContent(post.content)}</p>
               <div className="post-footer">
                 <span className="post-author">[{currentUser.branchName}] {post.userName}</span> · <span className="post-date">{post.createdDate}</span>
                 <div className="post-actions">
-                  <span className="post-likes">❤ {post.likeCount}</span>
+                  <span className="post-likes" style={{ color: post.likeCount > 0 ? 'red' : 'inherit' }}>❤ {post.likeCount}</span>
                   <span className="post-comments">💬 {post.comments.length}</span>
                 </div>
               </div>

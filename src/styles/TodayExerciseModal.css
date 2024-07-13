@@ -1,5 +1,5 @@
-/* TodayExerciseModal.css */
-.today-modal {
+/* styles/TodayExerciseModal.css */
+.modal {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -10,21 +10,21 @@
     width: 100%;
     height: 100%;
     overflow: auto;
-    background: rgba(0, 0, 0, 0.5); /* Background with transparency */
 }
 
-.today-modal-content {
+.modal-content {
     background-color: #1e1e1e; /* Dark background color */
-    padding: 20px; /* Adjusted padding */
+    padding: 20px;
     border-radius: 10px;
-    width: 90%; /* Adjusted width */
+    width: 90%;
     max-width: 500px;
-    max-height: 90%; /* Ensure the modal doesn't exceed 90% of the viewport height */
+    max-height: 80%; /* Ensure the modal doesn't exceed 80% of the viewport height */
     overflow-y: auto; /* Add vertical scrollbar if content exceeds max-height */
     position: relative; /* Position relative to place close button */
 }
 
-.today-close-button {
+/* Close button styles */
+.close-button {
     position: absolute;
     top: 10px;
     right: 10px;
@@ -33,8 +33,8 @@
     font-weight: bold;
 }
 
-.today-close-button:hover,
-.today-close-button:focus {
+.close-button:hover,
+.close-button:focus {
     color: white;
     text-decoration: none;
     cursor: pointer;
@@ -42,25 +42,25 @@
 
 /* Responsive styles */
 @media (max-width: 768px) {
-    .today-modal-content {
+    .modal-content {
         width: 95%; /* Adjust width for smaller screens */
-        padding: 15px; /* Adjusted padding */
-        max-height: 100%; /* Use full height for small screens */
+        padding: 15px;
+        max-height: 70%; /* Adjust max-height for smaller screens */
     }
     
-    .today-close-button {
+    .close-button {
         font-size: 24px; /* Adjust close button size for smaller screens */
     }
 }
 
 @media (max-width: 480px) {
-    .today-modal-content {
+    .modal-content {
         width: 100%; /* Adjust width for very small screens */
-        padding: 10px; /* Adjusted padding */
-        max-height: 100%; /* Use full height for very small screens */
+        padding: 10px;
+        max-height: 60%; /* Increase max-height for very small screens */
     }
     
-    .today-close-button {
+    .close-button {
         font-size: 20px; /* Adjust close button size for very small screens */
     }
 }
@@ -73,6 +73,7 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     word-wrap: break-word; /* Ensure long words break to the next line */
     overflow-wrap: break-word; /* Ensure long words break to the next line */
+    white-space: pre-wrap; /* Preserve whitespace and wrap text as necessary */
 }
 
 .exercise-header {
@@ -80,6 +81,7 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
+    flex-wrap: wrap; /* Allow items to wrap within the header */
 }
 
 .exercise-title {
@@ -110,20 +112,23 @@
     margin-bottom: 5px;
     word-wrap: break-word; /* Ensure long words break to the next line */
     overflow-wrap: break-word; /* Ensure long words break to the next line */
+    white-space: pre-wrap; /* Preserve whitespace and wrap text as necessary */
 }
 
 .exercise-ratings {
     display: flex;
+    flex-wrap: wrap; /* Allow items to wrap */
     justify-content: space-between;
 }
 
 .ratings-group {
     width: 48%;
+    margin-bottom: 10px; /* Space between rating groups */
 }
 
 .ratings-group h4 {
     margin: 10px 0 5px;
-    color: white; /* Orange color for rating headers */
+    color: white; /* White color for rating headers */
 }
 
 .exercise-rating {
@@ -132,4 +137,5 @@
     color: #ffa500;
     word-wrap: break-word; /* Ensure long words break to the next line */
     overflow-wrap: break-word; /* Ensure long words break to the next line */
+    white-space: pre-wrap; /* Preserve whitespace and wrap text as necessary */
 }

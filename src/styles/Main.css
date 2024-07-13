@@ -14,7 +14,7 @@
   white-space: nowrap;
   margin-bottom: 20px;
   -webkit-overflow-scrolling: touch; /* 스크롤 부드럽게 */
-  transform: scale(0.8); /* 전체 퍼센트치 줄임 */
+  transform: scale(0.82); /* 전체 퍼센트치 줄임 */
   transform-origin: top center; /* 축소시 기준점 설정 */
 }
 

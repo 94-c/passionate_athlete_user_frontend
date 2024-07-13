@@ -1,6 +1,4 @@
-// TodayExerciseModal.js
 import React, { useState, useEffect, useContext, useCallback } from 'react';
-import TodayExerciseModalWrapper from './TodayExerciseModalWrapper';
 import axios from 'axios';
 import '../styles/TodayExerciseModal.css';
 import { UserContext } from '../contexts/UserContext';
@@ -26,9 +24,14 @@ const TodayExerciseModal = ({ show, handleClose }) => {
         fetchWorkouts();
     }, [fetchWorkouts]);
 
+    if (!show) {
+        return null;
+    }
+
     return (
-        <TodayExerciseModalWrapper show={show} handleClose={handleClose}>
-            <div className="today-modal-content">
+        <div className="modal">
+            <div className="modal-content">
+                <span className="close-button" onClick={handleClose}>&times;</span>
                 <h2 className="today-modal-title">오늘의 운동</h2>
                 {workouts.length > 0 ? (
                     workouts.map((workout, index) => (
@@ -68,7 +71,7 @@ const TodayExerciseModal = ({ show, handleClose }) => {
                     <p>오늘의 운동이 없습니다.</p>
                 )}
             </div>
-        </TodayExerciseModalWrapper>
+        </div>
     );
 };
 

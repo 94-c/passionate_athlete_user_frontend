@@ -28,6 +28,7 @@ const App = () => {
   const isAttendancePage = location.pathname === '/attendance' || location.pathname === '/mypage';
   const isInbodyPage = location.pathname === '/inbody' || location.pathname === '/inbody/dashboard' || location.pathname === '/inbody/register' || location.pathname === '/inbody/status';
   const isUserInfoPage = location.pathname === '/mypage/user/info';
+  const isExercisePage = location.pathname.startsWith('/exercise');
 
   const handleToggleFooter = (isOpen) => {
     setIsFooterOpen(isOpen);
@@ -62,6 +63,19 @@ const App = () => {
       }
     } else if (isUserInfoPage) {
       return "회원 정보";
+    } else if (isExercisePage) {
+      if (location.pathname === '/exercise') {
+        return "운동";
+      }
+      else if (location.pathname === '/exercise/record') {
+        return "운동 기록";
+      } else if (location.pathname === '/exercise/stats') {
+        return "운동 통계";
+      } else if (location.pathname === '/exercise/rank') {
+        return "운동 랭크";
+      } else if (location.pathname === '/exercise/board') {
+        return "운동 게시판";
+      }
     }
     return "커뮤니티";
   };
@@ -75,7 +89,7 @@ const App = () => {
   const MainContent = () => (
     <UserProvider>
       <div id="root" className={isFooterOpen ? 'footer-open' : ''}>
-        {isNoticePage || isAttendancePage || isInbodyPage || isUserInfoPage ? ( 
+        {isNoticePage || isAttendancePage || isInbodyPage || isUserInfoPage || isExercisePage ? ( 
           <>
             <HeadWithTitle title={getTitle()} isAttendancePage={isAttendancePage} isInbodyPage={isInbodyPage} isUserInfoPage={isUserInfoPage} />
             <div className="main-page">

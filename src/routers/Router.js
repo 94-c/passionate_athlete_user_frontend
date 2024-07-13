@@ -18,6 +18,11 @@ import InbodyRanking from '../pages/InbodyRanking';
 import MyPage from '../pages/MyPage';
 import UserInfo from '../pages/UserInfo';
 import UserEdit from '../pages/UserEdit';
+import Exercise from '../pages/Exercise';  // 새로운 Exercise 페이지 import 추가
+import ExerciseRecord from '../pages/ExerciseRecord';
+import ExerciseStats from '../pages/ExerciseStats';
+import ExerciseRank from '../pages/ExerciseRank';
+import ExerciseBoard from '../pages/ExerciseBoard';
 
 const Router = () => {
   return (
@@ -42,6 +47,11 @@ const Router = () => {
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/mypage/user/info" element={<UserInfo />} />
         <Route path="/mypage/user/edit" element={<UserEdit />} />
+        <Route path="/exercise" element={<Exercise />} />  // 새로운 Exercise 라우트 추가
+        <Route path="/exercise/record" element={<ExerciseRecord />} />
+        <Route path="/exercise/stats" element={<ExerciseStats />} />
+        <Route path="/exercise/rank" element={<ExerciseRank />} />
+        <Route path="/exercise/board" element={<ExerciseBoard />} />
       </Route>
     </Routes>
   );

@@ -23,6 +23,7 @@ import ExerciseRecord from '../pages/ExerciseRecord';
 import ExerciseStats from '../pages/ExerciseStats';
 import ExerciseRank from '../pages/ExerciseRank';
 import ExerciseBoard from '../pages/ExerciseBoard';
+import ExerciseMain from '../pages/ExerciseMain';
 
 const Router = () => {
   return (
@@ -52,6 +53,7 @@ const Router = () => {
         <Route path="/exercise/stats" element={<ExerciseStats />} />
         <Route path="/exercise/rank" element={<ExerciseRank />} />
         <Route path="/exercise/board" element={<ExerciseBoard />} />
+        <Route path="/exercise/main" element={<ExerciseMain />} />
       </Route>
     </Routes>
   );

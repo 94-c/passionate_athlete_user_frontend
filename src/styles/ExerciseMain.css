@@ -1,86 +1,150 @@
-.slide-in {
-    animation: slideIn 0.5s forwards;
+.exercise-main-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0 20px;
+  height: 80vh;
+  overflow-y: auto; /* 스크롤 가능하도록 설정 */
+}
+
+.exercise-main-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  background-color: white;
+  margin-bottom: 10px;
+  margin-top: 30px;
+}
+
+.exercise-main-title {
+  text-align: center;
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #ff6600;
+}
+
+.exercise-main-progress-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 0 20px 0;
+  padding: 10px 0;
+  background-color: white;
+  border-bottom: 2px solid #ff6600;
+}
+
+.exercise-main-progress-step {
+  font-size: 1em;
+  color: grey;
+  margin: 0 10px;
+  position: relative;
+}
+
+.exercise-main-progress-step.active {
+  color: #ff6600;
+  font-weight: bold;
+}
+
+.exercise-main-progress-step::after {
+  content: '>';
+  position: absolute;
+  right: -15px;
+  color: #ff6600;
+}
+
+.exercise-main-progress-step:last-child::after {
+  content: '';
+}
+
+.exercise-main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  width: 100%; /* 전체 너비 사용 */
+}
+
+.workout-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.exercise-info,
+.exercise-record {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  width: 100%; /* 반응형 레이아웃 조정을 위해 너비 설정 */
+}
+
+.exercise-info .workout-detail,
+.exercise-record .record-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.workout-info,
+.record-label {
+  margin: 0;
+  color: #333;
+  flex: 1;
+}
+
+.weight-input,
+.form-input,
+.form-select {
+  flex: 0 0 100px;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.submit-button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: #ff6600;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 20px;
+}
+
+.submit-button:hover,
+.submit-button:active {
+  background-color: #e65c00;
+}
+
+.tooltip {
+  position: absolute;
+  background-color: #333; /* 검은색 배경 */
+  color: #ff6600; /* 주황색 글씨 */
+  border-radius: 4px;
+  padding: 10px;
+  z-index: 10;
+}
+
+@media (max-width: 768px) {
+  .exercise-info,
+  .exercise-record {
+    flex: 1 1 100%; /* 작은 화면에서는 전체 너비 사용 */
   }
-  
-  .back-button {
-    margin-bottom: 20px;
-    padding: 10px 20px;
-    font-size: 18px;
-    color: #ff6600;
-    background-color: #fff;
-    border: 2px solid #ff6600;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease;
+
+  .exercise-main-title {
+    font-size: 1.2em; /* 작은 화면에서는 제목 크기 조정 */
   }
-  
-  .back-button:hover,
-  .back-button:active {
-    background-color: #ff6600;
-    color: #fff;
+
+  .weight-input,
+  .form-input,
+  .form-select {
+    flex: 1; /* 작은 화면에서는 입력 필드가 더 넓어지도록 설정 */
   }
-  
-  .today-exercise {
-    margin-bottom: 20px;
-  }
-  
-  .today-exercise h2 {
-    color: #ff6600;
-    margin-bottom: 10px;
-  }
-  
-  .workout-info {
-    background-color: #fff;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    margin-bottom: 10px;
-  }
-  
-  .workout-info h3 {
-    margin: 0;
-    color: #ff6600;
-  }
-  
-  .workout-info p {
-    margin: 5px 0;
-    color: #333;
-  }
-  
-  form label {
-    display: block;
-    margin-bottom: 10px;
-  }
-  
-  form input[type="text"],
-  form input[type="number"],
-  form select {
-    width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    margin-bottom: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-  }
-  
-  form input[type="checkbox"] {
-    margin-right: 5px;
-  }
-  
-  form button[type="submit"] {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    background-color: #ff6600;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-  }
-  
-  form button[type="submit"]:hover,
-  form button[type="submit"]:active {
-    background-color: #e65c00;
-  }
-  
+}

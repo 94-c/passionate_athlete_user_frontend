@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { UserProvider } from './contexts/UserContext';
-import HeadWithTitle from './components/HeadWithTitle';
 import Footer from './components/Footer';
 import AppRoutes from './routers/Router';
 import ErrorBoundary from './components/ErrorBoundary'; 
@@ -91,7 +90,6 @@ const App = () => {
       <div id="root" className={isFooterOpen ? 'footer-open' : ''}>
         {isNoticePage || isAttendancePage || isInbodyPage || isUserInfoPage || isExercisePage ? ( 
           <>
-            {!isExercisePage && <HeadWithTitle title={getTitle()} isAttendancePage={isAttendancePage} isInbodyPage={isInbodyPage} isUserInfoPage={isUserInfoPage} />}
             <div className="main-page">
               <AppRoutes />
             </div>

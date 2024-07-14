@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Exercise.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faDumbbell, faChartBar, faTrophy, faClipboard } from '@fortawesome/free-solid-svg-icons';
+import { faDumbbell, faChartBar, faTrophy, faClipboard, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 
 const Exercise = () => {
   const navigate = useNavigate();
@@ -13,6 +13,10 @@ const Exercise = () => {
 
   return (
     <div className="exercise-page">
+      <div className="exercise-header">
+        <h2 className="exercise-title">오늘의 운동</h2>
+        <FontAwesomeIcon icon={faQuestionCircle} className="question-icon" />
+      </div>
       <div className="exercise-container">
         <button className="exercise-btn" onClick={() => handleNavigate('/exercise/record')}>
           <FontAwesomeIcon icon={faDumbbell} className="exercise-button-icon" />

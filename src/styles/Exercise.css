@@ -1,71 +1,77 @@
 .exercise-page {
-    padding: 0;
-    margin-top: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 80vh; /* 전체 페이지의 높이를 80vh로 설정 */
-    background-color: #f8f8f8;
-  }
-  
-  .exercise-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* 2x2 형식 */
-    gap: 20px; /* 버튼 간격 */
-    width: 90%;
-    max-width: 800px; /* 최대 너비 설정 */
-  }
-  
-  .exercise-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%; /* 버튼이 컨테이너 너비를 채우도록 설정 */
-    padding: 20px;
-    font-size: 20px; /* 폰트 크기 증가 */
-    background-color: #fff; /* 흰색 배경 */
-    color: #ff6600; /* 주황색 글자 */
-    border: 2px solid #ff6600; /* 주황색 테두리 */
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease;
-  }
-  
-  .exercise-btn:hover,
-  .exercise-btn:active {
-    background-color: #ff6600; /* 주황색 배경 */
-    color: #fff; /* 흰색 글자 */
-  }
-  
-  .exercise-button-icon {
-    margin-right: 10px;
-    font-size: 24px; /* 아이콘 크기 설정 */
-    color: #ff6600; /* 아이콘 주황색 설정 */
-  }
-  
-  .exercise-btn:hover .exercise-button-icon,
-  .exercise-btn:active .exercise-button-icon {
-    color: #fff; /* 호버 및 클릭 시 아이콘 색상 변경 */
-  }
-  
-  .exercise-button-title {
-    font-weight: bold;
-  }
-  
-  /* 반응형 디자인을 위한 미디어 쿼리 */
-  @media (max-width: 768px) {
-    .exercise-container {
-      grid-template-columns: 1fr; /* 작은 화면에서는 단일 열로 배치 */
-    }
-  
-    .exercise-btn {
-      font-size: 18px; /* 작은 화면에서는 폰트 크기 조정 */
-      padding: 15px; /* 작은 화면에서는 패딩 조정 */
-    }
-  
-    .exercise-button-icon {
-      font-size: 20px; /* 작은 화면에서는 아이콘 크기 조정 */
-    }
-  }
-  
+  display: flex;
+  flex-direction: column;
+  height: 80vh;
+}
+
+.exercise-header {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* 중앙 정렬 */
+  padding: 10px;
+  background-color: white;
+  margin-top: 15px;
+  margin-bottom: -5px;
+  position: relative;
+}
+
+.exercise-title {
+  flex: 1;
+  text-align: center;
+  font-size: 1.3em;
+  font-weight: bold;
+  color: #ff6600;
+}
+
+.question-icon {
+  font-size: 1.5em;
+  cursor: pointer;
+  color: #ff6600; /* 주황색으로 변경 */
+  position: absolute;
+  right: 10px;
+}
+
+.exercise-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  flex: 1;
+  justify-content: center;
+}
+
+.exercise-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 250px;
+  padding: 15px;
+  margin: 10px;
+  font-size: 18px;
+  background-color: white;
+  border: 2px solid #ff6600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  color: #ff6600;
+}
+
+.exercise-btn:hover {
+  background-color: #ff6600;
+  color: white;
+}
+
+.exercise-button-icon {
+  margin-right: 10px;
+  color: inherit;
+}
+
+.exercise-button-title {
+  font-weight: bold;
+  color: inherit;
+}
+
+.exercise-btn:active {
+  background-color: #ff6600;
+  color: white;
+}

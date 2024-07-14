@@ -91,7 +91,7 @@ const App = () => {
       <div id="root" className={isFooterOpen ? 'footer-open' : ''}>
         {isNoticePage || isAttendancePage || isInbodyPage || isUserInfoPage || isExercisePage ? ( 
           <>
-            <HeadWithTitle title={getTitle()} isAttendancePage={isAttendancePage} isInbodyPage={isInbodyPage} isUserInfoPage={isUserInfoPage} />
+            {!isExercisePage && <HeadWithTitle title={getTitle()} isAttendancePage={isAttendancePage} isInbodyPage={isInbodyPage} isUserInfoPage={isUserInfoPage} />}
             <div className="main-page">
               <AppRoutes />
             </div>

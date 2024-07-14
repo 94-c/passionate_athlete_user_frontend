@@ -1,10 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Footer from '../components/Footer';
+import '../styles/ExerciseRecord.css';
 
 const ExerciseRecord = () => {
+  const navigate = useNavigate();
+
+  const handleNavigate = (path) => {
+    navigate(path);
+  };
+
   return (
-    <div>
-      <h1>운동 기록 페이지</h1>
-      {/* 여기에 운동 기록 입력 폼을 추가합니다 */}
+    <div className="exercise-record-page">
+      <div className="header">
+        <button className="back-button" onClick={() => navigate(-1)}>
+          <i className="fa fa-arrow-left"></i>
+        </button>
+        <h2 className="title">운동 기록을 추가해요 🏋️‍♂️</h2>
+      </div>
+      <div className="exercise-type-container">
+        <button className="exercise-type-btn" onClick={() => handleNavigate('/exercise/main')}>
+          본운동
+        </button>
+        <button className="exercise-type-btn" onClick={() => handleNavigate('/exercise/modified')}>
+          변형
+        </button>
+        <button className="exercise-type-btn" onClick={() => handleNavigate('/exercise/additional')}>
+          추가 운동
+        </button>
+      </div>
+      <Footer />
     </div>
   );
 };

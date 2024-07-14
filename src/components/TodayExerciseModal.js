@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext, useCallback } from 'react';
-import axios from 'axios';
 import '../styles/TodayExerciseModal.css';
 import { UserContext } from '../contexts/UserContext';
 import { api } from '../api/Api.js';

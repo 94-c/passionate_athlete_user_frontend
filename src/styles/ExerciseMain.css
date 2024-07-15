@@ -3,8 +3,8 @@
   flex-direction: column;
   justify-content: space-between;
   padding: 0 20px;
-  height: 95vh;
   overflow-y: auto; /* 스크롤 가능하도록 설정 */
+  margin-bottom: 150px;
 }
 
 .exercise-main-header {
@@ -72,7 +72,8 @@
 }
 
 .exercise-info,
-.exercise-record {
+.exercise-record,
+.record-content-container {
   background-color: #f9f9f9;
   padding: 20px;
   border-radius: 8px;
@@ -93,24 +94,34 @@
   margin-top: 5px;
 }
 
-.exercise-record .record-item {
+.exercise-record .record-item,
+.record-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 15px;
+  flex-wrap: wrap; /* Ensure the form elements wrap on smaller screens */
 }
 
-.exercise-record .record-item p {
+.exercise-record .record-item p,
+.record-content-title {
   flex: 1;
+  margin-bottom: 10px;
 }
 
 .exercise-record .record-item input,
-.exercise-record .record-item select {
+.exercise-record .record-item select,
+.text-editor {
   flex: 2;
   padding: 8px;
   margin-left: 10px;
   border: 1px solid #ddd;
   border-radius: 4px;
+}
+
+.text-editor .ql-container {
+  height: 200px;
+  width: 100%; /* Ensure the editor takes the full width of its container */
 }
 
 .submit-button {
@@ -142,12 +153,18 @@
 
 @media (max-width: 768px) {
   .exercise-info,
-  .exercise-record {
+  .exercise-record,
+  .record-content-container {
     flex: 1 1 100%; /* 작은 화면에서는 한 줄씩 배치 */
   }
   
   .form-input,
   .form-select {
     flex: 1; /* 작은 화면에서는 입력 필드가 더 넓어지도록 설정 */
+  }
+  
+  .text-editor .ql-container {
+    height: 150px; /* Adjust height for smaller screens */
+    width: 100%; /* Ensure the editor takes the full width on smaller screens */
   }
 }

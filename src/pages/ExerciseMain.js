@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '../api/Api.js';
 import { Tooltip } from 'react-tooltip';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 import '../styles/ExerciseMain.css';
 
 const ExerciseMain = () => {
@@ -11,6 +13,7 @@ const ExerciseMain = () => {
     rating: '',
     success: false,
     time: '',
+    recordContent: '',  // Added for the text editor content
   });
 
   useEffect(() => {
@@ -32,6 +35,7 @@ const ExerciseMain = () => {
             rating: '',
             success: false,
             time: '',
+            recordContent: '',  // Initialize the text editor content
           });
         }
       } catch (error) {
@@ -54,8 +58,21 @@ const ExerciseMain = () => {
     });
   };
 
+  const handleEditorChange = (value) => {
+    setFormData(prevState => ({
+      ...prevState,
+      recordContent: value,
+    }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!todayWorkout) {
+      console.error('Today\'s workout is not set.');
+      return;
+    }
+
     const payload = {
       scheduledWorkoutId: todayWorkout.id,
       workoutDetails: formData.workoutDetails,
@@ -63,13 +80,17 @@ const ExerciseMain = () => {
       rating: formData.rating,
       success: formData.success,
       time: formData.time,
+      recordContent: formData.recordContent,  // Include the editor content in the payload
     };
 
+    console.log('Submitting payload:', payload);
+
     try {
-      const response = await api.post('/api/workout-records', payload);
+      const response = await api.post('/workout-records', payload);
       console.log(response);
     } catch (error) {
       console.error('Error submitting workout record:', error);
+      console.error('Payload:', payload);
     }
   };
 
@@ -89,7 +110,7 @@ const ExerciseMain = () => {
         {todayWorkout ? (
           <>
             <p className="today-info">{today} 오늘의 운동 "<strong>{todayWorkout.title}</strong>"</p>
-            <div 
+            <div
               className="workout-title-container"
               data-tooltip-id="tooltip"
               data-tooltip-content={todayWorkout.workoutInfos.join('\n')}
@@ -97,21 +118,13 @@ const ExerciseMain = () => {
               <Tooltip id="tooltip" place="top" className="tooltip" />
             </div>
             <form onSubmit={handleSubmit} className="workout-form">
-              <div className="exercise-info">
-                {formData.workoutDetails.map((detail, index) => (
-                  <div key={index} className="workout-detail">
-                    <p className="workout-info">{detail.info}</p>
-                    <input type="number" name="weight" value={detail.weight} onChange={(e) => handleChange(e, index)} className="form-input weight-input" />
-                  </div>
-                ))}
-              </div>
               <div className="exercise-record">
                 <div className="record-item">
                   <p className="record-label">라운드</p>
                   <input type="number" name="rounds" value={formData.rounds} onChange={handleChange} className="form-input" />
                 </div>
                 <div className="record-item">
-                  <p className="record-label">레이팅</p>
+                  <p className="record-label">등급</p>
                   <input type="text" name="rating" value={formData.rating} onChange={handleChange} className="form-input" />
                 </div>
                 <div className="record-item">
@@ -124,6 +137,30 @@ const ExerciseMain = () => {
                 <div className="record-item">
                   <p className="record-label">성공 시간</p>
                   <input type="text" name="time" value={formData.time} onChange={handleChange} className="form-input" />
+                </div>
+              </div>
+              <div className="record-content-container">
+                <h3 className="record-content-title">기록 일지 작성</h3>
+                <div className="record-content">
+                  <ReactQuill
+                    value={formData.recordContent}
+                    onChange={handleEditorChange}
+                    modules={{
+                      toolbar: [
+                        [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
+                        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                        ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+                        [{ 'align': [] }],
+                        ['link', 'image'],
+                        ['clean']
+                      ],
+                    }}
+                    formats={[
+                      'header', 'font', 'list', 'bullet', 'bold', 'italic', 'underline', 'strike', 'blockquote', 'align', 'link', 'image'
+                    ]}
+                    placeholder="기록 내용을 입력하세요."
+                    className="text-editor"
+                  />
                 </div>
               </div>
               <button type="submit" className="submit-button">기록 등록</button>

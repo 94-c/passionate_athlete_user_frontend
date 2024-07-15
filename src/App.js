@@ -4,7 +4,7 @@ import { UserProvider } from './contexts/UserContext';
 import HeadWithTitle from './components/HeadWithTitle';
 import Footer from './components/Footer';
 import AppRoutes from './routers/Router';
-import ErrorBoundary from './components/ErrorBoundary'; 
+import ErrorBoundary from './components/ErrorBoundary';
 
 import './styles/App.css';
 import './styles/Login.css';
@@ -89,7 +89,7 @@ const App = () => {
   const MainContent = () => (
     <UserProvider>
       <div id="root" className={isFooterOpen ? 'footer-open' : ''}>
-        {isNoticePage || isAttendancePage || isInbodyPage || isUserInfoPage || isExercisePage ? ( 
+        {isNoticePage || isAttendancePage || isInbodyPage || isUserInfoPage || isExercisePage ? (
           <>
             {!isExercisePage && <HeadWithTitle title={getTitle()} isAttendancePage={isAttendancePage} isInbodyPage={isInbodyPage} isUserInfoPage={isUserInfoPage} />}
             <div className="main-page">
@@ -110,7 +110,7 @@ const App = () => {
           <div className="main-page">
             <AppRoutes />
           </div>
-        ) :  (
+        ) : (
           <>
             <div className="main-page">
               <AppRoutes />

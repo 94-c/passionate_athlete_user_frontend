@@ -144,7 +144,19 @@ const ExerciseMain = () => {
                 </div>
                 <div className="record-item">
                   <p className="record-label">등급</p>
-                  <input type="text" name="rating" value={formData.rating} onChange={handleChange} className="form-input" />
+                  <select name="rating" value={formData.rating} onChange={handleChange} className="form-select">
+                    <option value="">등급을 선택하세요</option>
+                    <option value="SS+">SS+</option>
+                    <option value="SS">SS</option>
+                    <option value="S+">S+</option>
+                    <option value="S">S</option>
+                    <option value="A+">A+</option>
+                    <option value="A">A</option>
+                    <option value="B+">B+</option>
+                    <option value="B">B</option>
+                    <option value="C+">C+</option>
+                    <option value="C">C</option>
+                  </select>
                 </div>
                 <div className="record-item">
                   <p className="record-label">성공 여부</p>
@@ -159,7 +171,6 @@ const ExerciseMain = () => {
                 </div>
               </div>
               <div className="record-content-container">
-                <h3 className="record-content-title">기록 일지 작성</h3>
                 <div className="record-content">
                   <QuillWrapper
                     value={formData.recordContent}

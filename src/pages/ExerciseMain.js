@@ -5,6 +5,7 @@ import { Tooltip } from 'react-tooltip';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import '../styles/ExerciseMain.css';
+import moment from 'moment';
 
 const QuillWrapper = (props) => {
   const ref = useRef(null);
@@ -26,7 +27,7 @@ const ExerciseMain = () => {
     rounds: '',
     rating: '',
     success: false,
-    time: '',
+    duration: '',
     recordContent: '',  // Added for the text editor content
   });
   const tooltipRef = useRef(null);
@@ -49,7 +50,7 @@ const ExerciseMain = () => {
             rounds: workout.rounds,
             rating: '',
             success: false,
-            time: '',
+            duration: '',
             recordContent: '',  // Initialize the text editor content
           });
         }
@@ -66,11 +67,32 @@ const ExerciseMain = () => {
       const updatedWorkoutDetails = [...prevState.workoutDetails];
       if (name === 'weight') {
         updatedWorkoutDetails[index] = { ...updatedWorkoutDetails[index], weight: value };
+      } else if (name === 'duration') {
+        const formattedValue = formatDuration(value);
+        return { ...prevState, duration: formattedValue };
       } else {
         return { ...prevState, [name]: value };
       }
       return { ...prevState, workoutDetails: updatedWorkoutDetails };
     });
+  };
+
+  const formatDuration = (value) => {
+    // Remove non-numeric characters
+    const numericValue = value.replace(/\D/g, '');
+    // Limit to 4 characters
+    if (numericValue.length > 4) {
+      return formData.duration;
+    }
+    // Format as mm:ss
+    if (numericValue.length <= 2) {
+      return numericValue;
+    } else if (numericValue.length === 2) {
+      return numericValue.charAt(0) + ':' + numericValue.slice(1);
+    } else if (numericValue.length === 4) {
+      return numericValue.slice(0, 2) + ':' + numericValue.slice(2);
+    }
+    return numericValue;
   };
 
   const handleEditorChange = (value) => {
@@ -94,7 +116,7 @@ const ExerciseMain = () => {
       rounds: formData.rounds,
       rating: formData.rating,
       success: formData.success,
-      time: formData.time,
+      duration: formData.duration,
       recordContent: formData.recordContent,  // Include the editor content in the payload
       exerciseType: workoutType,  // Include the workout type in the payload
     };
@@ -167,7 +189,7 @@ const ExerciseMain = () => {
                 </div>
                 <div className="record-item">
                   <p className="record-label">성공 시간</p>
-                  <input type="text" name="time" value={formData.time} onChange={handleChange} className="form-input" />
+                  <input type="text" name="duration" value={formData.duration} onChange={handleChange} className="form-input" placeholder="분초 (예: 1234)" maxLength="4" />
                 </div>
               </div>
               <div className="record-content-container">

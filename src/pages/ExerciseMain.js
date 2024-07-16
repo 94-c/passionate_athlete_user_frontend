@@ -1,11 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { api } from '../api/Api.js';
 import { Tooltip } from 'react-tooltip';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import '../styles/ExerciseMain.css';
 
+const QuillWrapper = (props) => {
+  const ref = useRef(null);
+
+  useEffect(() => {
+    // Any initialization if necessary
+  }, []);
+
+  return <ReactQuill ref={ref} {...props} />;
+};
+
 const ExerciseMain = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const workoutType = location.state?.workoutType;
   const [todayWorkout, setTodayWorkout] = useState(null);
   const [formData, setFormData] = useState({
     workoutDetails: [],
@@ -15,6 +29,7 @@ const ExerciseMain = () => {
     time: '',
     recordContent: '',  // Added for the text editor content
   });
+  const tooltipRef = useRef(null);
 
   useEffect(() => {
     const fetchTodayWorkout = async () => {
@@ -81,6 +96,7 @@ const ExerciseMain = () => {
       success: formData.success,
       time: formData.time,
       recordContent: formData.recordContent,  // Include the editor content in the payload
+      exerciseType: workoutType,  // Include the workout type in the payload
     };
 
     console.log('Submitting payload:', payload);
@@ -88,6 +104,8 @@ const ExerciseMain = () => {
     try {
       const response = await api.post('/workout-records', payload);
       console.log(response);
+      alert('본운동 기록이 완료되었습니다.');
+      navigate('/exercise');
     } catch (error) {
       console.error('Error submitting workout record:', error);
       console.error('Payload:', payload);
@@ -114,8 +132,9 @@ const ExerciseMain = () => {
               className="workout-title-container"
               data-tooltip-id="tooltip"
               data-tooltip-content={todayWorkout.workoutInfos.join('\n')}
+              ref={tooltipRef}
             >
-              <Tooltip id="tooltip" place="top" className="tooltip" />
+              <Tooltip id="tooltip" place="top" />
             </div>
             <form onSubmit={handleSubmit} className="workout-form">
               <div className="exercise-record">
@@ -142,7 +161,7 @@ const ExerciseMain = () => {
               <div className="record-content-container">
                 <h3 className="record-content-title">기록 일지 작성</h3>
                 <div className="record-content">
-                  <ReactQuill
+                  <QuillWrapper
                     value={formData.recordContent}
                     onChange={handleEditorChange}
                     modules={{

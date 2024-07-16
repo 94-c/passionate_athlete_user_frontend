@@ -1,6 +1,5 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import Footer from '../components/Footer';
 import '../styles/ExerciseRecord.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDumbbell, faSyncAlt, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
@@ -8,8 +7,8 @@ import { faDumbbell, faSyncAlt, faPlusCircle } from '@fortawesome/free-solid-svg
 const ExerciseRecord = () => {
   const navigate = useNavigate();
 
-  const handleNavigate = (path) => {
-    navigate(path);
+  const handleNavigate = (path, type) => {
+    navigate(path, { state: { workoutType: type } });
   };
 
   return (
@@ -23,15 +22,15 @@ const ExerciseRecord = () => {
         <span className="exercise-record-progress-step">등록 완료</span>
       </div>
       <div className="exercise-type-container">
-        <button className="exercise-type-btn" onClick={() => handleNavigate('/exercise/main')}>
+        <button className="exercise-type-btn" onClick={() => handleNavigate('/exercise/main', 'MAIN')}>
           <FontAwesomeIcon icon={faDumbbell} className="exercise-button-icon" />
           본운동
         </button>
-        <button className="exercise-type-btn" onClick={() => handleNavigate('/exercise/modified')}>
+        <button className="exercise-type-btn" onClick={() => handleNavigate('/exercise/modified', 'MODIFIED')}>
           <FontAwesomeIcon icon={faSyncAlt} className="exercise-button-icon" />
           변형
         </button>
-        <button className="exercise-type-btn" onClick={() => handleNavigate('/exercise/additional')}>
+        <button className="exercise-type-btn" onClick={() => handleNavigate('/exercise/additional', 'ADDITIONAL')}>
           <FontAwesomeIcon icon={faPlusCircle} className="exercise-button-icon" />
           추가 운동
         </button>

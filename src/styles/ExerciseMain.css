@@ -141,8 +141,8 @@
   flex: 1;
   padding: 8px;
   border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 1em;
+  border-radius: 25px; /* Add this line to make the input fields round */
+  font-size: 1em;    
 }
 
 .text-editor .ql-container {
@@ -190,6 +190,10 @@
 
   .exercise-record-itme input {
     width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 25px; /* Add this line to make the input fields round */
+    font-size: 0.8em;    
   }
 
   .text-editor .ql-container {

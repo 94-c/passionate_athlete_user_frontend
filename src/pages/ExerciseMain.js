@@ -6,6 +6,17 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import '../styles/ExerciseMain.css';
 
+class WorkoutHistoryRequest {
+  constructor(userId, exerciseId, exerciseName, weight, repetitions, rating) {
+    this.userId = userId;
+    this.exerciseId = exerciseId;
+    this.exerciseName = exerciseName;
+    this.weight = weight;
+    this.repetitions = repetitions;
+    this.rating = rating;
+  }
+}
+
 const QuillWrapper = (props) => {
   const ref = useRef(null);
 
@@ -20,6 +31,7 @@ const ExerciseMain = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const workoutType = location.state?.workoutType;
+  const userId = location.state?.userId;  // Assuming userId is passed in location state
   const [todayWorkout, setTodayWorkout] = useState(null);
   const [formData, setFormData] = useState({
     workoutDetails: [],
@@ -39,8 +51,11 @@ const ExerciseMain = () => {
         if (response.data.length > 0) {
           const workout = response.data[0];
           const workoutDetails = workout.workoutInfos.map(info => ({
+            exerciseId: info.exercise.id,
             exercise: info.exercise.name,
             weight: '',
+            repetitions: 0,
+            rating: '',
           }));
 
           setTodayWorkout(workout);
@@ -64,8 +79,8 @@ const ExerciseMain = () => {
     const { name, value } = e.target;
     setFormData(prevState => {
       const updatedWorkoutDetails = [...prevState.workoutDetails];
-      if (name === 'weight') {
-        updatedWorkoutDetails[index] = { ...updatedWorkoutDetails[index], weight: value };
+      if (name === 'weight' || name === 'repetitions' || name === 'rating') {
+        updatedWorkoutDetails[index] = { ...updatedWorkoutDetails[index], [name]: value };
       } else if (name === 'duration') {
         const formattedValue = formatDuration(value);
         return { ...prevState, duration: formattedValue };
@@ -101,6 +116,30 @@ const ExerciseMain = () => {
     }));
   };
 
+  const ratingValues = {
+    "SS+": 0,
+    "SS": 1,
+    "S+": 2,
+    "S": 3,
+    "A+": 4,
+    "A": 5,
+    "B+": 6,
+    "B": 7,
+    "C+": 8,
+    "C": 9
+  };
+
+  const calculateLowestRating = (ratings) => {
+    if (ratings.length === 0) return '';
+    let lowestRating = ratings[0];
+    for (const rating of ratings) {
+      if (ratingValues[rating] < ratingValues[lowestRating]) {
+        lowestRating = rating;
+      }
+    }
+    return lowestRating;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -109,15 +148,22 @@ const ExerciseMain = () => {
       return;
     }
 
+    const workoutHistories = formData.workoutDetails.map(detail => 
+      new WorkoutHistoryRequest(userId, detail.exerciseId, detail.exercise, detail.weight, detail.repetitions, detail.rating)
+    );
+
+    const ratings = formData.workoutDetails.map(detail => detail.rating);
+    const lowestRating = calculateLowestRating(ratings);
+
     const payload = {
       scheduledWorkoutId: todayWorkout.id,
-      workoutDetails: formData.workoutDetails,
+      workoutHistories: workoutHistories,
       rounds: formData.rounds,
-      rating: formData.rating,
+      rating: lowestRating,  // Automatically set the lowest rating
       success: formData.success,
       duration: formData.duration,
-      recordContent: formData.recordContent,  // Include the editor content in the payload
-      exerciseType: workoutType,  // Include the workout type in the payload
+      recordContent: formData.recordContent,
+      exerciseType: workoutType,
     };
 
     console.log('Submitting payload:', payload);
@@ -188,15 +234,13 @@ const ExerciseMain = () => {
                   <div className="workout-detail" key={index}>
                     <h3>{detail.exercise}</h3>
                     <div className="exercise-record-itme">
-                      <input type="text" name="rating" placeholder="Rating" className="form-input" />
-                      <input type="number" name="rounds" placeholder="Rounds" className="form-input" />
-                      <input type="text" name="weight" placeholder="Lbs" value={detail.weight} onChange={(e) => handleChange(e, index)} className="form-input" />
+                      <input type="number" name="repetitions" placeholder="Repetitions" value={detail.repetitions} onChange={(e) => handleChange(e, index)} className="form-input" />
+                      <input type="number" name="weight" placeholder="Lbs" value={detail.weight} onChange={(e) => handleChange(e, index)} className="form-input" />
+                      <input type="text" name="rating" placeholder="Rating" value={detail.rating} onChange={(e) => handleChange(e, index)} className="form-input" />
                     </div>
                   </div>
                 ))}
               </div>
-
-
               <div className="record-content-container">
                 <div className="record-content">
                   <QuillWrapper

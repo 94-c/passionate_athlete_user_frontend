@@ -3,7 +3,7 @@
   flex-direction: column;
   justify-content: space-between;
   padding: 0 20px;
-  overflow-y: auto; /* 스크롤 가능하도록 설정 */
+  overflow-y: auto;
   margin-bottom: 150px;
 }
 
@@ -62,7 +62,7 @@
   flex-direction: column;
   align-items: center;
   margin-top: 5px;
-  width: 100%; /* 전체 너비 사용 */
+  width: 100%;
 }
 
 .workout-form {
@@ -79,19 +79,22 @@
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
-  width: 100%; /* 반응형 레이아웃 조정을 위해 너비 설정 */
+  width: 100%;
 }
 
 .exercise-info .workout-detail {
   display: flex;
-  flex-direction: column; /* 위아래 정렬 */
-  align-items: flex-start; /* 왼쪽 정렬 */
+  flex-direction: column;
+  align-items: flex-start;
   margin-bottom: 15px;
 }
 
-.exercise-info .workout-detail input {
-  width: 100%; /* 입력 필드가 꽉 차게 설정 */
-  margin-top: 5px;
+.exercise-info .workout-detail h3 {
+  margin: 0;
+  font-size: 1.2em;
+  color: #ff6600;
+  margin-bottom: 5px;
+  font-style: bold;
 }
 
 .exercise-record .record-item,
@@ -100,28 +103,51 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 15px;
-  flex-wrap: wrap; /* Ensure the form elements wrap on smaller screens */
+  width: 100%;
 }
 
-.exercise-record .record-item p,
-.record-content-title {
-  flex: 1;
+.exercise-record .record-item {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
   margin-bottom: 10px;
 }
 
 .exercise-record .record-item input,
 .exercise-record .record-item select,
 .text-editor {
-  flex: 2;
+  flex: 1;
   padding: 8px;
-  margin-left: 10px;
   border: 1px solid #ddd;
   border-radius: 4px;
+  font-size: 1em;
+}
+
+.exercise-record .record-item input::placeholder,
+.exercise-record .record-item select::placeholder,
+.text-editor .ql-container::placeholder {
+  color: #999;
+}
+
+.exercise-record-itme {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  width: 100%;
+}
+
+.exercise-record-itme input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1em;
 }
 
 .text-editor .ql-container {
   height: 200px;
-  width: 100%; /* Ensure the editor takes the full width of its container */
+  width: 100%;
 }
 
 .submit-button {
@@ -144,8 +170,8 @@
 
 .tooltip {
   position: absolute;
-  background-color: #333; /* 검은색 배경 */
-  color: #ff6600; /* 주황색 글씨 */
+  background-color: #333;
+  color: #ff6600;
   border-radius: 4px;
   padding: 10px;
   z-index: 10;
@@ -155,16 +181,19 @@
   .exercise-info,
   .exercise-record,
   .record-content-container {
-    flex: 1 1 100%; /* 작은 화면에서는 한 줄씩 배치 */
+    flex: 1 1 100%;
   }
-  
-  .form-input,
-  .form-select {
-    flex: 1; /* 작은 화면에서는 입력 필드가 더 넓어지도록 설정 */
+  .exercise-record-itme {
+    flex-direction: flex;
+    width: 100%;
   }
-  
+
+  .exercise-record-itme input {
+    width: 100%;
+  }
+
   .text-editor .ql-container {
-    height: 150px; /* Adjust height for smaller screens */
-    width: 100%; /* Ensure the editor takes the full width on smaller screens */
+    height: 150px;
+    width: 100%;
   }
 }

@@ -10,6 +10,7 @@ const QuillWrapper = (props) => {
   const ref = useRef(null);
 
   useEffect(() => {
+    // Any logic needed for the QuillWrapper
   }, []);
 
   return <ReactQuill ref={ref} {...props} />;
@@ -38,7 +39,7 @@ const ExerciseMain = () => {
         if (response.data.length > 0) {
           const workout = response.data[0];
           const workoutDetails = workout.workoutInfos.map(info => ({
-            info,
+            exercise: info.exercise.name,
             weight: '',
           }));
 
@@ -151,7 +152,7 @@ const ExerciseMain = () => {
             <div
               className="workout-title-container"
               data-tooltip-id="tooltip"
-              data-tooltip-content={todayWorkout.workoutInfos.join('\n')}
+              data-tooltip-content={todayWorkout.workoutInfos.map(info => info.exercise.name).join('\n')}
               ref={tooltipRef}
             >
               <Tooltip id="tooltip" place="top" />
@@ -159,13 +160,9 @@ const ExerciseMain = () => {
             <form onSubmit={handleSubmit} className="workout-form">
               <div className="exercise-record">
                 <div className="record-item">
-                  <p className="record-label">라운드</p>
-                  <input type="number" name="rounds" value={formData.rounds} onChange={handleChange} className="form-input" />
-                </div>
-                <div className="record-item">
-                  <p className="record-label">등급</p>
+                  <input type="number" name="rounds" value={formData.rounds} onChange={handleChange} className="form-input" placeholder="라운드" />
                   <select name="rating" value={formData.rating} onChange={handleChange} className="form-select">
-                    <option value="">등급을 선택하세요</option>
+                    <option value="">등급</option>
                     <option value="SS+">SS+</option>
                     <option value="SS">SS</option>
                     <option value="S+">S+</option>
@@ -179,17 +176,27 @@ const ExerciseMain = () => {
                   </select>
                 </div>
                 <div className="record-item">
-                  <p className="record-label">성공 여부</p>
                   <select name="success" value={formData.success} onChange={handleChange} className="form-select">
                     <option value={false}>실패</option>
                     <option value={true}>성공</option>
                   </select>
-                </div>
-                <div className="record-item">
-                  <p className="record-label">성공 시간</p>
-                  <input type="text" name="duration" value={formData.duration} onChange={handleChange} className="form-input" placeholder="분초 (예: 1234)" maxLength="4" />
+                  <input type="text" name="duration" value={formData.duration} onChange={handleChange} className="form-input" placeholder="시간 (분:초)" maxLength="5" />
                 </div>
               </div>
+              <div className="exercise-info">
+                {formData.workoutDetails.map((detail, index) => (
+                  <div className="workout-detail" key={index}>
+                    <h3>{detail.exercise}</h3>
+                    <div className="exercise-record-itme">
+                      <input type="text" name="rating" placeholder="Rating" className="form-input" />
+                      <input type="number" name="rounds" placeholder="Rounds" className="form-input" />
+                      <input type="text" name="weight" placeholder="Lbs" value={detail.weight} onChange={(e) => handleChange(e, index)} className="form-input" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+
               <div className="record-content-container">
                 <div className="record-content">
                   <QuillWrapper

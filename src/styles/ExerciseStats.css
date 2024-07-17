@@ -1,0 +1,103 @@
+.exercise-stats-page {
+    padding: 20px;
+    background-color: #f9f9f9;
+    font-family: Arial, sans-serif;
+    min-height: 90vh; /* Ensure the page takes at least the full viewport height */
+
+  }
+  
+  .exercise-dashboard {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .exercise-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ff6600;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  
+  .question-icon {
+    margin-left: 10px;
+    cursor: pointer;
+    color: #ff6600;
+  }
+  
+  .tooltip {
+    position: absolute;
+    top: 40px;
+    right: 10px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 200px;
+    z-index: 1000;
+  }
+  
+  .exercise-card-title {
+    text-align: left;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .exercise-summary-card,
+  .exercise-attendance-card,
+  .exercise-success-rate-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+  }
+  
+  .exercise-summary-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .exercise-summary-table th,
+  .exercise-summary-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+    font-size: 1em;
+  }
+  
+  .exercise-summary-table th {
+    background-color: #f2f2f2;
+    color: #333;
+  }
+  
+  .exercise-summary-table td {
+    color: #ff6600;
+  }
+  
+  @media (max-width: 768px) {
+    .exercise-summary-table th, 
+    .exercise-summary-table td {
+      font-size: 0.8em;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .exercise-title {
+      font-size: 1.2em;
+    }
+  
+    .exercise-summary-table th, 
+    .exercise-summary-table td {
+      font-size: 0.6em;
+    }
+  
+    .exercise-summary-card,
+    .exercise-attendance-card,
+    .exercise-success-rate-card {
+      padding: 10px;
+    }
+  }
+    

@@ -21,7 +21,7 @@ import UserEdit from '../pages/UserEdit';
 import Exercise from '../pages/Exercise';
 import ExerciseRecord from '../pages/ExerciseRecord';
 import ExerciseStats from '../pages/ExerciseStats';
-import ExerciseRank from '../pages/ExerciseRank';
+import ExerciseRank from '../pages/ExerciseRanking';
 import ExerciseBoard from '../pages/ExerciseBoard';
 import ExerciseMain from '../pages/ExerciseMain';
 

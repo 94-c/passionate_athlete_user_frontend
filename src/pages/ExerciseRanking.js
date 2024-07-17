@@ -2,8 +2,8 @@ import React, { useState, useEffect, useContext, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMale, faFemale } from '@fortawesome/free-solid-svg-icons';
 import { api } from '../api/Api.js';
-import '../styles/ExerciseRank.css';
-import { UserContext } from '../contexts/UserContext';
+import '../styles/ExerciseRanking.css';
+import { UserContext } from '../contexts/UserContext.js';
 
 const ExerciseRank = () => {
   const { user: currentUser } = useContext(UserContext); // UserContext를 사용하여 현재 사용자 정보 가져오기

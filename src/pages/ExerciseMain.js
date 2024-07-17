@@ -5,13 +5,11 @@ import { Tooltip } from 'react-tooltip';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import '../styles/ExerciseMain.css';
-import moment from 'moment';
 
 const QuillWrapper = (props) => {
   const ref = useRef(null);
 
   useEffect(() => {
-    // Any initialization if necessary
   }, []);
 
   return <ReactQuill ref={ref} {...props} />;

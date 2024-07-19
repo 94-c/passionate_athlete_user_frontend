@@ -1,12 +1,13 @@
 .exercise-rank-page {
     padding: 20px;
     background-color: #f9f9f9;
-    min-height: 100vh; /* Ensure the page takes at least the full viewport height */
+    height: 100vh; /* Ensure the page takes the full viewport height */
     display: flex;
     flex-direction: column;
     align-items: center;
     font-family: Arial, sans-serif;
-    overflow-y: auto; /* Enable vertical scrolling */
+    overflow: hidden; /* Prevent overall page scrolling */
+    padding-bottom: 60px; /* Ensure space for pagination */
 }
 
 .exercise-rank-header {
@@ -57,13 +58,14 @@
 .rating-tabs-container {
     width: 100%;
     margin-bottom: 10px;
-    overflow: hidden;
+    overflow-x: auto; /* Enable horizontal scrolling */
 }
 
 .rating-tabs {
-    display: flex;
+    display: flex; /* Use flex layout to allow horizontal scrolling */
     justify-content: center;
     align-items: center;
+    flex-wrap: nowrap; /* Prevent items from wrapping */
     background-color: #fff;
     padding: 10px;
     border-radius: 10px;
@@ -71,6 +73,7 @@
 }
 
 .rating-tab {
+    display: inline-block; /* Ensure each tab is treated as an inline-block element */
     background: none;
     border: none;
     cursor: pointer;
@@ -78,6 +81,7 @@
     font-size: 1.2em;
     margin: 0 10px;
     transition: color 0.3s;
+    white-space: nowrap; /* Prevent text from wrapping */
 }
 
 .rating-tab.active {
@@ -93,8 +97,9 @@
     padding: 0;
     width: 100%;
     flex-grow: 1;
-    overflow-y: auto;
+    overflow-y: auto; /* Enable vertical scrolling within the list */
     margin-bottom: 40px;
+    max-height: calc(100vh - 220px); /* Ensure the list has a max height to allow scrolling */
 }
 
 .rank-item {
@@ -161,6 +166,14 @@
 .pagination-buttons {
     display: flex;
     gap: 5px;
+    position: fixed;
+    bottom: 20px; /* Ensure the pagination is above the footer */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .pagination-buttons button {

@@ -37,7 +37,12 @@ const ExerciseModified = () => {
   return (
     <div className="exercise-modified-page">
       <div className="exercise-modified-header">
-        <h1 className="exercise-modified-title">운동 변형 페이지</h1>
+        <h1 className="exercise-modified-title">운동 기록을 추가해요 🏋️‍♂️</h1>
+      </div>
+      <div className="exercise-main-progress-bar">
+        <span className="exercise-main-progress-step">운동 타입</span>
+        <span className="exercise-main-progress-step active">기록 작성</span>
+        <span className="exercise-main-progress-step">등록 완료</span>
       </div>
       <form onSubmit={handleSubmit} className="exercise-modified-form">
         <div className="basic-info-section exercise-modified-info">

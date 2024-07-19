@@ -191,6 +191,7 @@ const ExerciseMain = () => {
             <p className="today-info">{todayWorkout.date} 오늘의 운동 "<strong>{todayWorkout.title}</strong>"</p>
             <form onSubmit={handleSubmit} className="workout-form">
               <div className="exercise-record">
+                <h2>기본 정보</h2>
                 <div className="record-item">
                   <div className="form-input readonly">{calculateMinimum('rounds')}</div>
                   <div className="form-input readonly">{calculateMinimumRating()}</div>
@@ -203,38 +204,39 @@ const ExerciseMain = () => {
                 </div>
               </div>
               <div className="exercise-info">
-  {formData.workoutDetails.map((detail, index) => (
-    <div className="workout-detail" key={index}>
-      <h3>{detail.exercise}</h3>
-      <div className="exercise-record-item-row">
-        <input
-          type="text"
-          name="rating"
-          value={detail.rating}
-          onChange={(e) => handleChange(e, index)}
-          placeholder="등급"
-          className="form-input"
-        />
-        <input
-          type="number"
-          name="rounds"
-          value={detail.rounds}
-          onChange={(e) => handleChange(e, index)}
-          placeholder="라운드"
-          className="form-input"
-        />
-        <input
-          type="text"
-          name="weight"
-          value={detail.weight}
-          onChange={(e) => handleChange(e, index)}
-          placeholder="무게"
-          className="form-input"
-        />
-      </div>
-    </div>
-  ))}
-</div>
+              <h2>운동 정보</h2>
+                {formData.workoutDetails.map((detail, index) => (
+                  <div className="workout-detail" key={index}>
+                    <h3>{detail.exercise}</h3>
+                    <div className="exercise-record-item-row">
+                      <input
+                        type="text"
+                        name="rating"
+                        value={detail.rating}
+                        onChange={(e) => handleChange(e, index)}
+                        placeholder="등급"
+                        className="form-input"
+                      />
+                      <input
+                        type="number"
+                        name="rounds"
+                        value={detail.rounds}
+                        onChange={(e) => handleChange(e, index)}
+                        placeholder="라운드"
+                        className="form-input"
+                      />
+                      <input
+                        type="text"
+                        name="weight"
+                        value={detail.weight}
+                        onChange={(e) => handleChange(e, index)}
+                        placeholder="무게"
+                        className="form-input"
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
 
               <div className="record-content-container">
                 <div className="record-content">

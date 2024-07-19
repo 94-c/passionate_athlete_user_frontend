@@ -24,6 +24,39 @@
     color: #ff6600;
   }
   
+  .exercise-main-progress-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 0 20px 0;
+    padding: 10px 0;
+    background-color: white;
+    border-bottom: 2px solid #ff6600;
+  }
+  
+  .exercise-main-progress-step {
+    font-size: 1em;
+    color: grey;
+    margin: 0 10px;
+    position: relative;
+  }
+  
+  .exercise-main-progress-step.active {
+    color: #ff6600;
+    font-weight: bold;
+  }
+  
+  .exercise-main-progress-step::after {
+    content: '>';
+    position: absolute;
+    right: -15px;
+    color: #ff6600;
+  }
+  
+  .exercise-main-progress-step:last-child::after {
+    content: '';
+  }
+  
   .exercise-modified-form {
     width: 100%;
     display: flex;

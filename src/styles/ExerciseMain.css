@@ -102,26 +102,31 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
   margin-bottom: 15px;
   width: 100%;
 }
 
-.exercise-record .record-item {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  margin-bottom: 10px;
-}
-
+.exercise-record .record-item div,
 .exercise-record .record-item input,
 .exercise-record .record-item select,
 .text-editor {
   flex: 1;
   padding: 8px;
   border: 1px solid #ddd;
-  border-radius: 4px;
+  border-radius: 25px;
   font-size: 1em;
+  margin: 0 5px;
+  box-sizing: border-box;
+}
+.record-item div {
+  height: 40px;
+}
+
+.exercise-record .record-item div.readonly {
+  background-color: #f1f1f1;
+  text-align: center;
 }
 
 .exercise-record .record-item input::placeholder,
@@ -130,9 +135,20 @@
   color: #999;
 }
 
+.readonly {
+  flex: 1;
+  padding: 8px;
+  background-color: #f1f1f1;
+  border: 1px solid #ddd;
+  border-radius: 25px;
+  font-size: 1em;
+  text-align: center;
+  margin: 0 5px;
+}
+
 .exercise-record-itme {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 10px;
   width: 100%;
 }
@@ -141,8 +157,27 @@
   flex: 1;
   padding: 8px;
   border: 1px solid #ddd;
-  border-radius: 25px; /* Add this line to make the input fields round */
-  font-size: 1em;    
+  border-radius: 25px;
+  font-size: 1em;
+  box-sizing: border-box;
+}
+
+.exercise-info .workout-detail .exercise-record-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.exercise-info .workout-detail .exercise-record-item input {
+  flex: 1 1 calc(33.33% - 10px);
+  min-width: calc(33.33% - 10px);
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 25px;
+  font-size: 1em;
+  box-sizing: border-box;
 }
 
 .text-editor .ql-container {
@@ -157,7 +192,7 @@
   background-color: #ff6600;
   color: #fff;
   border: none;
-  border-radius: 4px;
+  border-radius: 25px;
   cursor: pointer;
   font-size: 16px;
   margin-top: 20px;
@@ -168,13 +203,32 @@
   background-color: #e65c00;
 }
 
-.tooltip {
-  position: absolute;
-  background-color: #333;
+.success {
   color: #ff6600;
-  border-radius: 4px;
-  padding: 10px;
-  z-index: 10;
+  font-weight: bold;
+}
+
+.failure {
+  color: #e65c00;
+  font-weight: bold;
+}
+
+.exercise-record-item-row {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5px; /* Reduced gap to fit inputs */
+  width: 100%;
+}
+
+.exercise-record-item-row input {
+  flex: 1 1 30%; /* Reduced flex basis to fit inputs */
+  padding: 5px; /* Reduced padding */
+  border: 1px solid #ddd;
+  border-radius: 15px; /* Reduced border-radius */
+  font-size: 0.9em; /* Reduced font-size */
+  box-sizing: border-box;
 }
 
 @media (max-width: 768px) {
@@ -183,8 +237,9 @@
   .record-content-container {
     flex: 1 1 100%;
   }
+
   .exercise-record-itme {
-    flex-direction: flex;
+    flex-direction: column;
     width: 100%;
   }
 
@@ -192,12 +247,31 @@
     width: 100%;
     padding: 8px;
     border: 1px solid #ddd;
-    border-radius: 25px; /* Add this line to make the input fields round */
-    font-size: 0.8em;    
+    border-radius: 25px;
+    font-size: 0.8em;
   }
 
   .text-editor .ql-container {
     height: 150px;
+    width: 100%;
+  }
+
+  .exercise-info .workout-detail .exercise-record-item {
+    flex-direction: column;
+  }
+
+  .exercise-info .workout-detail .exercise-record-item input {
+    flex: 1 1 100%;
+    min-width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .exercise-record-item-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .exercise-record-item-row input {
     width: 100%;
   }
 }

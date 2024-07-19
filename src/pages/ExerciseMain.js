@@ -1,29 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { api } from '../api/Api.js';
-import { Tooltip } from 'react-tooltip';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import '../styles/ExerciseMain.css';
 
-class WorkoutHistoryRequest {
-  constructor(userId, exerciseId, exerciseName, weight, repetitions, rating) {
-    this.userId = userId;
-    this.exerciseId = exerciseId;
-    this.exerciseName = exerciseName;
-    this.weight = weight;
-    this.repetitions = repetitions;
-    this.rating = rating;
-  }
-}
-
 const QuillWrapper = (props) => {
   const ref = useRef(null);
-
-  useEffect(() => {
-    // Any logic needed for the QuillWrapper
-  }, []);
-
   return <ReactQuill ref={ref} {...props} />;
 };
 
@@ -31,7 +14,6 @@ const ExerciseMain = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const workoutType = location.state?.workoutType;
-  const userId = location.state?.userId;  // Assuming userId is passed in location state
   const [todayWorkout, setTodayWorkout] = useState(null);
   const [formData, setFormData] = useState({
     workoutDetails: [],
@@ -39,9 +21,8 @@ const ExerciseMain = () => {
     rating: '',
     success: false,
     duration: '',
-    recordContent: '',  // Added for the text editor content
+    recordContent: '',
   });
-  const tooltipRef = useRef(null);
 
   useEffect(() => {
     const fetchTodayWorkout = async () => {
@@ -54,7 +35,7 @@ const ExerciseMain = () => {
             exerciseId: info.exercise.id,
             exercise: info.exercise.name,
             weight: '',
-            repetitions: 0,
+            rounds: '',
             rating: '',
           }));
 
@@ -65,7 +46,7 @@ const ExerciseMain = () => {
             rating: '',
             success: false,
             duration: '',
-            recordContent: '',  // Initialize the text editor content
+            recordContent: '',
           });
         }
       } catch (error) {
@@ -79,7 +60,7 @@ const ExerciseMain = () => {
     const { name, value } = e.target;
     setFormData(prevState => {
       const updatedWorkoutDetails = [...prevState.workoutDetails];
-      if (name === 'weight' || name === 'repetitions' || name === 'rating') {
+      if (['weight', 'rounds', 'rating'].includes(name)) {
         updatedWorkoutDetails[index] = { ...updatedWorkoutDetails[index], [name]: value };
       } else if (name === 'duration') {
         const formattedValue = formatDuration(value);
@@ -92,13 +73,10 @@ const ExerciseMain = () => {
   };
 
   const formatDuration = (value) => {
-    // Remove non-numeric characters
     const numericValue = value.replace(/\D/g, '');
-    // Limit to 4 characters
     if (numericValue.length > 4) {
       return formData.duration;
     }
-    // Format as mm:ss
     if (numericValue.length <= 2) {
       return numericValue;
     } else if (numericValue.length === 2) {
@@ -116,28 +94,51 @@ const ExerciseMain = () => {
     }));
   };
 
-  const ratingValues = {
-    "SS+": 0,
-    "SS": 1,
-    "S+": 2,
-    "S": 3,
-    "A+": 4,
-    "A": 5,
-    "B+": 6,
-    "B": 7,
-    "C+": 8,
-    "C": 9
+  const calculateMinimum = (field) => {
+    const values = formData.workoutDetails.map(detail => parseFloat(detail[field] || 0));
+    return Math.min(...values);
   };
 
-  const calculateLowestRating = (ratings) => {
-    if (ratings.length === 0) return '';
-    let lowestRating = ratings[0];
+  const calculateMinimumRating = () => {
+    const ratingOrder = {
+      "SS+": 1, "SS": 2, "A+": 3, "A": 4,
+      "B+": 5, "B": 6, "C+": 7, "C": 8,
+      "D+": 9, "D": 10
+    };
+
+    const ratings = formData.workoutDetails.map(detail => detail.rating).filter(rating => rating);
+    console.log("Ratings:", ratings); // Debugging line
+
+    if (ratings.length === 0) {
+      return '';
+    }
+
+    let minRating = ratings[0];
     for (const rating of ratings) {
-      if (ratingValues[rating] < ratingValues[lowestRating]) {
-        lowestRating = rating;
+      console.log(`Comparing ${rating} (${ratingOrder[rating]}) with ${minRating} (${ratingOrder[minRating]})`); // Debugging line
+      if (ratingOrder[rating] > ratingOrder[minRating]) {
+        minRating = rating;
       }
     }
-    return lowestRating;
+
+    console.log("Minimum rating calculated:", minRating); // Debugging line
+    return minRating;
+  };
+
+  const parseTime = (timeString) => {
+    if (!timeString) return 0;
+    const match = timeString.match(/(\d+):(\d+)/);
+    if (!match) return 0;
+    const minutes = parseInt(match[1], 10);
+    const seconds = parseInt(match[2], 10);
+    return (minutes * 60) + seconds;
+  };
+
+  const determineSuccess = (minimumRounds, formattedDuration) => {
+    const totalSeconds = parseTime(formattedDuration);
+    const targetSeconds = parseTime(todayWorkout.time);
+
+    return minimumRounds >= todayWorkout.rounds && totalSeconds <= targetSeconds;
   };
 
   const handleSubmit = async (e) => {
@@ -148,20 +149,17 @@ const ExerciseMain = () => {
       return;
     }
 
-    const workoutHistories = formData.workoutDetails.map(detail => 
-      new WorkoutHistoryRequest(userId, detail.exerciseId, detail.exercise, detail.weight, detail.repetitions, detail.rating)
-    );
-
-    const ratings = formData.workoutDetails.map(detail => detail.rating);
-    const lowestRating = calculateLowestRating(ratings);
+    const minimumRounds = calculateMinimum('rounds');
+    const formattedDuration = formData.duration;
+    const success = determineSuccess(minimumRounds, formattedDuration);
 
     const payload = {
       scheduledWorkoutId: todayWorkout.id,
-      workoutHistories: workoutHistories,
-      rounds: formData.rounds,
-      rating: lowestRating,  // Automatically set the lowest rating
-      success: formData.success,
-      duration: formData.duration,
+      workoutDetails: formData.workoutDetails,
+      rounds: minimumRounds,
+      rating: calculateMinimumRating(),
+      success: success,
+      duration: formattedDuration,
       recordContent: formData.recordContent,
       exerciseType: workoutType,
     };
@@ -169,17 +167,13 @@ const ExerciseMain = () => {
     console.log('Submitting payload:', payload);
 
     try {
-      const response = await api.post('/workout-records', payload);
-      console.log(response);
+      await api.post('/workout-records', payload);
       alert('본운동 기록이 완료되었습니다.');
       navigate('/exercise');
     } catch (error) {
       console.error('Error submitting workout record:', error);
-      console.error('Payload:', payload);
     }
   };
-
-  const today = new Date().toLocaleDateString();
 
   return (
     <div className="exercise-main-page">
@@ -194,53 +188,54 @@ const ExerciseMain = () => {
       <div className="exercise-main-container">
         {todayWorkout ? (
           <>
-            <p className="today-info">{today} 오늘의 운동 "<strong>{todayWorkout.title}</strong>"</p>
-            <div
-              className="workout-title-container"
-              data-tooltip-id="tooltip"
-              data-tooltip-content={todayWorkout.workoutInfos.map(info => info.exercise.name).join('\n')}
-              ref={tooltipRef}
-            >
-              <Tooltip id="tooltip" place="top" />
-            </div>
+            <p className="today-info">{todayWorkout.date} 오늘의 운동 "<strong>{todayWorkout.title}</strong>"</p>
             <form onSubmit={handleSubmit} className="workout-form">
               <div className="exercise-record">
                 <div className="record-item">
-                  <input type="number" name="rounds" value={formData.rounds} onChange={handleChange} className="form-input" placeholder="라운드" />
-                  <select name="rating" value={formData.rating} onChange={handleChange} className="form-select">
-                    <option value="">등급</option>
-                    <option value="SS+">SS+</option>
-                    <option value="SS">SS</option>
-                    <option value="S+">S+</option>
-                    <option value="S">S</option>
-                    <option value="A+">A+</option>
-                    <option value="A">A</option>
-                    <option value="B+">B+</option>
-                    <option value="B">B</option>
-                    <option value="C+">C+</option>
-                    <option value="C">C</option>
-                  </select>
+                  <div className="form-input readonly">{calculateMinimum('rounds')}</div>
+                  <div className="form-input readonly">{calculateMinimumRating()}</div>
                 </div>
                 <div className="record-item">
-                  <select name="success" value={formData.success} onChange={handleChange} className="form-select">
-                    <option value={false}>실패</option>
-                    <option value={true}>성공</option>
-                  </select>
                   <input type="text" name="duration" value={formData.duration} onChange={handleChange} className="form-input" placeholder="시간 (분:초)" maxLength="5" />
+                  <div className={`form-input readonly ${determineSuccess(calculateMinimum('rounds'), formData.duration) ? 'success' : 'failure'}`}>
+                    {determineSuccess(calculateMinimum('rounds'), formData.duration) ? '성공' : '실패'}
+                  </div>
                 </div>
               </div>
               <div className="exercise-info">
-                {formData.workoutDetails.map((detail, index) => (
-                  <div className="workout-detail" key={index}>
-                    <h3>{detail.exercise}</h3>
-                    <div className="exercise-record-itme">
-                      <input type="number" name="repetitions" placeholder="Repetitions" value={detail.repetitions} onChange={(e) => handleChange(e, index)} className="form-input" />
-                      <input type="number" name="weight" placeholder="Lbs" value={detail.weight} onChange={(e) => handleChange(e, index)} className="form-input" />
-                      <input type="text" name="rating" placeholder="Rating" value={detail.rating} onChange={(e) => handleChange(e, index)} className="form-input" />
-                    </div>
-                  </div>
-                ))}
-              </div>
+  {formData.workoutDetails.map((detail, index) => (
+    <div className="workout-detail" key={index}>
+      <h3>{detail.exercise}</h3>
+      <div className="exercise-record-item-row">
+        <input
+          type="text"
+          name="rating"
+          value={detail.rating}
+          onChange={(e) => handleChange(e, index)}
+          placeholder="Rating"
+          className="form-input"
+        />
+        <input
+          type="number"
+          name="rounds"
+          value={detail.rounds}
+          onChange={(e) => handleChange(e, index)}
+          placeholder="Rounds"
+          className="form-input"
+        />
+        <input
+          type="text"
+          name="weight"
+          value={detail.weight}
+          onChange={(e) => handleChange(e, index)}
+          placeholder="Lbs"
+          className="form-input"
+        />
+      </div>
+    </div>
+  ))}
+</div>
+
               <div className="record-content-container">
                 <div className="record-content">
                   <QuillWrapper

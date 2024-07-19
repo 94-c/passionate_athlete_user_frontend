@@ -1,0 +1,146 @@
+.exercise-modified-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0 20px;
+    overflow-y: auto;
+    margin-bottom: 150px;
+  }
+  
+  .exercise-modified-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    background-color: white;
+    margin-bottom: 10px;
+    margin-top: 30px;
+  }
+  
+  .exercise-modified-title {
+    text-align: center;
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #ff6600;
+  }
+  
+  .exercise-modified-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .exercise-modified-info {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    width: 100%;
+  }
+  
+  .exercise-modified-info h2 {
+    margin: 0 0 15px;
+    font-size: 1.2em;
+    color: #ff6600;
+  }
+  
+  .basic-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  
+  input[type="text"],
+  input[type="number"],
+  select {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ddd;
+    border-radius: 25px;
+    font-size: 1em;
+    box-sizing: border-box;
+  }
+  
+  .exercise-input-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  .exercise-input-row input,
+  .exercise-input-row select {
+    flex: 1;
+  }
+  
+  button {
+    padding: 10px;
+    background-color: #ff6600;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    margin-top: 20px;
+    font-size: 1em;
+  }
+  
+  button:hover {
+    background-color: #e65c00;
+  }
+  
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  li {
+    padding: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+  
+  .exercise-modified-submit-button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #ff6600;
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+  }
+  
+  .exercise-modified-submit-button:hover,
+  .exercise-modified-submit-button:active {
+    background-color: #e65c00;
+  }
+  
+  @media (max-width: 428px) {
+    .exercise-modified-info {
+      flex: 1 1 100%;
+    }
+  
+    .basic-info-grid {
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+  
+    input[type="text"],
+    input[type="number"],
+    select {
+      padding: 8px;
+      border-radius: 25px;
+      font-size: 0.8em;
+    }
+  
+    .exercise-input-row {
+      flex-direction: column;
+      gap: 5px;
+    }
+  }
+  

@@ -212,7 +212,7 @@ const ExerciseMain = () => {
           name="rating"
           value={detail.rating}
           onChange={(e) => handleChange(e, index)}
-          placeholder="Rating"
+          placeholder="등급"
           className="form-input"
         />
         <input
@@ -220,7 +220,7 @@ const ExerciseMain = () => {
           name="rounds"
           value={detail.rounds}
           onChange={(e) => handleChange(e, index)}
-          placeholder="Rounds"
+          placeholder="라운드"
           className="form-input"
         />
         <input
@@ -228,7 +228,7 @@ const ExerciseMain = () => {
           name="weight"
           value={detail.weight}
           onChange={(e) => handleChange(e, index)}
-          placeholder="Lbs"
+          placeholder="무게"
           className="form-input"
         />
       </div>

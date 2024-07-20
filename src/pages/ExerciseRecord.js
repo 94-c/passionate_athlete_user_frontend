@@ -8,7 +8,7 @@ const ExerciseRecord = () => {
   const navigate = useNavigate();
 
   const handleNavigate = (path, type) => {
-    navigate(path, { state: { workoutType: type } });
+    navigate(path, { state: { exerciseType: type } });
   };
 
   return (

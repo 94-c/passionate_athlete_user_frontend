@@ -7,6 +7,10 @@ const ExerciseModified = () => {
   const location = useLocation();
   const exerciseType = location.state?.exerciseType || 'MODIFIED';
 
+  useEffect(() => {
+    console.log('Exercise Type:', exerciseType); // 콘솔에 exerciseType 출력
+  }, [exerciseType]);
+
   const [exerciseTypes, setExerciseTypes] = useState([
     "KETTLEBELL", "BARBELL", "DUMBBELL", "BOX", "BALL", "OTHER"
   ]);
@@ -120,9 +124,9 @@ const ExerciseModified = () => {
         <div className="basic-info-section exercise-modified-info">
           <h2>기본 정보</h2>
           <div className="basic-info-grid">
-            <input type="number" name="rounds" placeholder="라운드 수" value={basicInfo.rounds} onChange={handleBasicInfoChange} min="1" />
-            <input type="text" name="time" placeholder="시간" value={basicInfo.time} onChange={handleBasicInfoChange} maxLength="5" />
-            <select name="rating" value={basicInfo.rating} onChange={handleBasicInfoChange}>
+            <input type="number" name="rounds" placeholder="라운드 수" value={basicInfo.rounds} onChange={handleBasicInfoChange} min="1" className="custom-input" />
+            <input type="text" name="time" placeholder="시간" value={basicInfo.time} onChange={handleBasicInfoChange} maxLength="5" className="custom-input" />
+            <select name="rating" value={basicInfo.rating} onChange={handleBasicInfoChange} className="custom-input">
               <option value="">등급 선택</option>
               <option value="SS+">SS+</option>
               <option value="SS">SS</option>
@@ -135,7 +139,7 @@ const ExerciseModified = () => {
               <option value="C+">C+</option>
               <option value="C">C</option>
             </select>
-            <select name="success" value={basicInfo.success} onChange={handleBasicInfoChange}>
+            <select name="success" value={basicInfo.success} onChange={handleBasicInfoChange} className="custom-input">
               <option value="">결과 선택</option>
               <option value="success">성공</option>
               <option value="failure">실패</option>
@@ -145,22 +149,22 @@ const ExerciseModified = () => {
 
         <div className="exercise-info-section exercise-modified-info">
           <h2>운동 정보</h2>
-          <select name="type" value={currentExercise.type} onChange={handleExerciseChange}>
+          <select name="type" value={currentExercise.type} onChange={handleExerciseChange} className="custom-input">
             <option value="">운동 타입 선택</option>
             {exerciseTypes.map(type => (
               <option key={type} value={type}>{type}</option>
             ))}
           </select>
-          <select name="name" value={currentExercise.name} onChange={handleExerciseChange} disabled={!currentExercise.type}>
+          <select name="name" value={currentExercise.name} onChange={handleExerciseChange} disabled={!currentExercise.type} className="custom-input">
             <option value="">운동 선택</option>
             {currentExercise.type && exerciseOptions.map(exercise => (
               <option key={exercise.id} value={exercise.name}>{exercise.name}</option>
             ))}
           </select>
           <div className="exercise-input-row">
-            <input type="number" name="rounds" placeholder="라운드" value={currentExercise.rounds} onChange={handleExerciseChange} min="1" />
-            <input type="text" name="weight" placeholder="무게" value={currentExercise.weight} onChange={handleExerciseChange} />
-            <select name="rating" value={currentExercise.rating} onChange={handleExerciseChange}>
+            <input type="number" name="rounds" placeholder="라운드" value={currentExercise.rounds} onChange={handleExerciseChange} min="1" className="custom-input" />
+            <input type="text" name="weight" placeholder="무게" value={currentExercise.weight} onChange={handleExerciseChange} className="custom-input" />
+            <select name="rating" value={currentExercise.rating} onChange={handleExerciseChange} className="custom-input">
               <option value="">등급 선택</option>
               <option value="SS+">SS+</option>
               <option value="SS">SS</option>

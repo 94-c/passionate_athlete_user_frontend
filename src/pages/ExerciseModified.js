@@ -78,7 +78,7 @@ const ExerciseModified = () => {
     }));
 
     const payload = {
-      scheduledWorkoutId: exerciseType === 'MODIFIED' ? 0 : 1, // exerciseType에 따라 ID 설정
+      scheduledWorkoutId: exerciseType === 'MAIN' ? 1 : 0, // exerciseType에 따라 ID 설정
       workoutDetails: workoutDetails,
       rounds: basicInfo.rounds,
       rating: basicInfo.rating,

@@ -3,6 +3,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { api } from '../api/Api.js';
 import '../styles/ExerciseModified.css';
 import ReactQuill from 'react-quill';
+import Modal from 'react-modal';
+import ExerciseTermsModal from '../components/ExerciseTermsModal';
 
 const QuillWrapper = (props) => {
   const ref = useRef(null);
@@ -39,6 +41,9 @@ const ExerciseModified = () => {
   const [scheduledWorkoutId, setScheduledWorkoutId] = useState('');
   const [recordContent, setRecordContent] = useState(''); // 기록 내용 상태 추가
 
+  // 모달 상태 추가
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
   const handleExerciseChange = async (e) => {
     const { name, value } = e.target;
 
@@ -74,8 +79,16 @@ const ExerciseModified = () => {
   };
 
   const handleAddExercise = () => {
+    if (!currentExercise.rounds || !currentExercise.weight || !currentExercise.rating) {
+      alert('라운드, 무게, 등급을 모두 입력하세요.');
+      return;
+    }
     setExercises([...exercises, currentExercise]);
     setCurrentExercise({ type: '', name: '', rounds: '', weight: '', rating: '' });
+  };
+
+  const handleRemoveExercise = (index) => {
+    setExercises(exercises.filter((_, i) => i !== index));
   };
 
   const handleSubmit = async (e) => {
@@ -181,7 +194,10 @@ const ExerciseModified = () => {
         </div>
 
         <div className="exercise-info-section exercise-modified-info">
-          <h2>운동 정보</h2>
+          <div className="exercise-info-header">
+            <h2>운동 정보</h2>
+            <span className="register-new-exercise" onClick={() => setModalIsOpen(true)}>새로운 운동을 등록하시겠습니까?</span>
+          </div>
           <select name="type" value={currentExercise.type} onChange={handleExerciseChange} className="custom-input">
             <option value="">운동 타입 선택</option>
             {exerciseTypes.map(type => (
@@ -210,16 +226,17 @@ const ExerciseModified = () => {
               <option value="C+">C+</option>
               <option value="C">C</option>
             </select>
+            <button type="button" onClick={handleAddExercise} className="add-exercise-button">추가</button>
           </div>
-          <button type="button" onClick={handleAddExercise}>운동 추가</button>
         </div>
 
         <div className="exercise-list-section exercise-modified-info">
           <h2>추가된 운동</h2>
           <ul>
             {exercises.map((exercise, index) => (
-              <li key={index}>
+              <li key={index} className="exercise-index-item">
                 [ {exercise.type} ] - {exercise.name} - {exercise.rounds}R / {exercise.weight}kg / {exercise.rating}
+                <button type="button" className="remove-exercise-button" onClick={() => handleRemoveExercise(index)}>X</button>
               </li>
             ))}
           </ul>
@@ -249,8 +266,13 @@ const ExerciseModified = () => {
           </div>
         </div>
 
-        <button type="submit" className="exercise-modified-submit-button">저장 및 제출</button>
+        <button type="submit" className="exercise-modified-submit-button">저장</button>
       </form>
+
+      <ExerciseTermsModal
+        show={modalIsOpen}
+        handleClose={() => setModalIsOpen(false)}
+      />
     </div>
   );
 };

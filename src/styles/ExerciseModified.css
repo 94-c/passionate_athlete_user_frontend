@@ -105,15 +105,15 @@
   flex: 1;
 }
 
-button {
-  padding: 10px;
+.add-exercise-button {
+  align-self: flex-end;
+  margin-top: 10px;
   background-color: #ff6600;
   color: white;
   border: none;
   border-radius: 25px;
+  padding: 10px;
   cursor: pointer;
-  margin-top: 20px;
-  font-size: 1em;
 }
 
 button:hover {
@@ -127,10 +127,14 @@ ul {
 
 li {
   padding: 10px;
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
+  background-color: #ff6600;
+  color: white;
+  border: none;
   border-radius: 8px;
   margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .exercise-modified-submit-button {
@@ -149,6 +153,87 @@ li {
 .exercise-modified-submit-button:hover,
 .exercise-modified-submit-button:active {
   background-color: #e65c00;
+}
+
+.exercise-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ff6600;
+  color: white;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
+
+.exercise-text {
+  flex-grow: 1;
+  padding-right: 10px;
+}
+
+.remove-exercise-button {
+  background-color: white;
+  color: #ff6600;
+  border: none;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  font-size: 1em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.remove-exercise-button:hover {
+  background-color: #e65c00;
+  color: white;
+}
+
+.exercise-info-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.register-new-exercise {
+  color: #ff6600;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 0.9em;
+  align-self: flex-end;
+}
+
+.register-new-exercise:hover {
+  text-decoration: underline;
+}
+
+.exercise-modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 80%;
+  max-width: 500px;
+  outline: none;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.exercise-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  z-index: 1000;
 }
 
 @media (max-width: 428px) {
@@ -174,5 +259,3 @@ li {
     gap: 5px;
   }
 }
-
-

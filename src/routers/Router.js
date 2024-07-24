@@ -25,6 +25,7 @@ import ExerciseRank from '../pages/ExerciseRanking';
 import ExerciseBoard from '../pages/ExerciseBoard';
 import ExerciseMain from '../pages/ExerciseMain';
 import ExerciseModified from '../pages/ExerciseModified';
+import ExerciseCustom from '../pages/ExerciseCustom';
 
 const Router = () => {
   return (
@@ -56,6 +57,7 @@ const Router = () => {
         <Route path="/exercise/board" element={<ExerciseBoard />} />
         <Route path="/exercise/main" element={<ExerciseMain />} />
         <Route path="/exercise/modified" element={<ExerciseModified />} />
+        <Route path="/exercise/additional" element={<ExerciseCustom />} />
       </Route>
     </Routes>
   );

@@ -1,19 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { api } from '../api/Api.js';
 import '../styles/ExerciseModified.css';
+import ReactQuill from 'react-quill';
+
+const QuillWrapper = (props) => {
+  const ref = useRef(null);
+  return <ReactQuill ref={ref} {...props} />;
+};
 
 const ExerciseModified = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const exerciseType = location.state?.exerciseType || 'MODIFIED';
 
   useEffect(() => {
     console.log('Exercise Type:', exerciseType); // 콘솔에 exerciseType 출력
   }, [exerciseType]);
 
-  const [exerciseTypes, setExerciseTypes] = useState([
+  const exerciseTypes = [
     "KETTLEBELL", "BARBELL", "DUMBBELL", "BOX", "BALL", "OTHER"
-  ]);
+  ];
   const [exerciseOptions, setExerciseOptions] = useState([]); // API로부터 받아온 운동 목록
   const [exercises, setExercises] = useState([]); // 추가된 운동 목록
   const [currentExercise, setCurrentExercise] = useState({
@@ -25,10 +32,12 @@ const ExerciseModified = () => {
   });
   const [basicInfo, setBasicInfo] = useState({
     rounds: '',
-    time: '',
+    duration: '',
     rating: '',
     success: ''
   });
+  const [scheduledWorkoutId, setScheduledWorkoutId] = useState('');
+  const [recordContent, setRecordContent] = useState(''); // 기록 내용 상태 추가
 
   const handleExerciseChange = async (e) => {
     const { name, value } = e.target;
@@ -54,7 +63,7 @@ const ExerciseModified = () => {
 
     // 시간 필드 포맷 적용
     let formattedValue = value;
-    if (name === 'time' && value.length <= 4) {
+    if (name === 'duration' && value.length <= 4) {
       formattedValue = value.replace(/[^0-9]/g, ''); // 숫자만 남기기
       if (formattedValue.length === 4) {
         formattedValue = formattedValue.replace(/(\d{2})(\d{2})/, '$1:$2');
@@ -73,27 +82,41 @@ const ExerciseModified = () => {
     e.preventDefault();
 
     const workoutDetails = exercises.map(exercise => ({
-      info: exercise.name,
-      weight: exercise.weight
+      exerciseName: exercise.name,
+      weight: exercise.weight,
+      rounds: exercise.rounds,
+      rating: exercise.rating,
     }));
 
     const payload = {
-      scheduledWorkoutId: exerciseType === 'MAIN' ? 1 : 0, // exerciseType에 따라 ID 설정
       workoutDetails: workoutDetails,
       rounds: basicInfo.rounds,
       rating: basicInfo.rating,
       success: basicInfo.success === 'success',
-      time: basicInfo.time,
-      recordContent: "Sample workout log content", // 실제 기록 내용을 추가해야 합니다.
+      duration: basicInfo.duration,
+      recordContent: recordContent, // 기록 내용을 추가합니다.
       exerciseType: exerciseType
     };
+
+    if (exerciseType === 'MAIN') {
+      if (!scheduledWorkoutId) {
+        alert('본운동의 경우 스케줄 ID가 필수입니다.');
+        return;
+      }
+      payload.scheduledWorkoutId = scheduledWorkoutId; // 실제 스케줄 ID를 여기에 설정합니다.
+    }
 
     try {
       await api.post('/workout-records', payload);
       alert('운동 기록이 저장되었습니다.');
+      navigate('/exercise');
     } catch (error) {
       console.error('Error saving workout record:', error);
     }
+  };
+
+  const handleEditorChange = (content) => {
+    setRecordContent(content);
   };
 
   useEffect(() => {
@@ -125,7 +148,7 @@ const ExerciseModified = () => {
           <h2>기본 정보</h2>
           <div className="basic-info-grid">
             <input type="number" name="rounds" placeholder="라운드 수" value={basicInfo.rounds} onChange={handleBasicInfoChange} min="1" className="custom-input" />
-            <input type="text" name="time" placeholder="시간" value={basicInfo.time} onChange={handleBasicInfoChange} maxLength="5" className="custom-input" />
+            <input type="text" name="duration" placeholder="시간" value={basicInfo.duration} onChange={handleBasicInfoChange} maxLength="5" className="custom-input" />
             <select name="rating" value={basicInfo.rating} onChange={handleBasicInfoChange} className="custom-input">
               <option value="">등급 선택</option>
               <option value="SS+">SS+</option>
@@ -145,6 +168,16 @@ const ExerciseModified = () => {
               <option value="failure">실패</option>
             </select>
           </div>
+          {exerciseType === 'MAIN' && (
+            <input
+              type="number"
+              name="scheduledWorkoutId"
+              placeholder="스케줄 ID"
+              value={scheduledWorkoutId}
+              onChange={(e) => setScheduledWorkoutId(e.target.value)}
+              className="custom-input"
+            />
+          )}
         </div>
 
         <div className="exercise-info-section exercise-modified-info">
@@ -190,6 +223,30 @@ const ExerciseModified = () => {
               </li>
             ))}
           </ul>
+        </div>
+
+        <div className="record-content-container">
+          <div className="record-content">
+            <QuillWrapper
+              value={recordContent}
+              onChange={handleEditorChange}
+              modules={{
+                toolbar: [
+                  [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
+                  [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                  ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+                  [{ 'align': [] }],
+                  ['link', 'image'],
+                  ['clean']
+                ],
+              }}
+              formats={[
+                'header', 'font', 'list', 'bullet', 'bold', 'italic', 'underline', 'strike', 'blockquote', 'align', 'link', 'image'
+              ]}
+              placeholder="기록 내용을 입력하세요."
+              className="text-editor"
+            />
+          </div>
         </div>
 
         <button type="submit" className="exercise-modified-submit-button">저장 및 제출</button>

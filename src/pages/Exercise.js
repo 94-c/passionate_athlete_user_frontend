@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Exercise.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faDumbbell, faChartBar, faTrophy, faClipboard, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
+import { faDumbbell, faChartBar, faTrophy, faClipboard, faQuestionCircle, faCalendarAlt} from '@fortawesome/free-solid-svg-icons';
 
 const Exercise = () => {
   const navigate = useNavigate();
@@ -21,6 +21,10 @@ const Exercise = () => {
         <button className="exercise-btn" onClick={() => handleNavigate('/exercise/record')}>
           <FontAwesomeIcon icon={faDumbbell} className="exercise-button-icon" />
           <span className="exercise-button-title">운동 기록</span>
+        </button>
+        <button className="exercise-btn" onClick={() => handleNavigate('/exercise/calendar')}>
+          <FontAwesomeIcon icon={faCalendarAlt} className="exercise-button-icon" />
+          <span className="exercise-button-title">운동 달력</span>
         </button>
         <button className="exercise-btn" onClick={() => handleNavigate('/exercise/stats')}>
           <FontAwesomeIcon icon={faChartBar} className="exercise-button-icon" />

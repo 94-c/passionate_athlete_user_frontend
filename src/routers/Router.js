@@ -28,6 +28,7 @@ import ExerciseModified from '../pages/ExerciseModified';
 import ExerciseCustom from '../pages/ExerciseCustom';
 import ExerciseCalendar from '../pages/ExerciseCalendar';
 
+
 const Router = () => {
   return (
     <Routes>

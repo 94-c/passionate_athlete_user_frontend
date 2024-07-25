@@ -13,7 +13,7 @@ const QuillWrapper = (props) => {
 const ExerciseMain = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const workoutType = location.state?.workoutType;
+  const workoutType = location.state?.workoutType || 'MAIN'; // 기본 값을 'MAIN'으로 설정
   const [todayWorkout, setTodayWorkout] = useState(null);
   const [formData, setFormData] = useState({
     workoutDetails: [],
@@ -37,6 +37,7 @@ const ExerciseMain = () => {
             weight: '',
             rounds: '',
             rating: '',
+            exerciseType: info.exercise.type,
           }));
 
           setTodayWorkout(workout);
@@ -48,6 +49,9 @@ const ExerciseMain = () => {
             duration: '',
             recordContent: '',
           });
+
+          console.log('Fetched workout:', workout);
+          console.log('Workout details:', workoutDetails);
         }
       } catch (error) {
         console.error('Error fetching today\'s workout:', error);
@@ -107,7 +111,6 @@ const ExerciseMain = () => {
     };
 
     const ratings = formData.workoutDetails.map(detail => detail.rating).filter(rating => rating);
-    console.log("Ratings:", ratings); // Debugging line
 
     if (ratings.length === 0) {
       return '';
@@ -115,13 +118,11 @@ const ExerciseMain = () => {
 
     let minRating = ratings[0];
     for (const rating of ratings) {
-      console.log(`Comparing ${rating} (${ratingOrder[rating]}) with ${minRating} (${ratingOrder[minRating]})`); // Debugging line
       if (ratingOrder[rating] > ratingOrder[minRating]) {
         minRating = rating;
       }
     }
 
-    console.log("Minimum rating calculated:", minRating); // Debugging line
     return minRating;
   };
 
@@ -155,7 +156,14 @@ const ExerciseMain = () => {
 
     const payload = {
       scheduledWorkoutId: todayWorkout.id,
-      workoutDetails: formData.workoutDetails,
+      workoutDetails: formData.workoutDetails.map(detail => ({
+        exerciseId: detail.exerciseId,
+        exerciseName: detail.exercise, // 여기에 명시적으로 추가합니다.
+        weight: detail.weight,
+        rounds: detail.rounds,
+        rating: detail.rating,
+        exerciseType: detail.exerciseType,
+      })),
       rounds: minimumRounds,
       rating: calculateMinimumRating(),
       success: success,
@@ -164,7 +172,7 @@ const ExerciseMain = () => {
       exerciseType: workoutType,
     };
 
-    console.log('Submitting payload:', payload);
+    console.log('Submitting payload:', payload); // 여기에서 payload를 확인합니다.
 
     try {
       await api.post('/workout-records', payload);
@@ -204,7 +212,7 @@ const ExerciseMain = () => {
                 </div>
               </div>
               <div className="exercise-info">
-              <h2>운동 정보</h2>
+                <h2>운동 정보</h2>
                 {formData.workoutDetails.map((detail, index) => (
                   <div className="workout-detail" key={index}>
                     <h3>{detail.exercise}</h3>
@@ -261,7 +269,7 @@ const ExerciseMain = () => {
                   />
                 </div>
               </div>
-              <button type="submit" className="submit-button">기록 등록</button>
+              <button type="submit" className="submit-button">등록</button>
             </form>
           </>
         ) : (

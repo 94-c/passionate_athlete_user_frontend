@@ -17,7 +17,6 @@
   
   .exercise-custom-header {
     text-align: center;
-    margin-bottom: 20px;
   }
   
   .exercise-custom-title {
@@ -129,7 +128,7 @@
   
   .daily-record h3 {
     margin: 5px 0;
-    color: #333;
+    color: #fff;
     font-weight: bold;
   }
   

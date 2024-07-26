@@ -9,34 +9,99 @@
     justify-content: center;
     align-items: center;
     z-index: 1000;
-  }
-  
-  .exercise-modal-content {
+}
+
+.exercise-modal-content {
     background: white;
     padding: 20px;
     border-radius: 5px;
-    width: 80%;
+    width: 90%;
     max-width: 500px;
     max-height: 80%;
     overflow-y: auto;
     position: relative;
-  }
-  
-  .exercise-close-button {
+}
+
+.exercise-close-button {
     position: absolute;
     top: 10px;
     right: 10px;
-    background: transparent;
     border: none;
     font-size: 16px;
+    font-weight: bold;
+    color: black;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
     cursor: pointer;
-  }
-  
-  .exercise-success {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.exercise-modal-title {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.exercise-modal-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.exercise-modal-table th, .exercise-modal-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.exercise-modal-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.exercise-modal-history-item {
+    background: #ff6600;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.exercise-modal-history-item span {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.exercise-success {
     color: green;
-  }
-  
-  .exercise-failure {
+}
+
+.exercise-failure {
     color: red;
-  }
-  
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .exercise-modal-content {
+        width: 90%;
+        max-width: 90%;
+    }
+
+    .exercise-modal-title {
+        font-size: 20px;
+    }
+
+    .exercise-modal-table th, .exercise-modal-table td {
+        font-size: 14px;
+    }
+
+    .exercise-close-button {
+        width: 25px;
+        height: 25px;
+        font-size: 14px;
+    }
+}

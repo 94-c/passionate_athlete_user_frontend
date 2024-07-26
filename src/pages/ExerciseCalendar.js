@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import '../styles/ExerciseCalendar.css';
-import { api } from '../api/Api.js';
 import ExerciseDetailModal from '../components/ExerciseDetailModal';
+import { api } from '../api/Api.js';
+import '../styles/ExerciseCalendar.css';
 
 const ExerciseCalendar = () => {
   const [date, setDate] = useState(new Date());
   const [presentDays, setPresentDays] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
   const [dailyRecords, setDailyRecords] = useState([]);
+  const [selectedRecord, setSelectedRecord] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalContent, setModalContent] = useState(null);
 
   useEffect(() => {
     const fetchAttendance = async () => {
@@ -78,14 +77,18 @@ const ExerciseCalendar = () => {
     }
   };
 
-  const handleRecordClick = (record) => {
-    setModalContent(record);
-    setIsModalOpen(true);
+  const handleRecordClick = async (record) => {
+    try {
+      const response = await api.get(`/workout-record-histories/${record.id}`);
+      const recordWithHistories = response.data;
+      setSelectedRecord(recordWithHistories);
+    } catch (error) {
+      console.error('Failed to fetch record history:', error);
+    }
   };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setModalContent(null);
+  const formatRecordValue = (value) => {
+    return value === null || value === '' ? '-' : value;
   };
 
   const formatExerciseType = (type) => {
@@ -139,7 +142,13 @@ const ExerciseCalendar = () => {
           )}
         </div>
       </div>
-      <ExerciseDetailModal isOpen={isModalOpen} onClose={closeModal} record={modalContent} />
+      {selectedRecord && (
+        <ExerciseDetailModal
+          isOpen={!!selectedRecord}
+          onClose={() => setSelectedRecord(null)}
+          record={selectedRecord}
+        />
+      )}
     </div>
   );
 };

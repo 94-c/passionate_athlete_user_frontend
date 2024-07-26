@@ -19,16 +19,54 @@ const ExerciseDetailModal = ({ isOpen, onClose, record }) => {
     }
   };
 
+  const stripHtmlTags = (html) => {
+    const div = document.createElement('div');
+    div.innerHTML = html;
+    return div.textContent || div.innerText || '';
+  };
+
   return (
     <div className="exercise-modal-overlay" onClick={onClose}>
       <div className="exercise-modal-content" onClick={(e) => e.stopPropagation()}>
         <button className="exercise-close-button" onClick={onClose}>X</button>
-        <h3>{formatExerciseType(record.exerciseType)} {record.scheduledWorkoutTitle}</h3>
-        <p>라운드: {formatRecordValue(record.rounds)}</p>
-        <p>시간: {formatRecordValue(record.duration)}</p>
-        <p>등급: {formatRecordValue(record.rating)}</p>
-        <p>성공: <span className={record.success ? 'exercise-success' : 'exercise-failure'}>{record.success ? '성공' : '실패'}</span></p>
-        <p>내용: {record.recordContent}</p>
+        <h3 className="exercise-modal-title">{formatExerciseType(record.exerciseType)} {record.scheduledWorkoutTitle}</h3>
+        <table className="exercise-modal-table">
+          <tbody>
+            <tr>
+              <th>라운드</th>
+              <td>{formatRecordValue(record.rounds)}</td>
+              <th>시간</th>
+              <td>{formatRecordValue(record.duration)}</td>
+            </tr>
+            <tr>
+              <th>등급</th>
+              <td>{formatRecordValue(record.rating)}</td>
+              <th>성공여부</th>
+              <td className={record.success ? 'exercise-success' : 'exercise-failure'}>
+                {record.success ? '성공' : '실패'}
+              </td>
+            </tr>
+            <tr>
+              <th colSpan="4">내용</th>
+            </tr>
+            <tr>
+              <td colSpan="4">{stripHtmlTags(record.recordContent)}</td>
+            </tr>
+            <tr>
+              <th colSpan="4">히스토리</th>
+            </tr>
+            <tr>
+              <td colSpan="4">
+                {record.histories.map((history, index) => (
+                  <div key={index} className="exercise-modal-history-item">
+                    <span>운동명: {history.exerciseName}</span>
+                    <span>무게: {history.weight} 라운드: {history.repetitions} 등급: {history.rating}</span>
+                  </div>
+                ))}
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   );

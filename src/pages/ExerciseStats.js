@@ -1,60 +1,72 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useContext } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
+import { faDumbbell } from '@fortawesome/free-solid-svg-icons';
+import { api } from '../api/Api.js';
 import '../styles/ExerciseStats.css';
+import { UserContext } from '../contexts/UserContext.js';
+import ExerciseWeightModal from '../components/ExerciseWeightModal';
 
 const ExerciseStats = () => {
-  const [weeklySuccessRate, setWeeklySuccessRate] = useState(80); // 예시 데이터
-  const [monthlySuccessRate, setMonthlySuccessRate] = useState(70); // 예시 데이터
-  const [showTooltip, setShowTooltip] = useState(false);
-  const tooltipRef = useRef(null);
+  const { user: currentUser } = useContext(UserContext); 
+  const [stats, setStats] = useState({
+    totalDuration: 0,
+    totalCount: 0,
+    averageIntensity: '',
+    maxRecord: '',
+    weeklySuccessRate: 0,
+    monthlySuccessRate: 0,
+    weeklyAttendanceRate: 0,
+    monthlyAttendanceRate: 0
+  });
+  const [exerciseWeights, setExerciseWeights] = useState({});
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    // Fetch weekly and monthly success rate from the API
-    // setWeeklySuccessRate(fetchedWeeklyRate);
-    // setMonthlySuccessRate(fetchedMonthlyRate);
-  }, []);
+    if (currentUser) {
+      fetchStats();
+      fetchExerciseWeights();
+    }
+  }, [currentUser]);
 
-  const handleTooltipToggle = () => {
-    setShowTooltip(!showTooltip);
+  const fetchStats = async () => {
+    try {
+      const response = await api.get(`/workout-statics`);
+      setStats(response.data);
+    } catch (error) {
+      console.error('Failed to fetch stats:', error);
+    }
   };
 
-  useEffect(() => {
-    if (showTooltip) {
-      const handleClickOutside = (event) => {
-        if (tooltipRef.current && !tooltipRef.current.contains(event.target)) {
-          setShowTooltip(false);
-        }
-      };
-      document.addEventListener('mousedown', handleClickOutside);
-      return () => {
-        document.removeEventListener('mousedown', handleClickOutside);
-      };
+  const fetchExerciseWeights = async () => {
+    try {
+      const response = await api.get(`/workout-statics/exercise-weights`);
+      setExerciseWeights(response.data);
+    } catch (error) {
+      console.error('Failed to fetch exercise weights:', error);
     }
-  }, [showTooltip]);
+  };
+
+  const handleModalToggle = () => {
+    setIsModalOpen(!isModalOpen);
+  };
 
   return (
     <div className="exercise-stats-page">
       <div className="exercise-dashboard">
-        <h1 className="exercise-title">
-          운동 통계
+        <div className="exercise-title-container">
+          <h1 className="exercise-title">운동 통계</h1>
           <FontAwesomeIcon 
-            icon={faQuestionCircle} 
-            className="question-icon"
-            onClick={handleTooltipToggle}
+            icon={faDumbbell} 
+            className="kettlebell-icon"
+            onClick={handleModalToggle}
           />
-        </h1>
+        </div>
 
-        {showTooltip && (
-          <div className="tooltip" ref={tooltipRef}>
-            <p>총 운동 시간: 누적된 총 운동 시간입니다.</p>
-            <p>총 운동 횟수: 누적된 총 운동 횟수입니다.</p>
-            <p>평균 운동 강도: 평균 운동 강도입니다.</p>
-            <p>최고 운동 기록: 가장 긴 시간 동안 지속된 운동 기록입니다.</p>
-            <p>출석률: 주간 및 월간 운동 출석률입니다.</p>
-            <p>성공률: 주간 및 월간 운동 성공률입니다.</p>
-          </div>
-        )}
+        <ExerciseWeightModal 
+          isOpen={isModalOpen} 
+          onClose={handleModalToggle} 
+          exerciseWeights={exerciseWeights} 
+        />
 
         <div className="exercise-summary-card">
           <h2 className="exercise-card-title">운동 요약</h2>
@@ -67,8 +79,8 @@ const ExerciseStats = () => {
             </thead>
             <tbody>
               <tr>
-                <td>300 시간</td>
-                <td>150 회</td>
+                <td>{(stats.totalDuration / 3600).toFixed(2)} 시간</td>
+                <td>{stats.totalCount} 회</td>
               </tr>
             </tbody>
             <thead>
@@ -79,8 +91,8 @@ const ExerciseStats = () => {
             </thead>
             <tbody>
               <tr>
-                <td>SS</td>
-                <td>2 시간 30 분</td>
+                <td>{stats.averageIntensity}</td>
+                <td>{stats.maxRecord}</td>
               </tr>
             </tbody>
           </table>
@@ -97,8 +109,8 @@ const ExerciseStats = () => {
             </thead>
             <tbody>
               <tr>
-                <td>{weeklySuccessRate}%</td>
-                <td>{monthlySuccessRate}%</td>
+                <td>{stats.weeklyAttendanceRate.toFixed(2)}%</td>
+                <td>{stats.monthlyAttendanceRate.toFixed(2)}%</td>
               </tr>
             </tbody>
           </table>
@@ -115,8 +127,8 @@ const ExerciseStats = () => {
             </thead>
             <tbody>
               <tr>
-                <td>{weeklySuccessRate}%</td>
-                <td>{monthlySuccessRate}%</td>
+                <td>{stats.weeklySuccessRate.toFixed(2)}%</td>
+                <td>{stats.monthlySuccessRate.toFixed(2)}%</td>
               </tr>
             </tbody>
           </table>

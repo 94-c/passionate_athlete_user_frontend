@@ -18,13 +18,11 @@ const ExerciseStats = () => {
     weeklyAttendanceRate: 0,
     monthlyAttendanceRate: 0
   });
-  const [exerciseWeights, setExerciseWeights] = useState({});
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     if (currentUser) {
       fetchStats();
-      fetchExerciseWeights();
     }
   }, [currentUser]);
 
@@ -37,17 +35,12 @@ const ExerciseStats = () => {
     }
   };
 
-  const fetchExerciseWeights = async () => {
-    try {
-      const response = await api.get(`/workout-statics/exercise-weights`);
-      setExerciseWeights(response.data);
-    } catch (error) {
-      console.error('Failed to fetch exercise weights:', error);
-    }
+  const handleKettlebellClick = () => {
+    setShowModal(true);
   };
 
-  const handleModalToggle = () => {
-    setIsModalOpen(!isModalOpen);
+  const closeModal = () => {
+    setShowModal(false);
   };
 
   return (
@@ -58,15 +51,10 @@ const ExerciseStats = () => {
           <FontAwesomeIcon 
             icon={faDumbbell} 
             className="kettlebell-icon"
-            onClick={handleModalToggle}
+            onClick={handleKettlebellClick}
+            style={{ color: 'orange' }}
           />
         </div>
-
-        <ExerciseWeightModal 
-          isOpen={isModalOpen} 
-          onClose={handleModalToggle} 
-          exerciseWeights={exerciseWeights} 
-        />
 
         <div className="exercise-summary-card">
           <h2 className="exercise-card-title">운동 요약</h2>
@@ -134,6 +122,10 @@ const ExerciseStats = () => {
           </table>
         </div>
       </div>
+      <ExerciseWeightModal 
+        isOpen={showModal}
+        onClose={closeModal}
+      />
     </div>
   );
 };

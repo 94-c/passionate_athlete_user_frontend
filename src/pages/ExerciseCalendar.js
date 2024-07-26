@@ -3,6 +3,7 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import '../styles/ExerciseCalendar.css';
 import { api } from '../api/Api.js';
+import ExerciseDetailModal from '../components/ExerciseDetailModal';
 
 const ExerciseCalendar = () => {
   const [date, setDate] = useState(new Date());
@@ -11,6 +12,8 @@ const ExerciseCalendar = () => {
   const [dailyRecords, setDailyRecords] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalContent, setModalContent] = useState(null);
 
   useEffect(() => {
     const fetchAttendance = async () => {
@@ -75,8 +78,14 @@ const ExerciseCalendar = () => {
     }
   };
 
-  const formatRecordValue = (value) => {
-    return value === null || value === '' ? '-' : value;
+  const handleRecordClick = (record) => {
+    setModalContent(record);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setModalContent(null);
   };
 
   const formatExerciseType = (type) => {
@@ -118,7 +127,7 @@ const ExerciseCalendar = () => {
               {dailyRecords.length > 0 ? (
                 <ul>
                   {dailyRecords.map((record, index) => (
-                    <li key={index} className={`daily-record ${record.exerciseType}`}>
+                    <li key={index} className={`daily-record ${record.exerciseType}`} onClick={() => handleRecordClick(record)}>
                       <h3 className="record-title">{formatExerciseType(record.exerciseType)} {record.scheduledWorkoutTitle}</h3>
                     </li>
                   ))}
@@ -130,6 +139,7 @@ const ExerciseCalendar = () => {
           )}
         </div>
       </div>
+      <ExerciseDetailModal isOpen={isModalOpen} onClose={closeModal} record={modalContent} />
     </div>
   );
 };

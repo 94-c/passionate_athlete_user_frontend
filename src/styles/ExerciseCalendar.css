@@ -1,8 +1,10 @@
 .exercise-calendar-page {
-    padding: 0;
-    margin-top: 0;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
+    padding: 0 20px;
+    overflow-y: auto;
+    margin-bottom: 100px;
   }
   
   .exercise-calendar-container {
@@ -91,16 +93,27 @@
     border-radius: 50%;
   }
   
-  .daily-records {
+  .daily-records-container {
     margin-top: 20px;
     text-align: center;
-    max-height: 400px; /* Set a max height for the container */
-    overflow-y: auto; /* Add vertical scroll */
+    max-height: 400px;
+    overflow-y: auto; /* Enable vertical scroll */
+  }
+  
+  .daily-records {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%; /* Ensure the container takes full width */
   }
   
   .daily-records ul {
     list-style: none;
     padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%; /* Ensure the list takes full width */
   }
   
   .daily-record {
@@ -108,34 +121,19 @@
     padding: 10px;
     margin-bottom: 10px;
     border-radius: 5px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    width: 100%; /* Ensure the records take full width */
     text-align: left;
+    flex-shrink: 0; /* Prevent records from shrinking */
+    flex-grow: 0; /* Prevent records from growing */
   }
   
   .daily-record h3 {
     margin: 5px 0;
-    color: #ff6600;
+    color: #ddd;
+    font-weight: bold;
   }
   
-  .daily-record p {
-    margin: 5px 0;
-  }
-  
-  .daily-record .success {
-    color: #ff6600;
-  }
-  
-  .daily-record .failure {
-    color: red;
-  }
-  
-  .daily-record.MAIN {
-    border: 2px solid #ff6600;
-    padding: 15px;
-  }
-  
+  .daily-record.MAIN,
   .daily-record.MODIFIED,
   .daily-record.ADDITIONAL {
     border: 1px solid #ddd;

@@ -75,6 +75,21 @@ const ExerciseCalendar = () => {
     }
   };
 
+  const formatRecordValue = (value) => {
+    return value === null || value === '' ? '-' : value;
+  };
+
+  const formatExerciseType = (type) => {
+    switch (type) {
+      case 'MODIFIED':
+        return '[변형] 변형 운동';
+      case 'ADDITIONAL':
+        return '[추가] 추가 운동';
+      default:
+        return '[본운동]';
+    }
+  };
+
   return (
     <div className="exercise-calendar-page">
       <div className="exercise-calendar-container">
@@ -93,41 +108,25 @@ const ExerciseCalendar = () => {
             onClickDay={handleDateClick}
           />
         </div>
-        <div className="daily-records">
+        <div className="daily-records-container">
           {loading ? (
             <p>Loading...</p>
           ) : error ? (
             <p>{error}</p>
           ) : (
-            dailyRecords.length > 0 ? (
-              <ul>
-                {dailyRecords.map((record, index) => (
-                  <li key={index} className={`daily-record ${record.exerciseType}`}>
-                    {record.exerciseType === 'MAIN' ? (
-                      <>
-                        <h3 className="record-title">{record.title}</h3>
-                        <p>라운드 : {record.rounds}</p>
-                        <p>시간 : {record.duration}</p>
-                        <p>등급 : {record.rating}</p>
-                        <p>성공 : <span className={record.success ? 'success' : 'failure'}>{record.success ? '성공' : '실패'}</span></p>
-                      </>
-                    ) : (
-                      <>
-                        <h3 className="record-type">
-                          [{record.exerciseType === 'MODIFIED' ? '변형' : '추가'}] {record.exerciseType === 'MODIFIED' ? '변형 운동' : '추가운동'}
-                        </h3>
-                        <p>라운드 : {record.rounds}</p>
-                        <p>시간 : {record.duration}</p>
-                        <p>등급 : {record.rating}</p>
-                        <p>성공 : <span className={record.success ? 'success' : 'failure'}>{record.success ? '성공' : '실패'}</span></p>
-                      </>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p>운동 기록이 없습니다.</p>
-            )
+            <div className="daily-records">
+              {dailyRecords.length > 0 ? (
+                <ul>
+                  {dailyRecords.map((record, index) => (
+                    <li key={index} className={`daily-record ${record.exerciseType}`}>
+                      <h3 className="record-title">{formatExerciseType(record.exerciseType)} {record.scheduledWorkoutTitle}</h3>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p>운동 기록이 없습니다.</p>
+              )}
+            </div>
           )}
         </div>
       </div>

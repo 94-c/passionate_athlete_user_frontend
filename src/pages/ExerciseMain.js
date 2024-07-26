@@ -129,10 +129,18 @@ const ExerciseMain = () => {
   const parseTime = (timeString) => {
     if (!timeString) return 0;
     const match = timeString.match(/(\d+):(\d+)/);
-    if (!match) return 0;
-    const minutes = parseInt(match[1], 10);
-    const seconds = parseInt(match[2], 10);
-    return (minutes * 60) + seconds;
+    if (match) {
+      const minutes = parseInt(match[1], 10);
+      const seconds = parseInt(match[2], 10);
+      return (minutes * 60) + seconds;
+    }
+
+    const minuteMatch = timeString.match(/(\d+)min/);
+    if (minuteMatch) {
+      return parseInt(minuteMatch[1], 10) * 60;
+    }
+
+    return 0;
   };
 
   const determineSuccess = (minimumRounds, formattedDuration) => {

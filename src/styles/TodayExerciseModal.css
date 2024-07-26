@@ -1,141 +1,141 @@
 /* styles/TodayExerciseModal.css */
-.modal {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.today-modal-overlay {
     position: fixed;
-    z-index: 1000;
-    left: 0;
     top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
 }
 
-.modal-content {
-    background-color: #1e1e1e; /* Dark background color */
+.today-modal-content {
+    background-color: #FFA500; /* 주황색 배경 */
     padding: 20px;
     border-radius: 10px;
     width: 90%;
     max-width: 500px;
-    max-height: 80%; /* Ensure the modal doesn't exceed 80% of the viewport height */
-    overflow-y: auto; /* Add vertical scrollbar if content exceeds max-height */
-    position: relative; /* Position relative to place close button */
+    max-height: 80%;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
-/* Close button styles */
-.close-button {
+.today-close-button {
     position: absolute;
     top: 10px;
     right: 10px;
-    color: #aaa;
+    color: #fff;
     font-size: 28px;
     font-weight: bold;
-}
-
-.close-button:hover,
-.close-button:focus {
-    color: white;
-    text-decoration: none;
+    background: transparent;
+    border: none;
     cursor: pointer;
 }
 
-/* Responsive styles */
+.today-close-button:hover,
+.today-close-button:focus {
+    color: #ddd;
+}
+
+.today-modal-title {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: white; /* 흰색 텍스트 */
+}
+
 @media (max-width: 768px) {
-    .modal-content {
-        width: 95%; /* Adjust width for smaller screens */
+    .today-modal-content {
+        width: 95%;
         padding: 15px;
-        max-height: 70%; /* Adjust max-height for smaller screens */
+        max-height: 70%;
     }
     
-    .close-button {
-        font-size: 24px; /* Adjust close button size for smaller screens */
+    .today-close-button {
+        font-size: 24px;
     }
 }
 
 @media (max-width: 480px) {
-    .modal-content {
-        width: 100%; /* Adjust width for very small screens */
+    .today-modal-content {
+        width: 100%;
         padding: 10px;
-        max-height: 60%; /* Increase max-height for very small screens */
+        max-height: 60%;
     }
     
-    .close-button {
-        font-size: 20px; /* Adjust close button size for very small screens */
+    .today-close-button {
+        font-size: 20px;
     }
 }
 
-.exercise-item {
-    background: #2e2e2e;
+.today-exercise-item {
+    background: #fff; /* 흰색 배경 */
     padding: 15px;
     border-radius: 10px;
     margin-bottom: 15px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    word-wrap: break-word; /* Ensure long words break to the next line */
-    overflow-wrap: break-word; /* Ensure long words break to the next line */
-    white-space: pre-wrap; /* Preserve whitespace and wrap text as necessary */
+    box-shadow: 0 2px 4px #ddd(0, 0, 0, 1);
 }
 
-.exercise-header {
+.today-exercise-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
-    flex-wrap: wrap; /* Allow items to wrap within the header */
 }
 
-.exercise-title {
+.today-exercise-title {
     font-size: 1.5em;
     font-weight: bold;
-    color: white;
-    flex: 1; /* Allow title to take available space */
-    margin-right: 10px; /* Space between title and time */
+    color: #FFA500; /* 주황색 텍스트 */
 }
 
-.exercise-time {
+.today-exercise-time {
     font-size: 1.2em;
-    color: #ffa500; /* Orange color */
-    white-space: nowrap; /* Prevent breaking to next line */
+    color: #FFA500; /* 주황색 텍스트 */
+    white-space: nowrap;
 }
 
-.exercise-body {
+.today-exercise-body {
     margin-bottom: 20px;
 }
 
-.exercise-infos {
+.today-exercise-infos {
     margin-bottom: 10px;
-    color: #ffa500;
+    color: #FFA500;
+    display: flex;
+    flex-direction: column;
 }
 
-.exercise-info {
+.today-exercise-info {
     font-size: 1.1em;
     margin-bottom: 5px;
-    word-wrap: break-word; /* Ensure long words break to the next line */
-    overflow-wrap: break-word; /* Ensure long words break to the next line */
-    white-space: pre-wrap; /* Preserve whitespace and wrap text as necessary */
+    background: #FFA500; /* 주황색 배경 */
+    padding: 5px;
+    border-radius: 5px;
+    color: white; /* 흰색 텍스트 */
 }
 
-.exercise-ratings {
+.today-exercise-ratings {
     display: flex;
-    flex-wrap: wrap; /* Allow items to wrap */
     justify-content: space-between;
+    gap: 10px;
 }
 
-.ratings-group {
+.today-ratings-group {
     width: 48%;
-    margin-bottom: 10px; /* Space between rating groups */
 }
 
-.ratings-group h4 {
+.today-ratings-group h4 {
     margin: 10px 0 5px;
-    color: white; /* White color for rating headers */
+    color: #FFA500;
 }
 
-.exercise-rating {
+.today-exercise-rating {
     margin-left: 10px;
     font-size: 1.1em;
-    color: #ffa500;
-    word-wrap: break-word; /* Ensure long words break to the next line */
-    overflow-wrap: break-word; /* Ensure long words break to the next line */
-    white-space: pre-wrap; /* Preserve whitespace and wrap text as necessary */
+    color: #FFA500; /* 흰색 텍스트 */
 }

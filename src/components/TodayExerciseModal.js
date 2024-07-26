@@ -28,36 +28,38 @@ const TodayExerciseModal = ({ show, handleClose }) => {
     }
 
     return (
-        <div className="modal">
-            <div className="modal-content">
-                <span className="close-button" onClick={handleClose}>&times;</span>
+        <div className="today-modal-overlay">
+            <div className="today-modal-content">
+                <span className="today-close-button" onClick={handleClose}>&times;</span>
                 <h2 className="today-modal-title">오늘의 운동</h2>
                 {workouts.length > 0 ? (
                     workouts.map((workout, index) => (
-                        <div key={index} className="exercise-item">
-                            <div className="exercise-header">
-                                <div className="exercise-title">{workout.title}</div>
-                                <div className="exercise-time">{workout.rounds} ROUNDS / {workout.time}</div>
+                        <div key={index} className="today-exercise-item">
+                            <div className="today-exercise-header">
+                                <div className="today-exercise-title">{workout.title}</div>
+                                <div className="today-exercise-time">{workout.rounds} ROUNDS / {workout.time}</div>
                             </div>
-                            <div className="exercise-body">
-                                <div className="exercise-infos">
+                            <div className="today-exercise-body">
+                                <div className="today-exercise-infos">
                                     {workout.workoutInfos.map((info, i) => (
-                                        <div key={i} className="exercise-info">{info}</div>
+                                        <div key={i} className="today-exercise-info">
+                                            {info.exercise.name}
+                                        </div>
                                     ))}
                                 </div>
-                                <div className="exercise-ratings">
-                                    <div className="ratings-group">
+                                <div className="today-exercise-ratings">
+                                    <div className="today-ratings-group">
                                         <h4>남자 등급</h4>
                                         {workout.workoutRatings['남']?.map((rating, j) => (
-                                            <div key={j} className="exercise-rating">
+                                            <div key={j} className="today-exercise-rating">
                                                 {rating.rating}: {rating.criteria}
                                             </div>
                                         ))}
                                     </div>
-                                    <div className="ratings-group">
+                                    <div className="today-ratings-group">
                                         <h4>여자 등급</h4>
                                         {workout.workoutRatings['여']?.map((rating, j) => (
-                                            <div key={j} className="exercise-rating">
+                                            <div key={j} className="today-exercise-rating">
                                                 {rating.rating}: {rating.criteria}
                                             </div>
                                         ))}

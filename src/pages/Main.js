@@ -19,6 +19,10 @@ const Main = () => {
     setShowModal(false);
   };
 
+  const handleTodayExerciseClick = () => {
+    setShowModal(true);
+  };
+
   return (
     <div className="main-content">
       <Head />
@@ -28,11 +32,11 @@ const Main = () => {
           <FontAwesomeIcon icon={faDumbbell} className="main-button-icon" />
           <span className="main-button-title">운동</span>
         </button>
-        <button className="button-item">
+        <button className="button-item" onClick={() => handleNavigate('/stats')}>
           <FontAwesomeIcon icon={faChartBar} className="main-button-icon" />
           <span className="main-button-title">통계</span>
         </button>
-        <button className="button-item" onClick={() => setShowModal(true)}>
+        <button className="button-item" onClick={handleTodayExerciseClick}>
           <FontAwesomeIcon icon={faRunning} className="main-button-icon" />
           <span className="main-button-title">오늘의 운동</span>
         </button>

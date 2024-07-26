@@ -1,178 +1,191 @@
 .exercise-calendar-page {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 0 20px;
-    overflow-y: auto;
-    margin-bottom: 100px;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0 20px;
+  overflow-y: auto;
+  margin-bottom: 100px;
+}
+
+.exercise-calendar-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: transparent;
+}
+
+.exercise-custom-header {
+  text-align: center;
+}
+
+.exercise-custom-title {
+  font-size: 24px;
+  color: #333;
+}
+
+.exercise-custom-subtitle {
+  font-size: 18px;
+  color: #666;
+}
+
+.exercise-calendar-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.react-calendar {
+  width: 100%;
+  max-height: 80%;
+  background: transparent;
+  border: none;
+  border-radius: 10px;
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.125em;
+}
+
+.react-calendar__navigation button {
+  color: #ff6600;
+  min-width: 44px;
+  background: transparent;
+  font-size: 16px;
+  margin-top: 8px;
+}
+
+.react-calendar__tile {
+  max-width: 100%;
+  background: transparent;
+  text-align: center;
+  line-height: 2.5em;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  position: relative;
+}
+
+.react-calendar__tile--now {
+  background: #ffcc99;
+  border-radius: 10px;
+}
+
+.react-calendar__tile--active {
+  background: #ff6600;
+  color: white;
+  border-radius: 10px;
+}
+
+.exercise-present-day {
+  position: relative;
+}
+
+.exercise-present-day .exercise-highlight-dot {
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 6px;
+  background-color: #ff6600;
+  border-radius: 50%;
+}
+
+.daily-records-container {
+  margin-top: 20px;
+  text-align: center;
+  max-height: 400px;
+  overflow-y: auto; /* Enable vertical scroll */
+}
+
+.daily-records {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%; /* Ensure the container takes full width */
+}
+
+.daily-records ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%; /* Ensure the list takes full width */
+}
+
+.daily-record {
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  width: 100%; /* Ensure the records take full width */
+  text-align: left;
+  flex-shrink: 0; /* Prevent records from shrinking */
+  flex-grow: 0; /* Prevent records from growing */
+  background-color: #ff6600;
+  color: white;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer; /* Add pointer cursor for clickable effect */
+}
+
+.daily-record:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.daily-record:active {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.daily-record h3 {
+  margin: 5px 0;
+  color: white;
+  font-weight: bold;
+}
+
+.daily-record.MAIN,
+.daily-record.MODIFIED,
+.daily-record.ADDITIONAL {
+  border: 1px solid #ddd;
+}
+
+.daily-record.MODIFIED .record-type,
+.daily-record.ADDITIONAL .record-type {
+  font-weight: bold;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
   .exercise-calendar-container {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    background: transparent;
-  }
-  
-  .exercise-custom-header {
-    text-align: center;
-  }
-  
-  .exercise-custom-title {
-    font-size: 24px;
-    color: #333;
-  }
-  
-  .exercise-custom-subtitle {
-    font-size: 18px;
-    color: #666;
-  }
-  
-  .exercise-calendar-content {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .react-calendar {
-    width: 100%;
-    max-height: 80%;
-    background: transparent;
-    border: none;
-    border-radius: 10px;
-    font-family: Arial, Helvetica, sans-serif;
-    line-height: 1.125em;
-  }
-  
-  .react-calendar__navigation button {
-    color: #ff6600;
-    min-width: 44px;
-    background: transparent;
-    font-size: 16px;
-    margin-top: 8px;
-  }
-  
-  .react-calendar__tile {
-    max-width: 100%;
-    background: transparent;
-    text-align: center;
-    line-height: 2.5em;
-    border-radius: 10px;
-    border: none;
-    outline: none;
-    font-size: 14px;
-    position: relative;
-  }
-  
-  .react-calendar__tile--now {
-    background: #ffcc99;
-    border-radius: 10px;
-  }
-  
-  .react-calendar__tile--active {
-    background: #ff6600;
-    color: white;
-    border-radius: 10px;
-  }
-  
-  .exercise-present-day {
-    position: relative;
-  }
-  
-  .exercise-present-day .exercise-highlight-dot {
-    position: absolute;
-    bottom: 5px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 6px;
-    height: 6px;
-    background-color: #ff6600;
-    border-radius: 50%;
-  }
-  
-  .daily-records-container {
-    margin-top: 20px;
-    text-align: center;
-    max-height: 400px;
-    overflow-y: auto; /* Enable vertical scroll */
-  }
-  
-  .daily-records {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%; /* Ensure the container takes full width */
-  }
-  
-  .daily-records ul {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%; /* Ensure the list takes full width */
-  }
-  
-  .daily-record {
-    border: 1px solid #ddd;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    width: 100%; /* Ensure the records take full width */
-    text-align: left;
-    flex-shrink: 0; /* Prevent records from shrinking */
-    flex-grow: 0; /* Prevent records from growing */
-  }
-  
-  .daily-record h3 {
-    margin: 5px 0;
-    color: #fff;
-    font-weight: bold;
-  }
-  
-  .daily-record.MAIN,
-  .daily-record.MODIFIED,
-  .daily-record.ADDITIONAL {
-    border: 1px solid #ddd;
-  }
-  
-  .daily-record.MODIFIED .record-type,
-  .daily-record.ADDITIONAL .record-type {
-    font-weight: bold;
-  }
-  
-  /* 반응형 디자인 */
-  @media (max-width: 768px) {
-    .exercise-calendar-container {
       padding: 5px;
-    }
-  
-    .react-calendar__navigation button {
+  }
+
+  .react-calendar__navigation button {
       font-size: 14px;
-    }
-  
-    .react-calendar__tile {
-      font-size: 12px;
-    }
   }
-  
-  @media (min-width: 360px) {
-    .react-calendar__tile {
+
+  .react-calendar__tile {
       font-size: 12px;
-    }
   }
-  
-  @media (min-width: 768px) {
-    .react-calendar__tile {
+}
+
+@media (min-width: 360px) {
+  .react-calendar__tile {
+      font-size: 12px;
+  }
+}
+
+@media (min-width: 768px) {
+  .react-calendar__tile {
       font-size: 14px;
-    }
   }
-  
-  @media (min-width: 1024px) {
-    .react-calendar__tile {
+}
+
+@media (min-width: 1024px) {
+  .react-calendar__tile {
       font-size: 16px;
-    }
   }
-  
+}

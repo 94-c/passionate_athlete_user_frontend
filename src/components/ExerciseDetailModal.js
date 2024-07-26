@@ -59,7 +59,7 @@ const ExerciseDetailModal = ({ isOpen, onClose, record }) => {
               <td colSpan="4">
                 {record.histories.map((history, index) => (
                   <div key={index} className="exercise-modal-history-item">
-                    <span>운동명: {history.exerciseName}</span>
+                    <span>운동: {history.exerciseName}</span>
                     <span>무게: {history.weight} 라운드: {history.repetitions} 등급: {history.rating}</span>
                   </div>
                 ))}

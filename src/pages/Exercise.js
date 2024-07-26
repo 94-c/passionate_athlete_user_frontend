@@ -34,10 +34,10 @@ const Exercise = () => {
           <FontAwesomeIcon icon={faTrophy} className="exercise-button-icon" />
           <span className="exercise-button-title">운동 랭크</span>
         </button>
-        <button className="exercise-btn" onClick={() => handleNavigate('/exercise/board')}>
+        {/* <button className="exercise-btn" onClick={() => handleNavigate('/exercise/board')}>
           <FontAwesomeIcon icon={faClipboard} className="exercise-button-icon" />
           <span className="exercise-button-title">운동 게시판</span>
-        </button>
+        </button> */}
       </div>
     </div>
   );

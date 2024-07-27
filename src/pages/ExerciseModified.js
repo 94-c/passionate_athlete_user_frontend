@@ -79,10 +79,27 @@ const ExerciseModified = () => {
   };
 
   const handleAddExercise = () => {
-    if (!currentExercise.rounds || !currentExercise.weight || !currentExercise.rating) {
-      alert('라운드, 무게, 등급을 모두 입력하세요.');
+    if (!currentExercise.type) {
+      alert('운동 타입을 선택하세요.');
       return;
     }
+    if (!currentExercise.name) {
+      alert('운동을 선택하세요.');
+      return;
+    }
+    if (!currentExercise.rounds) {
+      alert('라운드를 입력하세요.');
+      return;
+    }
+    if (!currentExercise.weight) {
+      alert('무게를 입력하세요.');
+      return;
+    }
+    if (!currentExercise.rating) {
+      alert('등급을 선택하세요.');
+      return;
+    }
+
     setExercises([...exercises, currentExercise]);
     setCurrentExercise({ type: '', name: '', rounds: '', weight: '', rating: '' });
   };
@@ -94,12 +111,38 @@ const ExerciseModified = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!basicInfo.rounds) {
+      alert('라운드를 입력하세요.');
+      return;
+    }
+    if (!basicInfo.duration) {
+      alert('시간을 입력하세요.');
+      return;
+    }
+    if (!basicInfo.rating) {
+      alert('등급을 선택하세요.');
+      return;
+    }
+    if (!basicInfo.success) {
+      alert('결과를 선택하세요.');
+      return;
+    }
+    if (exerciseType === 'MAIN' && !scheduledWorkoutId) {
+      alert('본운동의 경우 스케줄 ID가 필수입니다.');
+      return;
+    }
+
     const workoutDetails = exercises.map(exercise => ({
       exerciseName: exercise.name,
       weight: exercise.weight,
       rounds: exercise.rounds,
       rating: exercise.rating,
     }));
+
+    if (workoutDetails.length === 0) {
+      alert('운동 정보를 추가하세요.');
+      return;
+    }
 
     const payload = {
       workoutDetails: workoutDetails,
@@ -112,10 +155,6 @@ const ExerciseModified = () => {
     };
 
     if (exerciseType === 'MAIN') {
-      if (!scheduledWorkoutId) {
-        alert('본운동의 경우 스케줄 ID가 필수입니다.');
-        return;
-      }
       payload.scheduledWorkoutId = scheduledWorkoutId; // 실제 스케줄 ID를 여기에 설정합니다.
     }
 

@@ -23,6 +23,7 @@ const ExerciseCustom = () => {
     rating: ''
   });
   const [recordContent, setRecordContent] = useState(''); // 기록 내용 상태 추가
+  const [errors, setErrors] = useState({}); // 유효성 검사 에러 상태 추가
 
   // 모달 상태 추가
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -38,6 +39,7 @@ const ExerciseCustom = () => {
     const sanitizedValue = name === 'rounds' && value < 1 ? 1 : value;
 
     setCurrentExercise({ ...currentExercise, [name]: sanitizedValue });
+    setErrors({ ...errors, [name]: '' }); // 값이 변경될 때 에러 메시지 초기화
 
     if (name === 'type') {
       try {
@@ -51,12 +53,32 @@ const ExerciseCustom = () => {
   };
 
   const handleAddExercise = () => {
-    if (!currentExercise.rounds || !currentExercise.weight || !currentExercise.rating) {
-      alert('라운드, 무게, 등급을 모두 입력하세요.');
+    let validationErrors = {};
+
+    if (!currentExercise.type) {
+      validationErrors.type = '운동 타입을 선택하세요.';
+    }
+    if (!currentExercise.name) {
+      validationErrors.name = '운동을 선택하세요.';
+    }
+    if (!currentExercise.rounds) {
+      validationErrors.rounds = '라운드를 입력하세요.';
+    }
+    if (!currentExercise.weight) {
+      validationErrors.weight = '무게를 입력하세요.';
+    }
+    if (!currentExercise.rating) {
+      validationErrors.rating = '등급을 선택하세요.';
+    }
+
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
       return;
     }
+
     setExercises([...exercises, currentExercise]);
     setCurrentExercise({ type: '', name: '', rounds: '', weight: '', rating: '' });
+    setErrors({}); // 에러 메시지 초기화
   };
 
   const handleRemoveExercise = (index) => {
@@ -65,6 +87,11 @@ const ExerciseCustom = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (exercises.length === 0) {
+      alert('운동을 추가하세요.');
+      return;
+    }
 
     const workoutDetails = exercises.map(exercise => ({
       exerciseName: exercise.name,
@@ -128,15 +155,19 @@ const ExerciseCustom = () => {
               <option key={type} value={type}>{type}</option>
             ))}
           </select>
+          {errors.type && <span className="error-message">{errors.type}</span>}
           <select name="name" value={currentExercise.name} onChange={handleExerciseChange} disabled={!currentExercise.type} className="custom-input">
             <option value="">운동 선택</option>
             {currentExercise.type && exerciseOptions.map(exercise => (
               <option key={exercise.id} value={exercise.name}>{exercise.name}</option>
             ))}
           </select>
+          {errors.name && <span className="error-message">{errors.name}</span>}
           <div className="exercise-input-row">
             <input type="number" name="rounds" placeholder="라운드" value={currentExercise.rounds} onChange={handleExerciseChange} min="1" className="custom-input" />
+            {errors.rounds && <span className="error-message">{errors.rounds}</span>}
             <input type="text" name="weight" placeholder="무게" value={currentExercise.weight} onChange={handleExerciseChange} className="custom-input" />
+            {errors.weight && <span className="error-message">{errors.weight}</span>}
             <select name="rating" value={currentExercise.rating} onChange={handleExerciseChange} className="custom-input">
               <option value="">등급 선택</option>
               <option value="SS+">SS+</option>
@@ -151,6 +182,7 @@ const ExerciseCustom = () => {
               <option value="C">C</option>
               <option value="N">등급없음</option>
             </select>
+            {errors.rating && <span className="error-message">{errors.rating}</span>}
             <button type="button" onClick={handleAddExercise} className="add-exercise-button">추가</button>
           </div>
         </div>

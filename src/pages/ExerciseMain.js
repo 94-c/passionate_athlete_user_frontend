@@ -182,6 +182,24 @@ const ExerciseMain = () => {
 
     console.log('Submitting payload:', payload); // 여기에서 payload를 확인합니다.
 
+    // Validate form data
+    if (!formData.duration) {
+      alert('시간을 입력하세요.');
+      return;
+    }
+    if (!minimumRounds) {
+      alert('라운드를 입력하세요.');
+      return;
+    }
+    if (!calculateMinimumRating()) {
+      alert('등급을 선택하세요.');
+      return;
+    }
+    if (!formData.workoutDetails.length) {
+      alert('운동 정보를 추가하세요.');
+      return;
+    }
+
     try {
       await api.post('/workout-records', payload);
       alert('본운동 기록이 완료되었습니다.');

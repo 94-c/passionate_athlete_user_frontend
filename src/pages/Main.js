@@ -12,7 +12,11 @@ const Main = () => {
   const [showModal, setShowModal] = useState(false);
 
   const handleNavigate = (path) => {
-    navigate(path);
+    if (path === '/stats') {
+      alert("현재 사용 할 수 없는 페이지입니다.");
+    } else {
+      navigate(path);
+    }
   };
 
   const handleModalClose = () => {

@@ -9,6 +9,7 @@ const Attendance = () => {
   const [presentDays, setPresentDays] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
   const [attendanceInfo, setAttendanceInfo] = useState(null);
+  const [workoutDetails, setWorkoutDetails] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -38,8 +39,8 @@ const Attendance = () => {
   const isSameDay = (date1, date2) => {
     const utcDate2 = new Date(Date.UTC(date2.getFullYear(), date2.getMonth(), date2.getDate()));
     return date1.getUTCDate() === utcDate2.getUTCDate() &&
-           date1.getUTCMonth() === utcDate2.getUTCMonth() &&
-           date1.getUTCFullYear() === utcDate2.getUTCFullYear();
+      date1.getUTCMonth() === utcDate2.getUTCMonth() &&
+      date1.getUTCFullYear() === utcDate2.getUTCFullYear();
   };
 
   const tileClassName = ({ date, view }) => {
@@ -61,11 +62,22 @@ const Attendance = () => {
     setSelectedDate(selectedDate);
     setLoading(true);
     setError(null);
+    setAttendanceInfo(null);
+    setWorkoutDetails([]);
+
     try {
-      const response = await api.get(`/attendances/daily?daily=${selectedDate.toISOString().split('T')[0]}`);
-      setAttendanceInfo(response.data);
+      const attendanceResponse = await api.get(`/attendances/daily?daily=${selectedDate.toISOString().split('T')[0]}`);
+      setAttendanceInfo(attendanceResponse.data);
+
+      const workoutResponse = await api.get(`/workout-records/daily?date=${selectedDate.toISOString().split('T')[0]}`);
+      if (workoutResponse.data && Array.isArray(workoutResponse.data.records)) {
+        setWorkoutDetails(workoutResponse.data.records);
+      } else {
+        setWorkoutDetails([]);
+      }
     } catch (error) {
       setAttendanceInfo(null);
+      setWorkoutDetails([]);
       if (error.response && error.response.status === 404) {
         setError(error.response.data.message);
       } else {
@@ -79,7 +91,21 @@ const Attendance = () => {
   const closeModal = () => {
     setSelectedDate(null);
     setAttendanceInfo(null);
+    setWorkoutDetails([]);
     setError(null);
+  };
+
+  const formatExerciseType = (type) => {
+    switch (type) {
+      case 'MODIFIED':
+        return '[변형] 변형 운동';
+      case 'ADDITIONAL':
+        return '[추가] 추가 운동';
+      case 'MAIN':
+        return '[본운동]';
+      default:
+        return '[운동]';
+    }
   };
 
   return (
@@ -102,6 +128,7 @@ const Attendance = () => {
         <div className="modal-overlay" onClick={closeModal}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <h2>출석</h2>
+            <br />
             {loading ? (
               <p>Loading...</p>
             ) : error ? (
@@ -110,8 +137,17 @@ const Attendance = () => {
               <>
                 <p>{attendanceInfo.username} 님의 {selectedDate.toISOString().split('T')[0]}일날 출석하셨습니다.</p>
                 <div className="workout-details">
-                  <h3>운동 정보</h3>
-                  <p>{attendanceInfo.workoutDetails}</p>
+                  <h4>{selectedDate.toISOString().split('T')[0]}의 운동정보</h4>
+                  <br />
+                  {workoutDetails.length > 0 ? (
+                    workoutDetails.map((record, index) => (
+                      <div key={index} className="exercise-record">
+                        <p className="record-title">{formatExerciseType(record.exerciseType)} {record.scheduledWorkoutTitle}</p>
+                      </div>
+                    ))
+                  ) : (
+                    <p>운동 기록이 없습니다.</p>
+                  )}
                 </div>
               </>
             ) : (

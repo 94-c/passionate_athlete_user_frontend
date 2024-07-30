@@ -111,7 +111,22 @@
 
 .workout-details {
   margin-top: 20px;
+}
+
+.workout-details h4 {
   text-align: center;
+}
+
+.workout-details .exercise-record {
+  background-color: #ff6600;
+  color: white;
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 4px;
+}
+
+.workout-details .record-title {
+  text-align: left;
 }
 
 /* 반응형 디자인 */

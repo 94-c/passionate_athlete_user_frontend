@@ -192,7 +192,9 @@ const ExerciseCustom = () => {
           <ul>
             {exercises.map((exercise, index) => (
               <li key={index} className="exercise-index-item">
-                [ {exercise.type} ] - {exercise.name} - {exercise.rounds}R / {exercise.weight}kg / {exercise.rating}
+                [ {exercise.type} ] - {exercise.name} 
+                <br></br>
+                {exercise.rounds}R / {exercise.weight}kg / {exercise.rating}
                 <button type="button" className="remove-exercise-button" onClick={() => handleRemoveExercise(index)}>X</button>
               </li>
             ))}

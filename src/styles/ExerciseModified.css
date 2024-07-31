@@ -246,7 +246,6 @@ li {
     gap: 10px;
   }
 
-  input[type="text"],
   input[type="number"],
   select {
     padding: 8px;

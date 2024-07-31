@@ -299,7 +299,7 @@ const ExerciseMain = () => {
             </form>
           </>
         ) : (
-          <p>오늘의 운동이 없습니다.</p>
+          <p className="no-workout">오늘의 운동이 없습니다.</p>
         )}
       </div>
     </div>

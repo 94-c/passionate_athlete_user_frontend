@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { api } from '../api/Api.js';
+import MemberShipHistoryModal from '../components/MemberShipHistoryModal';
 import '../styles/MemberShip.css';
 
 const MemberShip = () => {
@@ -8,6 +9,7 @@ const MemberShip = () => {
   const [pauseDays, setPauseDays] = useState(1);
   const [periodType, setPeriodType] = useState('ONE_MONTH');
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedRecord, setSelectedRecord] = useState(null);
   const itemsPerPage = 5;
 
   const fetchMembershipData = useCallback(async () => {
@@ -71,6 +73,14 @@ const MemberShip = () => {
     const expiry = new Date(expiryDate);
     const timeDiff = expiry.getTime() - now.getTime();
     return Math.ceil(timeDiff / (1000 * 3600 * 24));
+  };
+
+  const handleViewClick = (record) => {
+    setSelectedRecord(record);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedRecord(null);
   };
 
   return (
@@ -137,7 +147,7 @@ const MemberShip = () => {
                     <td>{item.oldExpiryDate}</td>
                     <td>{item.newExpiryDate}</td>
                     <td>
-                      <button className="view-button">보기</button>
+                      <button className="view-button" onClick={() => handleViewClick(item)}>보기</button>
                     </td>
                   </tr>
                 ))}
@@ -159,6 +169,13 @@ const MemberShip = () => {
           ))}
         </div>
       </div>
+      {selectedRecord && (
+        <MemberShipHistoryModal
+          isOpen={!!selectedRecord}
+          onClose={handleCloseModal}
+          record={selectedRecord}
+        />
+      )}
     </div>
   );
 };

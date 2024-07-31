@@ -1,0 +1,219 @@
+.membership-page {
+  padding: 20px;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  height: 80%;
+  overflow-y: auto;
+}
+
+.membership-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 800px;
+}
+
+.membership-title,
+.membership-title-left {
+  margin: 20px 0;
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #ff6600;
+}
+
+.membership-title-left {
+  text-align: left;
+  width: 100%;
+  max-width: 800px;
+}
+
+.renewal-days {
+  background-color: #ff6600;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 50%;
+  font-size: 1.2em;
+}
+
+.membership-details {
+  width: 100%;
+  max-width: 800px;
+  margin-bottom: 20px;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #fff5e5;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+}
+
+.membership-info {
+  margin-bottom: 20px;
+  font-size: 1.1em;
+}
+
+.membership-actions {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.input-group label {
+  margin-right: 10px;
+  font-size: 1.1em;
+}
+
+.input-group input,
+.input-group select {
+  padding: 10px;
+  margin-right: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1em;
+  flex: 1; /* 남은 공간을 차지하도록 */
+}
+
+.input-group button {
+  background-color: #ff6600;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 1.1em;
+  width: auto; /* 버튼 크기 조정 */
+  flex: 0 0 auto; /* 버튼은 크기를 고정 */
+}
+
+.input-group button:hover {
+  background-color: #e65c00;
+}
+
+.membership-history-table {
+  width: 100%;
+  max-width: 800px;
+  margin-bottom: 20px;
+  border-collapse: collapse;
+  background-color: #fff5e5;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.membership-history-table th,
+.membership-history-table td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.membership-history-table th {
+  background-color: #ff6600;
+  color: white;
+}
+
+.no-history {
+  text-align: center;
+  font-weight: bold;
+  padding: 20px;
+}
+
+.view-button {
+  background-color: #ff6600;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.view-button:hover {
+  background-color: #e65c00;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination button {
+  background-color: #ff6600;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  margin: 0 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.pagination button:hover {
+  background-color: #e65c00;
+}
+
+.pagination .active {
+  background-color: #e65c00;
+}
+
+/* 반응형 스타일 */
+@media (max-width: 768px) {
+  .membership-header {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .membership-title,
+  .membership-title-left {
+    font-size: 1.2em;
+  }
+
+  .input-group {
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .input-group label,
+  .input-group input,
+  .input-group select,
+  .input-group button {
+    width: auto;
+    margin-right: 10px;
+  }
+
+  .membership-history-table th,
+  .membership-history-table td {
+    white-space: nowrap; /* 자동 줄바꿈 */
+    font-size: 0.9em;
+  }
+
+  .view-button {
+    padding: 3px 7px;
+    font-size: 0.9em;
+  }
+
+  .pagination button {
+    padding: 3px 7px;
+    font-size: 0.9em;
+  }
+}
+
+/* 추가: 큰 화면일 때 테이블이 화면에 꽉 차게 */
+@media (min-width: 769px) {
+  .membership-history-table {
+    width: 100%;
+  }
+}

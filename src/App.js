@@ -25,7 +25,7 @@ const App = () => {
   const isSearchPage = location.pathname === '/search';
   const isNoticeFormPage = location.pathname === '/notices/register' || location.pathname === '/inbody/ranking' || location.pathname === '/mypage/user/edit';
   const isNoticeDetailPage = location.pathname.startsWith('/notices/');
-  const isAttendancePage = location.pathname === '/attendance' || location.pathname === '/mypage';
+  const isAttendancePage = location.pathname === '/attendance' || location.pathname === '/mypage' || location.pathname === '/mypage/membership';
   const isInbodyPage = location.pathname === '/inbody' || location.pathname === '/inbody/dashboard' || location.pathname === '/inbody/register' || location.pathname === '/inbody/status';
   const isUserInfoPage = location.pathname === '/mypage/user/info';
   const isExercisePage = location.pathname.startsWith('/exercise');
@@ -60,6 +60,8 @@ const App = () => {
         return "캘런더";
       } else if (location.pathname === '/mypage') {
         return "마이";
+      } else if (location.pathname === '/mypage/membership') {
+        return "마이 회원권";
       }
     } else if (isUserInfoPage) {
       return "회원 정보";

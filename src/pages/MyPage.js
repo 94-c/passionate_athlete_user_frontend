@@ -10,6 +10,7 @@ const MyPage = () => {
   const navigate = useNavigate();
   const { user: currentUser } = useContext(UserContext);
   const [bodyInfo, setBodyInfo] = useState(null);
+  const [membershipInfo, setMembershipInfo] = useState(null);
 
   const fetchInbodyData = useCallback(async () => {
     try {
@@ -20,9 +21,19 @@ const MyPage = () => {
     }
   }, []);
 
+  const fetchMembershipData = useCallback(async () => {
+    try {
+      const response = await api.get('/memberships/current');
+      setMembershipInfo(response.data);
+    } catch (error) {
+      console.error('Error fetching membership info:', error);
+    }
+  }, []);
+
   useEffect(() => {
     fetchInbodyData();
-  }, [fetchInbodyData]);
+    fetchMembershipData();
+  }, [fetchInbodyData, fetchMembershipData]);
 
   const formatChange = (value) => {
     if (value == null) {
@@ -40,7 +51,7 @@ const MyPage = () => {
 
   const handleNavigate = (path) => {
     navigate(path);
-};
+  };
 
   return (
     <div className="mypage-page">
@@ -62,16 +73,16 @@ const MyPage = () => {
           <div className="user-branch">{currentUser?.branchName}</div>
         </div>
       </div>
-      <div className="user-actions">
-        <button className="action-item">
-          <FontAwesomeIcon icon={faEdit} className="action-icon" onClick={() => handleNavigate('/mypage/user/info')} />
+      <div className="user-actions no-hover">
+        <button className="action-item" onClick={() => handleNavigate('/mypage/user/info')}>
+          <FontAwesomeIcon icon={faEdit} className="action-icon" />
           <div>회원정보</div>
         </button>
-        <button className="action-item">
+        <button className="action-item" onClick={() => handleNavigate('/mypage/membership')}>
           <FontAwesomeIcon icon={faIdBadge} className="action-icon" />
           <div>회원권</div>
         </button>
-        <button className="action-item">
+        <button className="action-item" onClick={() => handleNavigate('/mypage/notifications')}>
           <FontAwesomeIcon icon={faBell} className="action-icon" />
           <div>공지사항</div>
         </button>
@@ -79,9 +90,9 @@ const MyPage = () => {
       {bodyInfo && (
         <>
           <div className="mypage-body-info-header">
-            <h2 className="mypage-title">최근 인바디 정보</h2>
+            <h2 className="mypage-title">최근 인바디</h2>
           </div>
-          <div className="mypage-body-info">
+          <div className="mypage-body-info hoverable">
             <div className="mypage-body-info-row">
               <div>체중</div>
               <div>골격근량</div>
@@ -99,6 +110,27 @@ const MyPage = () => {
               <div className="main-number-container">
                 <span className="main-number">{bodyInfo.bodyFatMass}</span>
                 {formatChange(bodyInfo.bodyFatMassChange)}
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+      {membershipInfo && (
+        <>
+          <div className="mypage-body-info-header">
+            <h2 className="mypage-title">회원권</h2>
+          </div>
+          <div className="mypage-body-info hoverable">
+            <div className="mypage-body-info-row">
+              <div>시작 날짜</div>
+              <div>종료 날짜</div>
+            </div>
+            <div className="mypage-body-info-row">
+              <div className="main-number-container">
+                <span className="main-number">{membershipInfo.startDate}</span>
+              </div>
+              <div className="main-number-container">
+                <span className="main-number">{membershipInfo.expiryDate}</span>
               </div>
             </div>
           </div>

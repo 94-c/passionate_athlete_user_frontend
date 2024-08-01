@@ -1,15 +1,16 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { api } from '../api/Api.js';
-import MemberShipHistoryModal from '../components/MemberShipHistoryModal';
+import MemberShipPauseHistoryModal from '../components/MemberShipPauseHistoryModal';
 import '../styles/MemberShip.css';
 
 const MemberShip = () => {
   const [membershipInfo, setMembershipInfo] = useState(null);
   const [history, setHistory] = useState([]);
+  const [pauseHistory, setPauseHistory] = useState([]);
   const [pauseDays, setPauseDays] = useState(1);
   const [periodType, setPeriodType] = useState('ONE_MONTH');
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedRecord, setSelectedRecord] = useState(null);
+  const [showPauseHistoryModal, setShowPauseHistoryModal] = useState(false);
   const itemsPerPage = 5;
 
   const fetchMembershipData = useCallback(async () => {
@@ -30,10 +31,25 @@ const MemberShip = () => {
     }
   }, []);
 
+  const fetchPauseHistory = useCallback(async () => {
+    if (membershipInfo) {
+      try {
+        const response = await api.get(`/memberships/${membershipInfo.id}/pause/history`);
+        setPauseHistory(response.data);
+      } catch (error) {
+        console.error('Error fetching pause history:', error);
+      }
+    }
+  }, [membershipInfo]);
+
   useEffect(() => {
     fetchMembershipData();
     fetchMembershipHistory();
   }, [fetchMembershipData, fetchMembershipHistory]);
+
+  useEffect(() => {
+    fetchPauseHistory();
+  }, [membershipInfo, fetchPauseHistory]);
 
   const handlePause = async () => {
     try {
@@ -43,6 +59,7 @@ const MemberShip = () => {
       });
       alert('회원권이 정지되었습니다.');
       fetchMembershipData();
+      fetchPauseHistory();
     } catch (error) {
       console.error('Error pausing membership:', error);
       alert('회원권 정지에 실패했습니다.');
@@ -75,12 +92,12 @@ const MemberShip = () => {
     return Math.ceil(timeDiff / (1000 * 3600 * 24));
   };
 
-  const handleViewClick = (record) => {
-    setSelectedRecord(record);
+  const handleViewPauseHistoryClick = () => {
+    setShowPauseHistoryModal(true);
   };
 
   const handleCloseModal = () => {
-    setSelectedRecord(null);
+    setShowPauseHistoryModal(false);
   };
 
   return (
@@ -137,7 +154,7 @@ const MemberShip = () => {
                   <th>갱신 기간</th>
                   <th>이전 만료 날짜</th>
                   <th>새 만료 날짜</th>
-                  <th>히스토리</th>
+                  <th onClick={handleViewPauseHistoryClick} style={{ cursor: 'pointer', textDecoration: 'underline' }}>히스토리</th>
                 </tr>
               </thead>
               <tbody>
@@ -147,7 +164,7 @@ const MemberShip = () => {
                     <td>{item.oldExpiryDate}</td>
                     <td>{item.newExpiryDate}</td>
                     <td>
-                      <button className="view-button" onClick={() => handleViewClick(item)}>보기</button>
+                      <button className="view-button" onClick={handleViewPauseHistoryClick}>보기</button>
                     </td>
                   </tr>
                 ))}
@@ -169,11 +186,11 @@ const MemberShip = () => {
           ))}
         </div>
       </div>
-      {selectedRecord && (
-        <MemberShipHistoryModal
-          isOpen={!!selectedRecord}
+      {showPauseHistoryModal && (
+        <MemberShipPauseHistoryModal
+          isOpen={showPauseHistoryModal}
           onClose={handleCloseModal}
-          record={selectedRecord}
+          records={pauseHistory}
         />
       )}
     </div>

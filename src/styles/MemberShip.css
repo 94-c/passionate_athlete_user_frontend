@@ -39,9 +39,14 @@
   font-size: 1.2em;
 }
 
-.membership-details {
+.membership-container {
   width: 100%;
   max-width: 800px;
+  box-sizing: border-box;
+}
+
+.membership-details {
+  width: 100%;
   margin-bottom: 20px;
   padding: 20px;
   border-radius: 10px;
@@ -80,7 +85,7 @@
   border: 1px solid #ddd;
   border-radius: 5px;
   font-size: 1em;
-  flex: 1; /* 남은 공간을 차지하도록 */
+  flex: 1;
 }
 
 .input-group button {
@@ -92,18 +97,23 @@
   cursor: pointer;
   transition: background-color 0.3s;
   font-size: 1.1em;
-  width: auto; /* 버튼 크기 조정 */
-  flex: 0 0 auto; /* 버튼은 크기를 고정 */
+  width: auto;
+  flex: 0 0 auto;
 }
 
 .input-group button:hover {
   background-color: #e65c00;
 }
 
-.membership-history-table {
+.membership-history-table-container {
   width: 100%;
   max-width: 800px;
   margin-bottom: 20px;
+  box-sizing: border-box;
+}
+
+.membership-history-table {
+  width: 100%;
   border-collapse: collapse;
   background-color: #fff5e5;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -122,10 +132,8 @@
   color: white;
 }
 
-.no-history {
-  text-align: center;
-  font-weight: bold;
-  padding: 20px;
+.membership-history-table td {
+  vertical-align: middle; /* 셀 내에서 수직 가운데 정렬 */
 }
 
 .view-button {
@@ -136,10 +144,17 @@
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s;
+  text-align: center; /* 버튼 내에서 텍스트 가운데 정렬 */
 }
 
 .view-button:hover {
   background-color: #e65c00;
+}
+
+.no-history {
+  text-align: center;
+  font-weight: bold;
+  padding: 20px;
 }
 
 .pagination {
@@ -194,10 +209,17 @@
     margin-right: 10px;
   }
 
+  .membership-details,
+  .membership-history-table-container {
+    width: 100%;
+    max-width: 100%;
+  }
+
   .membership-history-table th,
   .membership-history-table td {
-    white-space: nowrap; /* 자동 줄바꿈 */
+    white-space: nowrap;
     font-size: 0.9em;
+    padding: 5px; /* 패딩 감소 */
   }
 
   .view-button {
@@ -211,9 +233,21 @@
   }
 }
 
-/* 추가: 큰 화면일 때 테이블이 화면에 꽉 차게 */
-@media (min-width: 769px) {
-  .membership-history-table {
-    width: 100%;
+/* 작은 화면일 때 테이블 크기 줄이기 */
+@media (max-width: 480px) {
+  .membership-history-table th,
+  .membership-history-table td {
+    font-size: 0.8em;
+    padding: 4px; /* 패딩 추가 감소 */
+  }
+
+  .view-button {
+    padding: 2px 5px;
+    font-size: 0.8em;
+  }
+
+  .pagination button {
+    padding: 2px 5px;
+    font-size: 0.8em;
   }
 }

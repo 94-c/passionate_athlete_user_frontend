@@ -3,10 +3,10 @@ FROM node:18 AS build
 WORKDIR /app
 
 # Copy the source code
-COPY package.json package-lock.json ./
+COPY src/package.json src/package-lock.json ./
 RUN npm install
 
-COPY . .
+COPY src/ .
 
 # Build the React app
 RUN npm run build
@@ -15,8 +15,11 @@ RUN npm run build
 FROM nginx:alpine
 COPY --from=build /app/build /usr/share/nginx/html
 
-# Expose the port the app runs on
-EXPOSE 80
+# Copy custom Nginx configuration from the root directory
+COPY nginx.conf /etc/nginx/nginx.conf
 
-# Start Nginx server
+# Expose the port the app runs on
+EXPOSE 3000
+
+# Start Nginx server with custom configuration
 CMD ["nginx", "-g", "daemon off;"]

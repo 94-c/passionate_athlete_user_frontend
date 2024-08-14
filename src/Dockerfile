@@ -2,21 +2,26 @@
 FROM node:18 AS build
 WORKDIR /app
 
-# Copy the source code
-COPY ../package.json ../package-lock.json ./
-RUN npm install
+# Copy the package files to the container
+COPY package.json package-lock.json ./
 
-COPY src/ .
+# Install dependencies
+RUN npm ci
+
+# Copy the rest of the application source code to the container
+COPY . .
 
 # Build the React app
 RUN npm run build
 
 # Stage 2: Serve the application
 FROM nginx:alpine
+
+# Copy the build artifacts to the Nginx HTML directory
 COPY --from=build /app/build /usr/share/nginx/html
 
-# Copy custom Nginx configuration from the parent directory
-COPY ../nginx.conf /etc/nginx/nginx.conf
+# Copy custom Nginx configuration from the root directory
+COPY nginx.conf /etc/nginx/nginx.conf
 
 # Expose the port the app runs on
 EXPOSE 3000

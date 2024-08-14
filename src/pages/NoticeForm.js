@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { faTimes, faCamera, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { postData, getData } from '../api/Api.js';
@@ -53,10 +53,9 @@ const NoticeForm = () => {
     setContent(value);
   };
 
-  const handleFileChange = async (event) => {
+  const handleFileChange = (event) => {
     const selectedFiles = [...event.target.files];
-    const newFiles = [...files, ...selectedFiles];
-    setFiles(newFiles);
+    setFiles([...files, ...selectedFiles]);
 
     const fileReaders = selectedFiles.map(file => {
       const fileReader = new FileReader();
@@ -64,34 +63,23 @@ const NoticeForm = () => {
       return fileReader;
     });
 
-    const imgUrls = await Promise.all(fileReaders.map(fr => {
+    Promise.all(fileReaders.map(fr => {
       return new Promise(resolve => {
         fr.onload = () => {
           resolve(fr.result);
         };
       });
-    }));
+    })).then(imgUrls => {
+      setPreviewImgUrls([...previewImgUrls, ...imgUrls]);
 
-    setPreviewImgUrls([...previewImgUrls, ...imgUrls]);
-
-    // 서버에 파일 업로드 및 URL 반환 처리
-    for (let file of selectedFiles) {
-      const formData = new FormData();
-      formData.append('file', file);
-
-      try {
-        const response = await postData('/files/upload', formData, true);
-        const fileUrl = response.data.filePath;
-
-        // 텍스트 에디터에 이미지 URL 삽입
-        const quill = quillRef.current.getEditor();
+      // 텍스트 에디터에 이미지 URL 삽입
+      const quill = quillRef.current.getEditor();
+      imgUrls.forEach(url => {
         const range = quill.getSelection();
-        quill.insertEmbed(range.index, 'image', fileUrl);
+        quill.insertEmbed(range.index, 'image', url);
         quill.setSelection(range.index + 1);
-      } catch (error) {
-        console.error('Error uploading file:', error);
-      }
-    }
+      });
+    });
   };
 
   const handleDeleteImg = (index) => {
@@ -116,6 +104,9 @@ const NoticeForm = () => {
     try {
       const formData = new FormData();
       formData.append('noticeJson', new Blob([JSON.stringify(notice)], { type: 'application/json' }));
+      files.forEach((file) => {
+        formData.append('files', file);
+      });
 
       await postData('/notices', formData, true);
 

@@ -20,8 +20,8 @@ FROM nginx:alpine
 # Copy the build artifacts to the Nginx HTML directory
 COPY --from=build /app/build /usr/share/nginx/html
 
-# Copy custom Nginx configuration from the root directory
-COPY nginx.conf /etc/nginx/nginx.conf
+# Copy custom Nginx configuration to the appropriate directory
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Expose the port the app runs on
 EXPOSE 3000

@@ -23,7 +23,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t 58.79.16.12:5000/athlete_user_frontend:${{ github.sha }} .
+          docker build -f <your-path-to-Dockerfile> -t 58.79.16.12:5000/athlete_user_frontend:${{ github.sha }} .
 
       - name: Push Docker image to registry
         run: |

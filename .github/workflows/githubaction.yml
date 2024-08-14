@@ -19,11 +19,11 @@ jobs:
           sudo systemctl restart docker
 
       - name: Log in to Docker registry using HTTP
-        run: echo "your-docker-password" | docker login http://58.79.16.12:5000 --username your-docker-username --password-stdin
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login http://58.79.16.12:5000 --username ${{ secrets.DOCKER_USERNAME }} --password-stdin
 
       - name: Build Docker image
         run: |
-          docker build -f src/Dockerfile -t 58.79.16.12:5000/athlete_user_frontend:${{ github.sha }} .
+          docker build -f Dockerfile -t 58.79.16.12:5000/athlete_user_frontend:${{ github.sha }} .
 
       - name: Push Docker image to registry
         run: |

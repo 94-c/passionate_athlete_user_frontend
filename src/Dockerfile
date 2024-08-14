@@ -3,7 +3,7 @@ FROM node:18 AS build
 WORKDIR /app
 
 # Copy the source code
-COPY src/package.json src/package-lock.json ./
+COPY ../package.json ../package-lock.json ./
 RUN npm install
 
 COPY src/ .

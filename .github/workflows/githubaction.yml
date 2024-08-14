@@ -1,0 +1,35 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Configure Docker daemon for insecure registry
+        run: |
+          echo '{"insecure-registries":["58.79.16.12:5000"]}' | sudo tee /etc/docker/daemon.json > /dev/null
+          sudo systemctl restart docker
+
+      - name: Log in to Docker registry using HTTP
+        run: echo "your-docker-password" | docker login http://58.79.16.12:5000 --username your-docker-username --password-stdin
+
+      - name: Build Docker image
+        run: |
+          docker build -t 58.79.16.12:5000/athlete_user_frontend:${{ github.sha }} .
+
+      - name: Push Docker image to registry
+        run: |
+          docker push 58.79.16.12:5000/athlete_user_frontend:${{ github.sha }}
+
+      - name: Add additional tag and push
+        run: |
+          docker tag 58.79.16.12:5000/athlete_user_frontend:${{ github.sha }} 58.79.16.12:5000/athlete_user_frontend:latest
+          docker push 58.79.16.12:5000/athlete_user_frontend:latest

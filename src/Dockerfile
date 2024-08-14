@@ -15,8 +15,8 @@ RUN npm run build
 FROM nginx:alpine
 COPY --from=build /app/build /usr/share/nginx/html
 
-# Copy custom Nginx configuration from the root directory
-COPY nginx.conf /etc/nginx/nginx.conf
+# Copy custom Nginx configuration from the parent directory
+COPY ../nginx.conf /etc/nginx/nginx.conf
 
 # Expose the port the app runs on
 EXPOSE 3000

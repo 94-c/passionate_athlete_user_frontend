@@ -91,35 +91,46 @@ const App = () => {
   const MainContent = () => (
     <UserProvider>
       <div id="root" className={isFooterOpen ? 'footer-open' : ''}>
-        {isNoticePage || isAttendancePage || isInbodyPage || isUserInfoPage || isExercisePage ? (
-          <>
-            {!isExercisePage && <HeadWithTitle title={getTitle()} isAttendancePage={isAttendancePage} isInbodyPage={isInbodyPage} isUserInfoPage={isUserInfoPage} />}
-            <div className="main-page">
-              <AppRoutes />
-            </div>
-          </>
-        ) : isSearchPage ? (
-          <>
-            <div className="main-page">
-              <AppRoutes />
-            </div>
-          </>
-        ) : isNoticeFormPage ? (
+        {isMainPage ? (
+          // Main page with only the bottom footer
           <div className="main-page">
             <AppRoutes />
-          </div>
-        ) : isNoticeDetailPage ? (
-          <div className="main-page">
-            <AppRoutes />
+            <Footer onToggle={handleToggleFooter} />
           </div>
         ) : (
+          // Other pages with headers, content, and footer
           <>
-            <div className="main-page">
-              <AppRoutes />
-            </div>
+            {isNoticePage || isAttendancePage || isInbodyPage || isUserInfoPage || isExercisePage ? (
+              <>
+                {!isExercisePage && <HeadWithTitle title={getTitle()} isAttendancePage={isAttendancePage} isInbodyPage={isInbodyPage} isUserInfoPage={isUserInfoPage} />}
+                <div className="main-page">
+                  <AppRoutes />
+                </div>
+              </>
+            ) : isSearchPage ? (
+              <>
+                <div className="main-page">
+                  <AppRoutes />
+                </div>
+              </>
+            ) : isNoticeFormPage ? (
+              <div className="main-page">
+                <AppRoutes />
+              </div>
+            ) : isNoticeDetailPage ? (
+              <div className="main-page">
+                <AppRoutes />
+              </div>
+            ) : (
+              <>
+                <div className="main-page">
+                  <AppRoutes />
+                </div>
+              </>
+            )}
+            <Footer onToggle={handleToggleFooter} />
           </>
         )}
-        <Footer onToggle={handleToggleFooter} />
       </div>
     </UserProvider>
   );

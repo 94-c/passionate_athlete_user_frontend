@@ -37,7 +37,7 @@ const NoticeDetail = () => {
         setEditedTitle(response.data.title);
         setEditedContent(response.data.content);
       } catch (error) {
-        setError('Error fetching post');
+        setError('게시글을 불러오는 중 오류가 발생했습니다.');
       } finally {
         setLoading(false);
       }
@@ -73,7 +73,7 @@ const NoticeDetail = () => {
         setPost((prev) => ({ ...prev, title: editedTitle, content: editedContent }));
         setIsEditing(false);
       } catch (error) {
-        setError('Failed to edit post.');
+        setError('게시글 수정에 실패했습니다.');
       }
     } else {
       setIsEditing(true);
@@ -81,12 +81,13 @@ const NoticeDetail = () => {
   };
 
   const handleDelete = async () => {
-    if (window.confirm('Are you sure you want to delete this post?')) {
+    if (window.confirm('정말로 이 게시글을 삭제하시겠습니까?')) {
       try {
-        await api.put(`/notices/${id}/is-active`, { isActive: false });
+        await api.post(`/notices/delete/${id}`); // 삭제 요청을 POST 메소드로 변경
+        alert('게시글이 성공적으로 삭제되었습니다.');
         navigate('/notices');
       } catch (error) {
-        setError('Error deleting post');
+        setError('게시글 삭제 중 오류가 발생했습니다.');
       }
     }
   };
@@ -103,19 +104,11 @@ const NoticeDetail = () => {
         setLiked(true);
       }
     } catch (error) {
-      console.error('Error liking/unliking post', error);
+      console.error('좋아요 처리 중 오류가 발생했습니다.', error);
       if (error.response && error.response.data && error.response.data.message === '이미 좋아요를 누르셨습니다.') {
         alert('이미 좋아요를 누르셨습니다.');
       } else {
-        setError('Failed to update like status. Please try again.');
-      }
-  
-      if (!liked) {
-        setLikeCount((prev) => prev - 1);
-        setLiked(false);
-      } else {
-        setLikeCount((prev) => prev + 1);
-        setLiked(true);
+        setError('좋아요 상태를 업데이트하는 데 실패했습니다. 다시 시도해주세요.');
       }
     }
   };
@@ -167,7 +160,7 @@ const NoticeDetail = () => {
         quill.insertEmbed(range.index, 'image', fileUrl);
         quill.setSelection(range.index + 1);
       } catch (error) {
-        console.error('Error uploading file:', error);
+        console.error('파일 업로드 중 오류가 발생했습니다:', error);
       }
     }
   };
@@ -181,7 +174,7 @@ const NoticeDetail = () => {
     setPreviewImgUrls(newPreviewImgUrls);
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div>로딩 중...</div>;
   if (error) return <div>{error}</div>;
 
   return (

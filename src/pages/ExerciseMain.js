@@ -4,6 +4,8 @@ import { api } from '../api/Api.js';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import '../styles/ExerciseMain.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faDumbbell } from '@fortawesome/free-solid-svg-icons';
 
 const QuillWrapper = (props) => {
   const ref = useRef(null);
@@ -13,7 +15,7 @@ const QuillWrapper = (props) => {
 const ExerciseMain = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const workoutType = location.state?.workoutType || 'MAIN'; // 기본 값을 'MAIN'으로 설정
+  const workoutType = location.state?.workoutType || 'MAIN';
   const [todayWorkout, setTodayWorkout] = useState(null);
   const [formData, setFormData] = useState({
     workoutDetails: [],
@@ -49,9 +51,6 @@ const ExerciseMain = () => {
             duration: '',
             recordContent: '',
           });
-
-          console.log('Fetched workout:', workout);
-          console.log('Workout details:', workoutDetails);
         }
       } catch (error) {
         console.error('Error fetching today\'s workout:', error);
@@ -166,7 +165,7 @@ const ExerciseMain = () => {
       scheduledWorkoutId: todayWorkout.id,
       workoutDetails: formData.workoutDetails.map(detail => ({
         exerciseId: detail.exerciseId,
-        exerciseName: detail.exercise, // 여기에 명시적으로 추가합니다.
+        exerciseName: detail.exercise,
         weight: detail.weight,
         rounds: detail.rounds,
         rating: detail.rating,
@@ -179,26 +178,6 @@ const ExerciseMain = () => {
       recordContent: formData.recordContent,
       exerciseType: workoutType,
     };
-
-    console.log('Submitting payload:', payload); // 여기에서 payload를 확인합니다.
-
-    // Validate form data
-    if (!formData.duration) {
-      alert('시간을 입력하세요.');
-      return;
-    }
-    if (!minimumRounds) {
-      alert('라운드를 입력하세요.');
-      return;
-    }
-    if (!calculateMinimumRating()) {
-      alert('등급을 선택하세요.');
-      return;
-    }
-    if (!formData.workoutDetails.length) {
-      alert('운동 정보를 추가하세요.');
-      return;
-    }
 
     try {
       await api.post('/workout-records', payload);
@@ -299,7 +278,10 @@ const ExerciseMain = () => {
             </form>
           </>
         ) : (
-          <p className="no-workout">오늘의 운동이 없습니다.</p>
+          <div className="no-workout">
+            <FontAwesomeIcon icon={faDumbbell} />
+            <p>오늘의 운동이 존재하지 않습니다.</p>
+          </div>
         )}
       </div>
     </div>

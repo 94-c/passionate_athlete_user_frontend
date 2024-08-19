@@ -307,7 +307,7 @@ const ExerciseModified = () => {
           </div>
         </div>
 
-        <button type="submit" className="exercise-modified-submit-button">저장</button>
+        <button type="submit" className="exercise-modified-submit-button">등록</button>
       </form>
 
       <ExerciseTermsModal

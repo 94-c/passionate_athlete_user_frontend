@@ -52,7 +52,6 @@ const ExerciseStats = () => {
             icon={faDumbbell} 
             className="kettlebell-icon"
             onClick={handleKettlebellClick}
-            style={{ color: 'orange' }}
           />
         </div>
 

@@ -6,8 +6,9 @@
   color: black;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
-  height: 100vh; /* 페이지 높이를 전체 화면에 맞춤 */
+  height: 80vh; /* 페이지 높이를 전체 화면에 맞춤 */
   box-sizing: border-box;
+  overflow: hidden; /* 폼이 카드 안에서 벗어나지 않도록 설정 */
 }
 
 .post-form-header {
@@ -29,11 +30,12 @@
 .header-title {
   display: flex;
   align-items: center;
+  gap: 10px; /* 버튼과 제목 사이의 간격 조정 */
 }
 
 .draft {
-  margin-right: 10px;
   color: #ff6600;
+  font-size: 16px;
 }
 
 .submit-button {
@@ -48,6 +50,7 @@
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+  overflow-y: auto; /* 카드 내에서 스크롤 가능 */
 }
 
 .board-select,
@@ -66,30 +69,28 @@
   font-weight: bold;
 }
 
-.post-form-textarea {
-  flex-grow: 1;
-  resize: none;
+.ql-container {
   height: 50vh; /* 에디터 높이 설정 */
-  margin-bottom: 10px; /* 추가: textarea와 footer 사이의 간격 */
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto; /* 에디터 내용이 많을 경우 스크롤 활성화 */
 }
 
-@media (max-width: 768px) {
-  .post-form-page {
-    padding: 10px;
-  }
-  .post-form-header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  .submit-button {
-    margin-top: 10px;
-  }
-  .post-form-title {
-    font-size: 18px;
-  }
-  .post-form-content {
-    margin-bottom: 20px;
-  }
+.ql-editor {
+  flex-grow: 1;
+  box-sizing: border-box;
+  padding: 15px;
+  line-height: 1.6;
+  font-size: 16px;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.ql-editor img {
+  max-width: 100%; /* 이미지가 부모 컨테이너의 너비를 넘지 않도록 설정 */
+  height: auto;
+  display: block;
+  margin: 10px auto; /* 이미지 가운데 정렬 */
 }
 
 .preview-img-container {
@@ -118,4 +119,44 @@
   color: #ff6600;
   font-size: 24px;
   cursor: pointer;
+}
+
+.text-editor {
+  min-height: 150px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.text-editor img {
+  max-width: 100%; /* 이미지를 컨테이너 너비에 맞게 조절 */
+  height: auto; /* 높이를 자동으로 조정 */
+  display: block;
+  margin: 0 auto; /* 이미지가 컨테이너 중앙에 위치하도록 조정 */
+}
+
+.ql-editor img {
+  max-width: 100%; /* 이미지가 부모 컨테이너의 너비를 넘지 않도록 설정 */
+  height: auto;
+  display: block;
+  margin: 10px auto; /* 이미지 가운데 정렬 */
+}
+
+@media (max-width: 768px) {
+  .post-form-page {
+    padding: 10px;
+  }
+  .post-form-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .submit-button {
+    margin-top: 10px;
+  }
+  .post-form-title {
+    font-size: 18px;
+  }
+  .post-form-content {
+    margin-bottom: 20px;
+  }
 }

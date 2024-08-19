@@ -1,69 +1,58 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMale, faFemale } from '@fortawesome/free-solid-svg-icons';
+import { faMale, faFemale, faCalendarAlt, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import { api } from '../api/Api.js';
 import '../styles/ExerciseRanking.css';
 import { UserContext } from '../contexts/UserContext.js';
 
 const ExerciseRank = () => {
-  const { user: currentUser } = useContext(UserContext); // UserContext를 사용하여 현재 사용자 정보 가져오기
+  const { user: currentUser } = useContext(UserContext);
   const [rankData, setRankData] = useState([]);
   const [gender, setGender] = useState('');
   const [rating, setRating] = useState('');
-  const [currentPage, setCurrentPage] = useState(0); // 0부터 시작
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
-  const itemsPerPage = 10; // 페이지당 항목 수
-  const ratingContainerRef = useRef(null); // Ref for the rating tab container
+  const itemsPerPage = 10;
+  const ratingContainerRef = useRef(null);
+  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
 
-  const ratings = ["", "SS+", "SS", "S+", "S", "A+", "A", "B+", "B", "C+", "C"]; // 등급 리스트
+  const ratings = ["", "SS+", "SS", "S+", "S", "A+", "A", "B+", "B", "C+", "C"];
 
   useEffect(() => {
     if (currentUser) {
-      const userGender = currentUser.gender; // UserContext에서 성별 추출
+      const userGender = currentUser.gender;
       setGender(userGender);
       fetchRankData(userGender, rating, currentPage);
     }
-  }, [currentUser, rating, currentPage]);
+  }, [currentUser, rating, currentPage, selectedDate]);
 
   useEffect(() => {
-    if (gender) {
+    if (gender && rating !== undefined) {
       fetchRankData(gender, rating, currentPage);
     }
-  }, [gender, rating, currentPage]);
+  }, [gender, rating, currentPage, selectedDate]);
 
   const fetchRankData = async (gender, rating, page) => {
     try {
-      // 현재 날짜와 시간 가져오기
-      const now = new Date();
-      let date;
-
-      // 현재 시간이 오전 1시부터 오후 4시 사이일 경우 전날 날짜를 사용
-      if (now.getHours() < 16) {
-        now.setDate(now.getDate() - 1);
-      }
-      
-      // 날짜 형식 설정
-      date = now.toISOString().split('T')[0];
+      const date = selectedDate.toISOString().split('T')[0];
+      const decodedRating = decodeURIComponent(rating);
 
       const params = {
         date,
         gender,
-        rating,
+        rating: decodedRating,
         page,
         size: itemsPerPage,
       };
 
-      // 콘솔에 파라미터 출력
-      console.log('Request Parameters:', params);
-
       const response = await api.get('/workout-records/statistics', { params });
 
-      // 응답 데이터를 확인하기 위해 콘솔에 출력
-      console.log('Response Data:', response.data);
-
       const { content, totalPages } = response.data;
-      setRankData(content || []); // content가 undefined일 경우 빈 배열로 초기화
-      setTotalPages(totalPages || 1); // totalPages가 undefined일 경우 1로 초기화
+      setRankData(content || []);
+      setTotalPages(totalPages || 1);
     } catch (error) {
       console.error('Error fetching rank data:', error);
       setRankData([]);
@@ -71,24 +60,30 @@ const ExerciseRank = () => {
     }
   };
 
+
   const handleGenderChange = (newGender) => {
     setGender(newGender);
-    setCurrentPage(0); // 성별이 변경될 때 페이지를 초기화
+    setCurrentPage(0);
   };
 
   const handleRatingChange = (newRating) => {
     setRating(newRating);
-    setCurrentPage(0); // 등급이 변경될 때 페이지를 초기화
+    setCurrentPage(0);
   };
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
 
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+    setIsDatePickerOpen(false);
+  };
+
   return (
     <div className="exercise-rank-page">
       <div className="exercise-rank-header">
-        <h1 className="exercise-rank-title">데일리 운동 랭킹</h1>
+        <h1 className="exercise-rank-title">운동 랭킹</h1>
         <div className="exercise-rank-gender-buttons">
           <button
             className={gender === 'MALE' ? 'active' : ''}
@@ -104,6 +99,22 @@ const ExerciseRank = () => {
           >
             <FontAwesomeIcon icon={faFemale} />
           </button>
+          <button
+            onClick={() => setIsDatePickerOpen(!isDatePickerOpen)}
+            className="calendar-button"
+            data-hover-text="날짜 선택"
+          >
+            <FontAwesomeIcon icon={faCalendarAlt} />
+          </button>
+          {isDatePickerOpen && (
+            <div className="datepicker-popup">
+              <DatePicker
+                selected={selectedDate}
+                onChange={handleDateChange}
+                inline
+              />
+            </div>
+          )}
         </div>
       </div>
       <div className="rating-tabs-container" ref={ratingContainerRef}>
@@ -128,7 +139,10 @@ const ExerciseRank = () => {
             </div>
           ))
         ) : (
-          <div className="no-data">데이터가 없습니다.</div>
+          <div className="no-data-box">
+            <FontAwesomeIcon icon={faExclamationTriangle} />
+            데이터가 없습니다.
+          </div>
         )}
       </div>
       <div className="pagination-buttons">

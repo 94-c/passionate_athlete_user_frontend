@@ -32,7 +32,7 @@ const Exercise = () => {
         </button>
         <button className="exercise-btn" onClick={() => handleNavigate('/exercise/rank')}>
           <FontAwesomeIcon icon={faTrophy} className="exercise-button-icon" />
-          <span className="exercise-button-title">운동 랭크</span>
+          <span className="exercise-button-title">운동 랭킹</span>
         </button>
         {/* <button className="exercise-btn" onClick={() => handleNavigate('/exercise/board')}>
           <FontAwesomeIcon icon={faClipboard} className="exercise-button-icon" />

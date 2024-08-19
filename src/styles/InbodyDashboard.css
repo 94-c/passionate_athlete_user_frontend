@@ -178,8 +178,73 @@
     text-align: center;
 }
 
+.dashboard-item input {
+    width: 50%;
+    border: none;
+    border-bottom: 2px solid #e0e0e0;
+    font-size: 1.5em;
+    color: #ff6600;
+    text-align: center;
+    padding: 5px;
+    background-color: #f9f9f9; /* 기존의 배경색과 일치 */
+    border-radius: 8px; /* 박스 모양 일치 */
+    outline: none;
+}
+
+.dashboard-item input:focus {
+    border-bottom: 2px solid;
+    background-color: #ffffff;
+}
+
 .highlighted-day {
     background-color: #ff6600;
     color: white;
     border-radius: 50%;
+}
+
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield; /* Firefox에서 스피너 버튼 제거 */
+}
+.edit-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.save-button,
+.cancel-button {
+    padding: 10px 20px;
+    font-size: 1em;
+    font-weight: bold;
+    border-radius: 8px;
+    border: 2px solid #ff6600;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.save-button {
+    background-color: #ff6600;
+    color: white;
+}
+
+.save-button:hover {
+    background-color: white;
+    color: #ff6600;
+}
+
+.cancel-button {
+    background-color: white;
+    color: #ff6600;
+}
+
+.cancel-button:hover {
+    background-color: #ff6600;
+    color: white;
 }

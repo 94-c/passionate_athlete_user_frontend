@@ -14,7 +14,7 @@ const Exercise = () => {
   return (
     <div className="exercise-page">
       <div className="exercise-header">
-        <h2 className="exercise-title">오늘의 운동</h2>
+        <h2 className="exercise-title" onClick={() => handleNavigate('/main')}>오늘의 운동</h2>
         <FontAwesomeIcon icon={faQuestionCircle} className="question-icon" />
       </div>
       <div className="exercise-container">

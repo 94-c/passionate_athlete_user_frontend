@@ -12,11 +12,11 @@ const Footer = ({ onToggle }) => {
     const [showModal, setShowModal] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
-    const { user } = useContext(UserContext); // UseContext를 통해 UserContext 사용
+    const { user } = useContext(UserContext);
 
     const handleToggle = () => {
         setIsOpen(!isOpen);
-        onToggle(!isOpen); // 부모 컴포넌트로 상태를 전달
+        onToggle(!isOpen);
     };
 
     const handleLogout = () => {
@@ -57,6 +57,14 @@ const Footer = ({ onToggle }) => {
         setAttendanceMessage('');
     };
 
+    const handleBackNavigation = () => {
+        if (window.history.length > 1) {
+            navigate(-1);  // 이전 페이지로 이동
+        } else {
+            navigate('/main');  // 기본 페이지로 이동
+        }
+    };
+
     return (
         <div className={`footer ${isOpen ? 'open' : ''}`} onClick={handleToggle}>
             <div className="menu-bar">
@@ -84,7 +92,7 @@ const Footer = ({ onToggle }) => {
                         <div className="menu-text">로그아웃</div>
                     </div>
                 ) : (
-                    <div className="menu-item" onClick={() => navigate(-1)}>
+                    <div className="menu-item" onClick={handleBackNavigation}>
                         <FontAwesomeIcon icon={faArrowLeft} />
                         <div className="menu-text">이전화면</div>
                     </div>

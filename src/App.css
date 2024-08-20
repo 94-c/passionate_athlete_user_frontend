@@ -153,7 +153,7 @@
   }
 
   .footer {
-    height: 60px; /* 더 작은 화면에서 푸터 높이 조정 */
+    height: 90px; /* 더 작은 화면에서 푸터 높이 조정 */
   }
 
   .footer-text {

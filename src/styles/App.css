@@ -10,14 +10,9 @@
     overflow-y: auto; /* 세로 스크롤 가능하도록 설정 */
   }
   
-  .footer {
-    flex-shrink: 0; /* 푸터가 축소되지 않도록 설정 */
-  }
   
   /* 기본 스타일 추가 */
   body, html, #root {
     margin: 0;
     padding: 0;
-    height: 100%;
   }
-  

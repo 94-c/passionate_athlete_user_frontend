@@ -4,6 +4,7 @@ import 'react-calendar/dist/Calendar.css';
 import ExerciseDetailModal from '../components/ExerciseDetailModal';
 import { api } from '../api/Api.js';
 import '../styles/ExerciseCalendar.css';
+import Loading from '../components/Loading'; // Loading 컴포넌트 임포트
 
 const ExerciseCalendar = () => {
   const [date, setDate] = useState(new Date());
@@ -16,6 +17,7 @@ const ExerciseCalendar = () => {
 
   useEffect(() => {
     const fetchAttendance = async () => {
+      setLoading(true); // 로딩 시작
       const year = date.getFullYear();
       const month = String(date.getMonth() + 1).padStart(2, '0');
       try {
@@ -27,6 +29,9 @@ const ExerciseCalendar = () => {
         }));
       } catch (error) {
         console.error("Failed to fetch attendance data:", error);
+        setError('출석 데이터를 가져오는 중 오류가 발생했습니다.');
+      } finally {
+        setLoading(false); // 로딩 종료
       }
     };
 
@@ -62,18 +67,18 @@ const ExerciseCalendar = () => {
   const handleDateClick = async (value) => {
     const selectedDate = new Date(value.getFullYear(), value.getMonth(), value.getDate());
     setSelectedDate(selectedDate);
-    setLoading(true);
+    setLoading(true); // 로딩 시작
     setError(null);
 
-    const dateString = selectedDate.toLocaleDateString('en-CA'); // 'en-CA' 형식은 YYYY-MM-DD로 변환합니다
+    const dateString = selectedDate.toLocaleDateString('en-CA');
     try {
       const response = await api.get(`/workout-records/daily?date=${dateString}`);
       setDailyRecords(response.data.records);
     } catch (error) {
-      setError('Failed to fetch daily records.');
+      setError('운동 기록을 가져오는 중 오류가 발생했습니다.');
       setDailyRecords([]);
     } finally {
-      setLoading(false);
+      setLoading(false); // 로딩 종료
     }
   };
 
@@ -83,7 +88,7 @@ const ExerciseCalendar = () => {
       const recordWithHistories = response.data;
       setSelectedRecord(recordWithHistories);
     } catch (error) {
-      console.error('Failed to fetch record history:', error);
+      console.error('운동 기록 히스토리를 가져오는 중 오류가 발생했습니다.', error);
     }
   };
 
@@ -122,7 +127,7 @@ const ExerciseCalendar = () => {
         </div>
         <div className="daily-records-container">
           {loading ? (
-            <p>Loading...</p>
+            <Loading />
           ) : error ? (
             <p>{error}</p>
           ) : (

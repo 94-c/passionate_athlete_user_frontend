@@ -7,6 +7,7 @@ import 'react-quill/dist/quill.snow.css';
 import { api } from '../api/Api';
 import { UserContext } from '../contexts/UserContext';
 import CommentList from './CommentList';
+import Loading from '../components/Loading'; // Loading 컴포넌트
 import '../styles/NoticeDetail.css';
 
 // QuillWrapper Component
@@ -34,6 +35,7 @@ const NoticeDetail = () => {
 
   useEffect(() => {
     const fetchPost = async () => {
+      setLoading(true);
       try {
         const response = await api.get(`/notices/${id}`);
         setPost(response.data);
@@ -138,8 +140,7 @@ const NoticeDetail = () => {
     setEditedKindId(e.target.value);
   };
 
-  if (loading) return <div>로딩 중...</div>;
-  if (error) return <div>{error}</div>;
+  if (loading) return <Loading />; // 로딩 중일 때
 
   return (
     <div className="notice-detail">

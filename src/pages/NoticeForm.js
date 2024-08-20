@@ -8,7 +8,7 @@ import { postData, getData } from '../api/Api.js';
 import '../styles/NoticeForm.css';
 import { UserContext } from '../contexts/UserContext';
 
-// QuillWrapper component (extracted and reused from ExerciseModified)
+// QuillWrapper component
 const QuillWrapper = (props) => {
   const ref = useRef(null);
   return <ReactQuill ref={ref} {...props} />;
@@ -45,34 +45,37 @@ const NoticeForm = () => {
     }
   }, [currentUser]);
 
-  const handleKindChange = (event) => {
-    setKindId(event.target.value);
-  };
+  const handleKindChange = (event) => setKindId(event.target.value);
+  const handleTitleChange = (event) => setTitle(event.target.value);
+  const handleContentChange = (value) => setContent(value);
 
-  const handleTitleChange = (event) => {
-    setTitle(event.target.value);
-  };
-
-  const handleContentChange = (value) => {
-    setContent(value);
-  };
+  const handleClose = () => navigate('/notices');
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    // Validation check
+    if (!title.trim()) {
+      alert('제목을 입력하세요.');
+      return;
+    }
+
+    if (!content.trim()) {
+      alert('내용을 입력하세요.');
+      return;
+    }
+
     const notice = {
-      kindId: kindId,
-      title: title,
-      content: content,
-      status: true  // isStatus 값을 true로 설정
+      kindId,
+      title,
+      content,
+      status: true
     };
 
     try {
       const formData = new FormData();
       formData.append('noticeJson', new Blob([JSON.stringify(notice)], { type: 'application/json' }));
-
       await postData('/notices', formData, true);
-
       alert('게시글이 성공적으로 등록되었습니다.');
       navigate('/notices');
     } catch (error) {
@@ -81,8 +84,13 @@ const NoticeForm = () => {
     }
   };
 
-  const handleClose = () => {
-    navigate('/notices');
+  const handleImageInserted = () => {
+    const editor = quillRef.current.getEditor();
+    const images = editor.container.querySelectorAll('img');
+    images.forEach((img) => {
+      img.style.width = '33%';
+      img.style.height = 'auto';
+    });
   };
 
   return (
@@ -94,44 +102,48 @@ const NoticeForm = () => {
           </button>
           <div className="header-title">
             <span className="draft">임시저장</span>
-            <button type="submit" className="submit-button">
-              등록
-            </button>
+            <button type="submit" className="submit-button">등록</button>
           </div>
         </div>
         <div className="post-form-content">
           <select className="board-select" value={kindId} onChange={handleKindChange}>
             <option value="" disabled>게시판 종류 선택</option>
-            {noticeTypes.map((type) => (
-              <option key={type.id} value={type.id}>
-                {type.type}
-              </option>
+            {noticeTypes.map(type => (
+              <option key={type.id} value={type.id}>{type.type}</option>
             ))}
           </select>
-          <input type="text" className="post-form-title" placeholder="제목" value={title} onChange={handleTitleChange} />
-          <QuillWrapper
-            ref={quillRef}
-            value={content}
-            onChange={handleContentChange}
-            modules={{
-              toolbar: {
-                container: [
-                  [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
-                  [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-                  ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-                  [{ 'align': [] }],
-                  ['link', 'image'],
-                  ['clean']
-                ],
-              }
-            }}
-            formats={[
-              'header', 'font', 'list', 'bullet', 'bold', 'italic', 'underline', 'strike', 'blockquote', 'align', 'link', 'image'
-            ]}
-            className="text-editor"
-            placeholder="내용을 입력하세요."
-            style={{ height: '80vh', marginBottom: '20px' }}  // 에디터 높이 조정
+          <input 
+            type="text" 
+            className="post-form-title" 
+            placeholder="제목" 
+            value={title} 
+            onChange={handleTitleChange} 
           />
+          <div className="record-content">
+            <QuillWrapper
+              ref={quillRef}
+              value={content}
+              onChange={handleContentChange}
+              onBlur={handleImageInserted} // Handle image size after insert
+              modules={{
+                toolbar: {
+                  container: [
+                    [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
+                    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+                    [{ 'align': [] }],
+                    ['link', 'image'],
+                    ['clean']
+                  ],
+                }
+              }}
+              formats={[
+                'header', 'font', 'list', 'bullet', 'bold', 'italic', 'underline', 'strike', 'blockquote', 'align', 'link', 'image'
+              ]}
+              className="text-editor"
+              placeholder="내용을 입력하세요."
+            />
+          </div>
         </div>
       </form>
     </div>

@@ -15,21 +15,29 @@ const InbodyRanking = () => {
     const [rankingData, setRankingData] = useState([]);
     const [monthlyFatChange, setMonthlyFatChange] = useState(0);
 
-
     useEffect(() => {
         if (user) {
             fetchRankingData('weekly', user.gender || 'male');
+            fetchMonthlyFatChange(new Date().getFullYear(), new Date().getMonth() + 1); // 현재 연도와 월로 API 호출
         }
     }, [user]);
 
-    const fetchMonthlyFatChange = async () => {
+    const fetchMonthlyFatChange = async (year, month) => {
         try {
-            const response = await api.get('/physicals/monthly-fat-change');
-            if (response.data) {
-                setMonthlyFatChange(response.data.fatChange);
+            const response = await api.get('/physicals/monthly-fat-change', {
+                params: {
+                    year: year,
+                    month: month,
+                }
+            });
+            if (response.data && response.data.fatChange !== undefined) {
+                setMonthlyFatChange(parseFloat(response.data.fatChange).toFixed(1)); // 소수점 1자리로 절삭하여 설정
+            } else {
+                setMonthlyFatChange(0); // 데이터가 없을 경우 0으로 설정
             }
         } catch (error) {
             console.error('Error fetching monthly fat change:', error);
+            setMonthlyFatChange(0); // 에러 발생 시 기본값으로 설정
         }
     };
 
@@ -50,6 +58,7 @@ const InbodyRanking = () => {
                 break;
             case 'monthly':
                 setTitle('월간 인바디 랭킹');
+                fetchMonthlyFatChange(new Date().getFullYear(), new Date().getMonth() + 1); // 월간 랭킹 선택 시 월간 데이터 업데이트
                 break;
             default:
                 setTitle('인바디 랭킹');
@@ -67,7 +76,10 @@ const InbodyRanking = () => {
                 }
             });
             if (response.data && Array.isArray(response.data)) {
-                setRankingData(response.data);
+                setRankingData(response.data.map(item => ({
+                    ...item,
+                    bodyFatMassChange: parseFloat(item.bodyFatMassChange).toFixed(1),
+                })));
             } else {
                 setRankingData([]);
             }
@@ -98,6 +110,8 @@ const InbodyRanking = () => {
         });
     }
 
+    const currentMonth = new Date().toLocaleString('ko-KR', { month: 'long' });
+
     return (
         <div className="inbody-ranking-page">
             <div className="inbody-ranking-header">
@@ -123,8 +137,8 @@ const InbodyRanking = () => {
                 </div>
             </div>
             <div className="inbody-ranking-highlight">
-                <p><span className="user-name">[{user?.branchName}] {user?.name}</span>님의 한달 감소 체지방량</p>
-                <h2>{monthlyFatChange.toFixed(1)} kg</h2>
+                <p><span className="user-name">[{user?.branchName}] {user?.name}</span>님의 {currentMonth} 감소 체지방량</p>
+                <h2>{monthlyFatChange} kg</h2>
             </div>
             <div className="inbody-ranking-highlight-bar" onClick={handleRefreshClick}>
                 <FontAwesomeIcon icon={faBell} className="bell-icon" />

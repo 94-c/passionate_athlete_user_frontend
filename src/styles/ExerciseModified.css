@@ -160,7 +160,7 @@ li:hover {
 
 .record-content-container {
   width: 100%;
-  margin-bottom: 20px; /* 여백 추가 */
+  margin-bottom: 20px;
   box-sizing: border-box;
 }
 
@@ -173,21 +173,22 @@ li:hover {
   width: 100%;
   max-width: 100%;
   height: 300px;
-  overflow-x: hidden; /* 불필요한 스크롤 방지 */
+  overflow-x: hidden;
 }
 
-.text-editor {
-  min-height: 150px;
+.custom-quill-editor .ql-container {
+  height: 200px;
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
+  overflow: hidden;
 }
 
-.text-editor img {
-  max-width: 100%; /* 이미지를 컨테이너 너비에 맞게 조절 */
-  height: auto; /* 높이를 자동으로 조정 */
+.custom-quill-editor img {
+  max-width: 100%; /* 이미지의 최대 너비를 컨테이너에 맞춤 */
+  height: auto; /* 이미지의 높이를 자동으로 조정 */
   display: block;
-  margin: 0 auto; /* 이미지가 컨테이너 중앙에 위치하도록 조정 */
+  margin: 0 auto; /* 이미지를 중앙에 정렬 */
 }
 
 .exercise-modified-submit-button {
@@ -312,6 +313,11 @@ li:hover {
   .record-content {
     padding: 8px;
   }
+
+  .custom-quill-editor .ql-container {
+    height: 150px;
+    width: 100%;
+  }
 }
 
 @media (max-width: 480px) {
@@ -338,5 +344,9 @@ li:hover {
 
   .text-editor {
     min-height: 120px;
+  }
+
+  .custom-quill-editor .ql-container {
+    height: 120px;
   }
 }

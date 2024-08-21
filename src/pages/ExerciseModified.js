@@ -167,6 +167,7 @@ const ExerciseModified = () => {
     }
   };
 
+  // handleEditorChange 함수 추가
   const handleEditorChange = (content) => {
     setRecordContent(content);
   };
@@ -274,8 +275,7 @@ const ExerciseModified = () => {
           <ul>
             {exercises.map((exercise, index) => (
               <li key={index} className="exercise-index-item">
-                [ {exercise.type} ] - {exercise.name} 
-                <br></br>
+                [ {exercise.type} ] - {exercise.name} <br />
                 {exercise.rounds}R / {exercise.weight}kg / {exercise.rating}
                 <button type="button" className="remove-exercise-button" onClick={() => handleRemoveExercise(index)}>X</button>
               </li>
@@ -284,7 +284,7 @@ const ExerciseModified = () => {
         </div>
 
         <div className="record-content-container">
-          <div className="record-content">
+          <div className="custom-quill-container">
             <QuillWrapper
               value={recordContent}
               onChange={handleEditorChange}
@@ -302,7 +302,6 @@ const ExerciseModified = () => {
                 'header', 'font', 'list', 'bullet', 'bold', 'italic', 'underline', 'strike', 'blockquote', 'align', 'link', 'image'
               ]}
               placeholder="기록 내용을 입력하세요."
-              className="text-editor"
             />
           </div>
         </div>

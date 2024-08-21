@@ -2,30 +2,32 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 0;
-  background-color: #f9f9f9;
-  font-family: Arial, sans-serif;
-  height: 100vh;
-  overflow: hidden;
+  padding: 0 20px;
+  overflow-y: auto;
+  margin-bottom: 150px;
 }
 
 .exercise-main-header {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  padding: 20px 0;
-  background-color: #fff;
-  color: #ff6600;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin: 10px;
+  padding: 10px;
+  background-color: white;
+  margin-bottom: 10px;
+  margin-top: 30px;
 }
 
 .exercise-main-title {
-  margin: 0;
-  font-size: 1.5em;
   text-align: center;
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #ff6600;
+}
+
+.exercise-record h2, .exercise-info h2 {
+  margin: 0 0 15px;
+  font-size: 1.2em;
+  font-weight: bold;
   color: #ff6600;
 }
 
@@ -33,17 +35,16 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 15px 0;
+  margin: 0 0 20px;
+  padding: 10px 0;
   background-color: white;
   border-bottom: 2px solid #ff6600;
-  border-radius: 10px;
-  margin: 10px;
 }
 
 .exercise-main-progress-step {
   font-size: 1em;
   color: grey;
-  margin: 0 5px;
+  margin: 0 10px;
   position: relative;
 }
 
@@ -55,7 +56,7 @@
 .exercise-main-progress-step::after {
   content: '>';
   position: absolute;
-  right: -10px;
+  right: -15px;
   color: #ff6600;
 }
 
@@ -67,39 +68,146 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 5px;
   width: 100%;
-  flex-grow: 1;
-  /*justify-content: center;*/
 }
 
-.no-workout {
+.workout-form {
+  width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 80%;
-  width: 80%;
-  text-align: center;
-  background-color: #fff;
-  border-radius: 10px;
+}
+
+.exercise-info,
+.exercise-record,
+.record-content-container {
+  background-color: #f9f9f9;
   padding: 20px;
+  border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  color: #ff6600;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.exercise-info .workout-detail {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 15px;
+}
+
+.exercise-info .workout-detail h3 {
+  margin: 0;
   font-size: 1.2em;
+  color: #ff6600;
+  margin-bottom: 5px;
+  font-style: bold;
 }
 
-.no-workout svg {
-  font-size: 3em;
-  margin-bottom: 10px;
+.exercise-record .record-item,
+.record-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 15px;
+  width: 100%;
 }
 
-.no-workout:hover {
-  background-color: #ff6600;
-  color: #fff;
+.exercise-record .record-item div,
+.exercise-record .record-item input,
+.exercise-record .record-item select,
+.text-editor {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 25px;
+  font-size: 1em;
+  margin: 0 5px;
+  box-sizing: border-box;
 }
 
-.no-workout:hover svg {
-  color: #fff;
+.record-item div {
+  height: 40px;
+}
+
+.exercise-record .record-item div.readonly {
+  background-color: #f1f1f1;
+  text-align: center;
+}
+
+.exercise-record .record-item input::placeholder,
+.exercise-record .record-item select::placeholder,
+.text-editor .ql-container::placeholder {
+  color: #999;
+}
+
+.readonly {
+  flex: 1;
+  padding: 8px;
+  background-color: #f1f1f1;
+  border: 1px solid #ddd;
+  border-radius: 25px;
+  font-size: 1em;
+  text-align: center;
+  margin: 0 5px;
+}
+
+.exercise-record-itme {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 10px;
+  width: 100%;
+}
+
+.exercise-record-itme input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 25px;
+  font-size: 1em;
+  box-sizing: border-box;
+}
+
+.exercise-info .workout-detail .exercise-record-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.exercise-info .workout-detail .exercise-record-item input {
+  flex: 1 1 calc(33.33% - 10px);
+  min-width: calc(33.33% - 10px);
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 25px;
+  font-size: 1em;
+  box-sizing: border-box;
+}
+
+.custom-quill-editor .ql-container {
+  height: 200px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow: hidden; /* 컨테이너를 넘어가는 내용을 숨김 */
+}
+
+.custom-quill-editor img {
+  max-width: 100%; /* 이미지의 최대 너비를 컨테이너에 맞춤 */
+  height: auto; /* 이미지의 높이를 자동으로 조정 */
+  display: block;
+  margin: 0 auto; /* 이미지를 중앙에 정렬 */
+}
+
+.text-editor {
+  min-height: 150px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .submit-button {
@@ -120,20 +228,96 @@
   background-color: #e65c00;
 }
 
-/* 반응형 디자인 */
-@media (max-width: 768px) {
-  .exercise-main-header,
-  .exercise-main-progress-bar {
-    margin: 5px;
-  }
+.success {
+  color: #ff6600;
+  font-weight: bold;
 }
 
-@media (max-width: 480px) {
-  .exercise-main-title {
-    font-size: 1.3em;
+.failure {
+  color: #e65c00;
+  font-weight: bold;
+}
+
+.exercise-record-item-row {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5px; /* Reduced gap to fit inputs */
+  width: 100%;
+}
+
+.exercise-record-item-row input {
+  flex: 1 1 30%; /* Reduced flex basis to fit inputs */
+  padding: 5px; /* Reduced padding */
+  border: 1px solid #ddd;
+  border-radius: 15px; /* Reduced border-radius */
+  font-size: 0.9em; /* Reduced font-size */
+  box-sizing: border-box;
+}
+
+.no-workout {
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.5em;
+  background-color: #ff6600;
+  color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 100%;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.no-workout:hover {
+  background-color: #e65c00;
+}
+
+@media (max-width: 768px) {
+  .exercise-info,
+  .exercise-record,
+  .record-content-container {
+    flex: 1 1 100%;
   }
 
-  .exercise-main-progress-step {
-    font-size: 0.9em;
+  .exercise-record-itme {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .exercise-record-itme input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 25px;
+    font-size: 0.8em;
+  }
+
+  .custom-quill-editor .ql-container {
+    height: 150px;
+    width: 100%;
+  }
+
+  .exercise-info .workout-detail .exercise-record-item {
+    flex-direction: column;
+  }
+
+  .exercise-info .workout-detail .exercise-record-item input {
+    flex: 1 1 100%;
+    min-width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .exercise-record-item-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .exercise-record-item-row input {
+    width: 100%;
+  }
+
+  .text-editor {
+    min-height: 120px;
   }
 }

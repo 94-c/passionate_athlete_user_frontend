@@ -192,7 +192,7 @@ const ExerciseCustom = () => {
           <ul>
             {exercises.map((exercise, index) => (
               <li key={index} className="exercise-index-item">
-                [ {exercise.type} ] - {exercise.name} 
+                [ {exercise.type} ] - {exercise.name}
                 <br></br>
                 {exercise.rounds}R / {exercise.weight}kg / {exercise.rating}
                 <button type="button" className="remove-exercise-button" onClick={() => handleRemoveExercise(index)}>X</button>
@@ -202,7 +202,7 @@ const ExerciseCustom = () => {
         </div>
 
         <div className="record-content-container">
-          <div className="record-content">
+          <div className="custom-quill-container">
             <QuillWrapper
               value={recordContent}
               onChange={handleEditorChange}
@@ -220,7 +220,6 @@ const ExerciseCustom = () => {
                 'header', 'font', 'list', 'bullet', 'bold', 'italic', 'underline', 'strike', 'blockquote', 'align', 'link', 'image'
               ]}
               placeholder="기록 내용을 입력하세요."
-              className="text-editor"
             />
           </div>
         </div>

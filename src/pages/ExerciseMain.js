@@ -43,14 +43,11 @@ const ExerciseMain = () => {
           }));
 
           setTodayWorkout(workout);
-          setFormData({
+          setFormData(prevFormData => ({
+            ...prevFormData,
             workoutDetails,
             rounds: workout.rounds,
-            rating: '',
-            success: false,
-            duration: '',
-            recordContent: '',
-          });
+          }));
         }
       } catch (error) {
         console.error('Error fetching today\'s workout:', error);
@@ -63,13 +60,10 @@ const ExerciseMain = () => {
     const { name, value } = e.target;
     setFormData(prevState => {
       const updatedWorkoutDetails = [...prevState.workoutDetails];
-      if (['weight', 'rounds', 'rating'].includes(name)) {
-        updatedWorkoutDetails[index] = { ...updatedWorkoutDetails[index], [name]: value };
-      } else if (name === 'duration') {
-        const formattedValue = formatDuration(value);
-        return { ...prevState, duration: formattedValue };
-      } else {
-        return { ...prevState, [name]: value };
+      updatedWorkoutDetails[index] = { ...updatedWorkoutDetails[index], [name]: value };
+
+      if (name === 'duration') {
+        return { ...prevState, duration: formatDuration(value) };
       }
       return { ...prevState, workoutDetails: updatedWorkoutDetails };
     });
@@ -77,17 +71,11 @@ const ExerciseMain = () => {
 
   const formatDuration = (value) => {
     const numericValue = value.replace(/\D/g, '');
-    if (numericValue.length > 4) {
-      return formData.duration;
-    }
-    if (numericValue.length <= 2) {
-      return numericValue;
-    } else if (numericValue.length === 2) {
-      return numericValue.charAt(0) + ':' + numericValue.slice(1);
-    } else if (numericValue.length === 4) {
-      return numericValue.slice(0, 2) + ':' + numericValue.slice(2);
-    }
-    return numericValue;
+    if (numericValue.length > 4) return formData.duration;
+    if (numericValue.length <= 2) return numericValue;
+    return numericValue.length === 4
+      ? `${numericValue.slice(0, 2)}:${numericValue.slice(2)}`
+      : `${numericValue.charAt(0)}:${numericValue.slice(1)}`;
   };
 
   const handleEditorChange = (value) => {
@@ -109,44 +97,23 @@ const ExerciseMain = () => {
       "D+": 9, "D": 10
     };
 
-    const ratings = formData.workoutDetails.map(detail => detail.rating).filter(rating => rating);
+    const ratings = formData.workoutDetails.map(detail => detail.rating).filter(Boolean);
 
-    if (ratings.length === 0) {
-      return '';
-    }
-
-    let minRating = ratings[0];
-    for (const rating of ratings) {
-      if (ratingOrder[rating] > ratingOrder[minRating]) {
-        minRating = rating;
-      }
-    }
-
-    return minRating;
+    if (ratings.length === 0) return '';
+    return ratings.reduce((minRating, currentRating) =>
+      ratingOrder[currentRating] > ratingOrder[minRating] ? currentRating : minRating
+    );
   };
 
   const parseTime = (timeString) => {
-    if (!timeString) return 0;
-    const match = timeString.match(/(\d+):(\d+)/);
-    if (match) {
-      const minutes = parseInt(match[1], 10);
-      const seconds = parseInt(match[2], 10);
-      return (minutes * 60) + seconds;
-    }
-
-    const minuteMatch = timeString.match(/(\d+)min/);
-    if (minuteMatch) {
-      return parseInt(minuteMatch[1], 10) * 60;
-    }
-
-    return 0;
+    const [minutes, seconds] = timeString.split(':').map(Number);
+    return (minutes || 0) * 60 + (seconds || 0);
   };
 
   const determineSuccess = (minimumRounds, formattedDuration) => {
     const totalSeconds = parseTime(formattedDuration);
-    const targetSeconds = parseTime(todayWorkout.time);
-
-    return minimumRounds >= todayWorkout.rounds && totalSeconds <= targetSeconds;
+    const targetSeconds = parseTime(todayWorkout?.time);
+    return minimumRounds >= todayWorkout?.rounds && totalSeconds <= targetSeconds;
   };
 
   const handleSubmit = async (e) => {
@@ -163,17 +130,10 @@ const ExerciseMain = () => {
 
     const payload = {
       scheduledWorkoutId: todayWorkout.id,
-      workoutDetails: formData.workoutDetails.map(detail => ({
-        exerciseId: detail.exerciseId,
-        exerciseName: detail.exercise,
-        weight: detail.weight,
-        rounds: detail.rounds,
-        rating: detail.rating,
-        exerciseType: detail.exerciseType,
-      })),
+      workoutDetails: formData.workoutDetails,
       rounds: minimumRounds,
       rating: calculateMinimumRating(),
-      success: success,
+      success,
       duration: formattedDuration,
       recordContent: formData.recordContent,
       exerciseType: workoutType,
@@ -210,7 +170,15 @@ const ExerciseMain = () => {
                   <div className="form-input readonly">{calculateMinimumRating()}</div>
                 </div>
                 <div className="record-item">
-                  <input type="text" name="duration" value={formData.duration} onChange={handleChange} className="form-input" placeholder="시간 (분:초)" maxLength="5" />
+                  <input
+                    type="text"
+                    name="duration"
+                    value={formData.duration}
+                    onChange={handleChange}
+                    className="form-input"
+                    placeholder="시간 (분:초)"
+                    maxLength="5"
+                  />
                   <div className={`form-input readonly ${determineSuccess(calculateMinimum('rounds'), formData.duration) ? 'success' : 'failure'}`}>
                     {determineSuccess(calculateMinimum('rounds'), formData.duration) ? '성공' : '실패'}
                   </div>
@@ -252,7 +220,7 @@ const ExerciseMain = () => {
               </div>
 
               <div className="record-content-container">
-                <div className="record-content">
+                <div className="custom-quill-container">
                   <QuillWrapper
                     value={formData.recordContent}
                     onChange={handleEditorChange}
@@ -270,7 +238,6 @@ const ExerciseMain = () => {
                       'header', 'font', 'list', 'bullet', 'bold', 'italic', 'underline', 'strike', 'blockquote', 'align', 'link', 'image'
                     ]}
                     placeholder="기록 내용을 입력하세요."
-                    className="text-editor"
                   />
                 </div>
               </div>

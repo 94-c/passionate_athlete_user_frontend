@@ -2,10 +2,11 @@ import React, { useState, useEffect, useContext, useCallback } from 'react';
 import '../styles/TodayExerciseModal.css';
 import { UserContext } from '../contexts/UserContext';
 import { api } from '../api/Api.js';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFrown } from '@fortawesome/free-solid-svg-icons';
 
 const TodayExerciseModal = ({ show, handleClose }) => {
     const [workouts, setWorkouts] = useState([]);
-    const { user: currentUser } = useContext(UserContext);
 
     const fetchWorkouts = useCallback(async () => {
         if (show) {
@@ -69,7 +70,10 @@ const TodayExerciseModal = ({ show, handleClose }) => {
                         </div>
                     ))
                 ) : (
-                    <p>오늘의 운동이 없습니다.</p>
+                    <div className="no-workout-message">
+                        <FontAwesomeIcon icon={faFrown} className="no-workout-icon" />
+                        <p>오늘의 운동이 없습니다.</p>
+                    </div>
                 )}
             </div>
         </div>

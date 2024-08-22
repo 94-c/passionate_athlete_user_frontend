@@ -29,8 +29,17 @@ const ExerciseMain = () => {
   useEffect(() => {
     const fetchTodayWorkout = async () => {
       try {
-        const today = new Date().toISOString().split('T')[0];
-        const response = await api.get(`/scheduled-workouts/date?date=${today}`);
+        const now = new Date();
+        const hour = now.getHours();
+
+        // 현재 시간이 오후 3시 이전이면 전날 날짜를 사용
+        if (hour < 15) {
+          now.setDate(now.getDate() - 1);
+        }
+
+        const today = now.toISOString().split('T')[0]; // YYYY-MM-DD 형식으로 변환
+        const response = await api.get(`/api/v1/scheduled-workouts/date?date=${today}`);
+        
         if (response.data.length > 0) {
           const workout = response.data[0];
           const workoutDetails = workout.workoutInfos.map(info => ({
@@ -161,7 +170,7 @@ const ExerciseMain = () => {
       <div className="exercise-main-container">
         {todayWorkout ? (
           <>
-            <p className="today-info">{todayWorkout.date} 오늘의 운동 "<strong>{todayWorkout.title}</strong>"</p>
+            <p className="today-info">{new Date(todayWorkout.date).toISOString().split('T')[0]} 오늘의 운동 "<strong>{todayWorkout.title}</strong>"</p>
             <form onSubmit={handleSubmit} className="workout-form">
               <div className="exercise-record">
                 <h2>기본 정보</h2>
@@ -170,18 +179,27 @@ const ExerciseMain = () => {
                   <div className="form-input readonly">{calculateMinimumRating()}</div>
                 </div>
                 <div className="record-item">
-                  <input
-                    type="text"
-                    name="duration"
-                    value={formData.duration}
-                    onChange={handleChange}
-                    className="form-input"
-                    placeholder="시간 (분:초)"
-                    maxLength="5"
-                  />
-                  <div className={`form-input readonly ${determineSuccess(calculateMinimum('rounds'), formData.duration) ? 'success' : 'failure'}`}>
-                    {determineSuccess(calculateMinimum('rounds'), formData.duration) ? '성공' : '실패'}
-                  </div>
+                  {todayWorkout.workoutMode !== 'ROUND_RANKING' && (
+                    <>
+                      <input
+                        type="text"
+                        name="duration"
+                        value={formData.duration}
+                        onChange={handleChange}
+                        className="form-input"
+                        placeholder="시간 (분:초)"
+                        maxLength="5"
+                      />
+                      <div className={`form-input readonly ${determineSuccess(calculateMinimum('rounds'), formData.duration) ? 'success' : 'failure'}`}>
+                        {determineSuccess(calculateMinimum('rounds'), formData.duration) ? '성공' : '실패'}
+                      </div>
+                    </>
+                  )}
+                  {todayWorkout.workoutMode === 'ROUND_RANKING' && (
+                    <div className="form-input readonly success">
+                      합격
+                    </div>
+                  )}
                 </div>
               </div>
               <div className="exercise-info">

@@ -11,8 +11,16 @@ const TodayExerciseModal = ({ show, handleClose }) => {
     const fetchWorkouts = useCallback(async () => {
         if (show) {
             try {
-                const today = new Date().toISOString().split('T')[0];
-                const response = await api.get(`/scheduled-workouts/date?date=${today}`);
+                const now = new Date();
+                const hour = now.getHours();
+
+                if (hour < 15) {
+                    now.setDate(now.getDate() - 1);
+                }
+
+                const date = now.toISOString().split('T')[0];
+
+                const response = await api.get(`/scheduled-workouts/date?date=${date}`);
                 setWorkouts(response.data);
             } catch (error) {
                 console.error('Error fetching workouts:', error);

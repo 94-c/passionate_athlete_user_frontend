@@ -37,19 +37,25 @@ const ExerciseRank = () => {
 
   const fetchRankData = async (gender, rating, page) => {
     try {
-      const date = selectedDate.toISOString().split('T')[0];
-      const decodedRating = decodeURIComponent(rating);
+      const now = new Date();
+      const hour = now.getHours();
+
+      // 현재 시간이 오후 3시 이전이면 전날 날짜를 사용
+      if (hour < 15) {
+        now.setDate(now.getDate() - 1);
+      }
+
+      const today = now.toISOString().split('T')[0]; // YYYY-MM-DD 형식으로 변환
 
       const params = {
-        date,
+        date: today,
         gender,
-        rating: decodedRating,
+        rating: decodeURIComponent(rating),
         page,
         size: itemsPerPage,
       };
 
       const response = await api.get('/workout-records/statistics', { params });
-
       const { content, totalPages } = response.data;
       setRankData(content || []);
       setTotalPages(totalPages || 1);
@@ -59,7 +65,6 @@ const ExerciseRank = () => {
       setTotalPages(1);
     }
   };
-
 
   const handleGenderChange = (newGender) => {
     setGender(newGender);

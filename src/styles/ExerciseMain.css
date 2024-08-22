@@ -273,6 +273,16 @@
   background-color: #e65c00;
 }
 
+.success {
+  color: #007bff; /* 파랑색 */
+  font-weight: bold;
+}
+
+.failure {
+  color: #dc3545; /* 빨간색 */
+  font-weight: bold;
+}
+
 @media (max-width: 768px) {
   .exercise-info,
   .exercise-record,

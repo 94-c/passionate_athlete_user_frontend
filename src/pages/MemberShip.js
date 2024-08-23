@@ -109,7 +109,7 @@ const MemberShip = () => {
           </span>
         )}
       </div>
-      {membershipInfo && (
+      {membershipInfo ? (
         <div className="membership-container">
           <div className="membership-details">
             <div className="membership-info">
@@ -184,6 +184,11 @@ const MemberShip = () => {
               ))}
             </div>
           </div>
+        </div>
+      ) : (
+        <div className="no-membership">
+          <i className="fas fa-exclamation-circle"></i>
+          <p>회원권 정보가 없습니다. 관리자에게 요청하세요.</p>
         </div>
       )}
       {showPauseHistoryModal && (

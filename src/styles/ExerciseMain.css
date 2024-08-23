@@ -24,26 +24,18 @@
   color: #ff6600;
 }
 
-.exercise-record h2 {
+.exercise-record h2, .exercise-info h2 {
   margin: 0 0 15px;
   font-size: 1.2em;
   font-weight: bold;
   color: #ff6600;
-}
-
-
-.exercise-info h2 {
-  margin: 0 0 15px;
-  font-size: 1.2em;
-  color: #ff6600;
-  font-weight: bold;
 }
 
 .exercise-main-progress-bar {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0 0 20px 0;
+  margin: 0 0 20px;
   padding: 10px 0;
   background-color: white;
   border-bottom: 2px solid #ff6600;
@@ -135,6 +127,7 @@
   margin: 0 5px;
   box-sizing: border-box;
 }
+
 .record-item div {
   height: 40px;
 }
@@ -195,9 +188,26 @@
   box-sizing: border-box;
 }
 
-.text-editor .ql-container {
+.custom-quill-editor .ql-container {
   height: 200px;
   width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow: hidden; /* 컨테이너를 넘어가는 내용을 숨김 */
+}
+
+.custom-quill-editor img {
+  max-width: 100%; /* 이미지의 최대 너비를 컨테이너에 맞춤 */
+  height: auto; /* 이미지의 높이를 자동으로 조정 */
+  display: block;
+  margin: 0 auto; /* 이미지를 중앙에 정렬 */
+}
+
+.text-editor {
+  min-height: 150px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .submit-button {
@@ -263,6 +273,16 @@
   background-color: #e65c00;
 }
 
+.success {
+  color: #007bff; /* 파랑색 */
+  font-weight: bold;
+}
+
+.failure {
+  color: #dc3545; /* 빨간색 */
+  font-weight: bold;
+}
+
 @media (max-width: 768px) {
   .exercise-info,
   .exercise-record,
@@ -283,7 +303,7 @@
     font-size: 0.8em;
   }
 
-  .text-editor .ql-container {
+  .custom-quill-editor .ql-container {
     height: 150px;
     width: 100%;
   }
@@ -305,5 +325,9 @@
 
   .exercise-record-item-row input {
     width: 100%;
+  }
+
+  .text-editor {
+    min-height: 120px;
   }
 }

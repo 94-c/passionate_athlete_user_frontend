@@ -1,13 +1,20 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft, faEdit, faTrash, faSave, faTrashAlt, faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faEdit, faTrash, faSave, faHeart } from '@fortawesome/free-solid-svg-icons';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { api } from '../api/Api';
 import { UserContext } from '../contexts/UserContext';
-import CommentList from './CommentList'; // Make sure CommentList is imported
+import CommentList from './CommentList';
+import Loading from '../components/Loading'; // Loading 컴포넌트
 import '../styles/NoticeDetail.css';
+
+// QuillWrapper Component
+const QuillWrapper = (props) => {
+  const ref = useRef(null);
+  return <ReactQuill ref={ref} {...props} />;
+};
 
 const NoticeDetail = () => {
   const { id } = useParams();
@@ -22,12 +29,13 @@ const NoticeDetail = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedTitle, setEditedTitle] = useState('');
   const [editedContent, setEditedContent] = useState('');
-  const [files, setFiles] = useState([]);
-  const [previewImgUrls, setPreviewImgUrls] = useState([]);
+  const [editedKindId, setEditedKindId] = useState('');
+  const [noticeTypes, setNoticeTypes] = useState([]);
   const quillRef = useRef(null);
 
   useEffect(() => {
     const fetchPost = async () => {
+      setLoading(true);
       try {
         const response = await api.get(`/notices/${id}`);
         setPost(response.data);
@@ -36,14 +44,25 @@ const NoticeDetail = () => {
         setLiked(response.data.liked);
         setEditedTitle(response.data.title);
         setEditedContent(response.data.content);
+        setEditedKindId(response.data.kindId); // 게시글 타입 설정
       } catch (error) {
-        setError('Error fetching post');
+        setError('게시글을 불러오는 중 오류가 발생했습니다.');
       } finally {
         setLoading(false);
       }
     };
 
+    const fetchNoticeTypes = async () => {
+      try {
+        const response = await api.get('/notice-type');
+        setNoticeTypes(response.data);
+      } catch (error) {
+        console.error('게시글 타입을 불러오는 중 오류가 발생했습니다.');
+      }
+    };
+
     fetchPost();
+    fetchNoticeTypes();
   }, [id]);
 
   const handleBack = () => {
@@ -52,28 +71,28 @@ const NoticeDetail = () => {
 
   const handleEdit = async () => {
     if (isEditing) {
+      if (!editedTitle.trim()) {
+        alert('제목을 입력하세요.');
+        return;
+      }
+
+      if (!editedContent.trim()) {
+        alert('내용을 입력하세요.');
+        return;
+      }
+
       const notice = {
         title: editedTitle,
         content: editedContent,
+        kindId: editedKindId,
       };
 
       try {
-        const formData = new FormData();
-        formData.append('noticeJson', new Blob([JSON.stringify(notice)], { type: 'application/json' }));
-        files.forEach((file) => {
-          formData.append('files', file);
-        });
-
-        await api.put(`/notices/${id}`, formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        });
-
-        setPost((prev) => ({ ...prev, title: editedTitle, content: editedContent }));
+        await api.put(`/notices/${id}`, notice);
+        setPost((prev) => ({ ...prev, title: editedTitle, content: editedContent, kindId: editedKindId }));
         setIsEditing(false);
       } catch (error) {
-        setError('Failed to edit post.');
+        setError('게시글 수정에 실패했습니다.');
       }
     } else {
       setIsEditing(true);
@@ -81,12 +100,13 @@ const NoticeDetail = () => {
   };
 
   const handleDelete = async () => {
-    if (window.confirm('Are you sure you want to delete this post?')) {
+    if (window.confirm('정말로 이 게시글을 삭제하시겠습니까?')) {
       try {
-        await api.put(`/notices/${id}/is-active`, { isActive: false });
+        await api.delete(`/notices/${id}`);
+        alert('게시글이 성공적으로 삭제되었습니다.');
         navigate('/notices');
       } catch (error) {
-        setError('Error deleting post');
+        setError('게시글 삭제 중 오류가 발생했습니다.');
       }
     }
   };
@@ -103,20 +123,8 @@ const NoticeDetail = () => {
         setLiked(true);
       }
     } catch (error) {
-      console.error('Error liking/unliking post', error);
-      if (error.response && error.response.data && error.response.data.message === '이미 좋아요를 누르셨습니다.') {
-        alert('이미 좋아요를 누르셨습니다.');
-      } else {
-        setError('Failed to update like status. Please try again.');
-      }
-  
-      if (!liked) {
-        setLikeCount((prev) => prev - 1);
-        setLiked(false);
-      } else {
-        setLikeCount((prev) => prev + 1);
-        setLiked(true);
-      }
+      console.error('좋아요 처리 중 오류가 발생했습니다.', error);
+      setError('좋아요 상태를 업데이트하는 데 실패했습니다. 다시 시도해주세요.');
     }
   };
 
@@ -128,61 +136,11 @@ const NoticeDetail = () => {
     setEditedContent(value);
   };
 
-  const handleFileChange = async (event) => {
-    const selectedFiles = [...event.target.files];
-    const newFiles = [...files, ...selectedFiles];
-    setFiles(newFiles);
-
-    const fileReaders = selectedFiles.map(file => {
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
-      return fileReader;
-    });
-
-    const imgUrls = await Promise.all(fileReaders.map(fr => {
-      return new Promise(resolve => {
-        fr.onload = () => {
-          resolve(fr.result);
-        };
-      });
-    }));
-
-    setPreviewImgUrls([...previewImgUrls, ...imgUrls]);
-
-    for (let file of selectedFiles) {
-      const formData = new FormData();
-      formData.append('file', file);
-
-      try {
-        const response = await api.post('/files/upload', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        });
-        const fileUrl = response.data.filePath;
-
-        // 텍스트 에디터에 이미지 URL 삽입
-        const quill = quillRef.current.getEditor();
-        const range = quill.getSelection();
-        quill.insertEmbed(range.index, 'image', fileUrl);
-        quill.setSelection(range.index + 1);
-      } catch (error) {
-        console.error('Error uploading file:', error);
-      }
-    }
+  const handleKindChange = (e) => {
+    setEditedKindId(e.target.value);
   };
 
-  const handleDeleteImg = (index) => {
-    const newFiles = [...files];
-    const newPreviewImgUrls = [...previewImgUrls];
-    newFiles.splice(index, 1);
-    newPreviewImgUrls.splice(index, 1);
-    setFiles(newFiles);
-    setPreviewImgUrls(newPreviewImgUrls);
-  };
-
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>{error}</div>;
+  if (loading) return <Loading />; // 로딩 중일 때
 
   return (
     <div className="notice-detail">
@@ -205,55 +163,51 @@ const NoticeDetail = () => {
       </div>
       {isEditing ? (
         <div>
+          <select value={editedKindId} onChange={handleKindChange} className="edit-kind-select">
+            <option value="" disabled>게시판 종류 선택</option>
+            {noticeTypes.map(type => (
+              <option key={type.id} value={type.id}>{type.type}</option>
+            ))}
+          </select>
           <input
             type="text"
             className="edit-title-input"
             value={editedTitle}
             onChange={handleTitleChange}
           />
-          <ReactQuill
-            ref={quillRef}
-            value={editedContent}
-            onChange={handleContentChange}
-            modules={{
-              toolbar: {
-                container: [
-                  [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
-                  [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-                  ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-                  [{ 'align': [] }],
-                  ['link', 'image'],
-                  ['clean']
-                ],
-              }
-            }}
-            formats={[
-              'header', 'font', 'list', 'bullet', 'bold', 'italic', 'underline', 'strike', 'blockquote', 'align', 'link', 'image'
-            ]}
-            placeholder="내용을 입력하세요."
-            style={{ height: '50vh', marginBottom: '20px' }}
-          />
-          <input type="file" className="file-input" style={{ display: 'none' }} onChange={handleFileChange} multiple />
-          {previewImgUrls.length > 0 && (
-            <div className="preview-img-wrap">
-              {previewImgUrls.map((imgUrl, index) => (
-                <div key={index} className="preview-img-container">
-                  <img src={imgUrl} alt="이미지 미리보기" className="preview-img" />
-                  <button type="button" className="delete-img-button" onClick={() => handleDeleteImg(index)}>
-                    <FontAwesomeIcon icon={faTrashAlt} />
-                  </button>
-                </div>
-              ))}
-            </div>
-          )}
+          <div className="edit-content">
+            <QuillWrapper
+              ref={quillRef}
+              value={editedContent}
+              onChange={handleContentChange}
+              modules={{
+                toolbar: {
+                  container: [
+                    [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
+                    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+                    [{ 'align': [] }],
+                    ['link', 'image'],
+                    ['clean']
+                  ],
+                },
+              }}
+              formats={[
+                'header', 'font', 'list', 'bullet', 'bold', 'italic', 'underline', 'strike', 'blockquote', 'align', 'link', 'image'
+              ]}
+              placeholder="내용을 입력하세요."
+              className="text-editor"
+              style={{ height: '50vh', marginBottom: '20px' }}
+            />
+          </div>
         </div>
       ) : (
         <>
+          <h3 className="post-kind">[{post.kind}]</h3>
           <h2 className="post-title">{post.title}</h2>
           <div
             className="post-content"
             dangerouslySetInnerHTML={{ __html: post.content }}
-            style={{ maxWidth: '100%', overflowX: 'auto' }}
           />
           <div className="post-meta">
             <span className="post-author">[{currentUser.branchName}] {post.userName}</span> · <span className="post-date">{post.createdDate}</span>
@@ -264,9 +218,7 @@ const NoticeDetail = () => {
             </span>
             <span className="post-comments">💬 {comments.length}</span>
           </div>
-          {!isEditing && (
-            <CommentList postId={id} comments={comments} setComments={setComments} currentUser={currentUser} />
-          )}
+          <CommentList postId={id} comments={comments} setComments={setComments} currentUser={currentUser} />
         </>
       )}
     </div>

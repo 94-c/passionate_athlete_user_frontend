@@ -14,12 +14,12 @@ const ExerciseRecord = () => {
   return (
     <div className="exercise-record-page">
       <div className="exercise-record-header">
-        <h2 className="exercise-record-title">운동 기록을 추가해요 🏋️‍♂️</h2>
+        <h1 className="exercise-record-title">운동 기록을 추가해요 🏋️‍♂️</h1>
       </div>
       <div className="exercise-record-progress-bar">
-        <span className="exercise-record-progress-step active">운동 타입</span>
-        <span className="exercise-record-progress-step">기록 작성</span>
-        <span className="exercise-record-progress-step">등록 완료</span>
+        <span className="exercise-record-progress-step active">운동 타입 </span>
+        <span className="exercise-record-progress-step">기록 작성 </span>
+        <span className="exercise-record-progress-step">등록 완료 </span>
       </div>
       <div className="exercise-type-container">
         <button className="exercise-type-btn" onClick={() => handleNavigate('/exercise/main', 'MAIN')}>

@@ -2,24 +2,30 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 50vh;
-  padding: 0 20px;
+  height: 100vh;
+  padding: 0;
+  background-color: #f9f9f9;
+  font-family: Arial, sans-serif;
+  overflow: hidden; /* 스크롤바가 생기지 않도록 */
 }
 
 .exercise-record-header {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10px;
-  background-color: white;
-  margin-bottom: 10px;
-  margin-top: 30px;
+  width: 100%;
+  padding: 20px 0;
+  background-color: #fff;
+  color: #ff6600;
+  border-radius: 10px; /* 곡선 사각형 추가 */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 10px; /* 페이지 가장자리에 여백 추가 */
 }
 
 .exercise-record-title {
-  text-align: center;
+  margin: 0;
   font-size: 1.5em;
-  font-weight: bold;
+  text-align: center;
   color: #ff6600;
 }
 
@@ -27,10 +33,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0 0 20px 0;
-  padding: 10px 0;
+  padding: 15px 0;
   background-color: white;
   border-bottom: 2px solid #ff6600;
+  border-radius: 10px;
+  margin: 10px;
 }
 
 .exercise-record-progress-step {
@@ -60,17 +67,19 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 45px;
+  margin-top: -150px;
+  flex-grow: 1; /* 남은 공간을 채우도록 */
+  justify-content: center; /* 수직 중앙 정렬 */
 }
 
 .exercise-type-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 250px;
-  padding: 15px;
-  margin: 10px 0;
-  font-size: 18px;
+  width: 300px;
+  padding: 40px;
+  margin: 5px 0;
+  font-size: 26px;
   background-color: white;
   border: 2px solid #ff6600;
   border-radius: 8px;
@@ -85,6 +94,39 @@
 }
 
 .exercise-button-icon {
-  margin-right: 10px;
+  margin-right: 8px;
   color: inherit;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .exercise-record-title {
+    font-size: 1.3em;
+  }
+
+  .exercise-record-progress-step {
+    font-size: 0.9em;
+  }
+
+  .exercise-type-btn {
+    width: 250px; /* 버튼 너비 줄이기 */
+    padding: 30px; /* 버튼 높이 줄이기 */
+    font-size: 22px; /* 폰트 크기 줄이기 */
+  }
+}
+
+@media (max-width: 480px) {
+  .exercise-record-title {
+    font-size: 1.2em;
+  }
+
+  .exercise-record-progress-step {
+    font-size: 0.8em;
+  }
+
+  .exercise-type-btn {
+    width: 200px; /* 버튼 너비 줄이기 */
+    padding: 20px; /* 버튼 높이 줄이기 */
+    font-size: 18px; /* 폰트 크기 줄이기 */
+  }
 }

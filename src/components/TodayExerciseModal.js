@@ -2,16 +2,25 @@ import React, { useState, useEffect, useContext, useCallback } from 'react';
 import '../styles/TodayExerciseModal.css';
 import { UserContext } from '../contexts/UserContext';
 import { api } from '../api/Api.js';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFrown } from '@fortawesome/free-solid-svg-icons';
 
 const TodayExerciseModal = ({ show, handleClose }) => {
     const [workouts, setWorkouts] = useState([]);
-    const { user: currentUser } = useContext(UserContext);
 
     const fetchWorkouts = useCallback(async () => {
         if (show) {
             try {
-                const today = new Date().toISOString().split('T')[0];
-                const response = await api.get(`/scheduled-workouts/date?date=${today}`);
+                const now = new Date();
+                const hour = now.getHours();
+
+                if (hour < 15) {
+                    now.setDate(now.getDate() - 1);
+                }
+
+                const date = now.toISOString().split('T')[0];
+
+                const response = await api.get(`/scheduled-workouts/date?date=${date}`);
                 setWorkouts(response.data);
             } catch (error) {
                 console.error('Error fetching workouts:', error);
@@ -69,7 +78,10 @@ const TodayExerciseModal = ({ show, handleClose }) => {
                         </div>
                     ))
                 ) : (
-                    <p>오늘의 운동이 없습니다.</p>
+                    <div className="no-workout-message">
+                        <FontAwesomeIcon icon={faFrown} className="no-workout-icon" />
+                        <p>오늘의 운동이 없습니다.</p>
+                    </div>
                 )}
             </div>
         </div>

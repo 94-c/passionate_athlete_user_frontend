@@ -6,29 +6,30 @@
 
 .exercise-header {
   display: flex;
+  justify-content: space-between; /* Header 내부 요소들을 양쪽 끝에 배치 */
   align-items: center;
-  justify-content: center; /* 중앙 정렬 */
-  padding: 10px;
-  background-color: white;
-  margin-top: 15px;
-  margin-bottom: -5px;
-  position: relative;
+  width: 100%;
+  margin-top: 10px;
+  padding: 20px;
+  background-color: #fff;
+  color: #ff6600;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .exercise-title {
-  flex: 1;
-  text-align: center;
-  font-size: 1.3em;
-  font-weight: bold;
-  color: #ff6600;
+  margin: 0;
+  font-size: 1.5em;
+  flex-grow: 1;
+  text-align: center; /* 중앙 정렬 */
 }
 
 .question-icon {
   font-size: 1.5em;
   cursor: pointer;
-  color: #ff6600; /* 주황색으로 변경 */
+  color: #ff6600;
   position: absolute;
-  right: 10px;
+  right: 35px;
 }
 
 .exercise-container {

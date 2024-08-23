@@ -30,24 +30,30 @@ api.interceptors.response.use(
   }
 );
 
-export const getData = async (url, config = {}) => {
+export const getData = async (url, config = {}, setLoading = () => {}) => {
   try {
+    setLoading(true); // 로딩 시작
     const response = await api.get(url, config);
     return response;
   } catch (error) {
     console.error('API getData error:', error);
     throw error;
+  } finally {
+    setLoading(false); // 로딩 완료
   }
 };
 
-export const postData = async (url, data, isFormData = false) => {
+export const postData = async (url, data, isFormData = false, setLoading = () => {}) => {
   try {
+    setLoading(true); // 로딩 시작
     const headers = isFormData ? { 'Content-Type': 'multipart/form-data' } : {};
     const response = await api.post(url, data, { headers });
     return response;
   } catch (error) {
     console.error('API postData error:', error);
     throw error;
+  } finally {
+    setLoading(false); // 로딩 완료
   }
 };
 

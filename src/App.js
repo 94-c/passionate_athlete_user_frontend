@@ -5,6 +5,7 @@ import HeadWithTitle from './components/HeadWithTitle';
 import Footer from './components/Footer';
 import AppRoutes from './routers/Router';
 import ErrorBoundary from './components/ErrorBoundary';
+import Loading from './components/Loading'; // 로딩 컴포넌트 임포트
 
 import './styles/App.css';
 import './styles/Login.css';
@@ -16,6 +17,7 @@ import './styles/NoticeDetail.css';
 
 const App = () => {
   const [isFooterOpen, setIsFooterOpen] = useState(false);
+  const [loading, setLoading] = useState(false); // 로딩 상태 추가
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -36,12 +38,13 @@ const App = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-
+    setLoading(true); // 로딩 시작
     if (token && (location.pathname === '/login' || location.pathname === '/')) {
       navigate('/main');
     } else if (!token && location.pathname !== '/login' && location.pathname !== '/register') {
       navigate('/login');
     }
+    setLoading(false); // 로딩 완료
   }, [location.pathname, navigate]);
 
   const getTitle = () => {
@@ -57,7 +60,7 @@ const App = () => {
       }
     } else if (isAttendancePage) {
       if (location.pathname === '/attendance') {
-        return "캘런더";
+        return "캘린더";
       } else if (location.pathname === '/mypage') {
         return "마이";
       } else if (location.pathname === '/mypage/membership') {
@@ -68,8 +71,7 @@ const App = () => {
     } else if (isExercisePage) {
       if (location.pathname === '/exercise') {
         return "운동";
-      }
-      else if (location.pathname === '/exercise/record') {
+      } else if (location.pathname === '/exercise/record') {
         return "운동 기록";
       } else if (location.pathname === '/exercise/stats') {
         return "운동 통계";
@@ -91,41 +93,53 @@ const App = () => {
   const MainContent = () => (
     <UserProvider>
       <div id="root" className={isFooterOpen ? 'footer-open' : ''}>
-        {isNoticePage || isAttendancePage || isInbodyPage || isUserInfoPage || isExercisePage ? (
-          <>
-            {!isExercisePage && <HeadWithTitle title={getTitle()} isAttendancePage={isAttendancePage} isInbodyPage={isInbodyPage} isUserInfoPage={isUserInfoPage} />}
-            <div className="main-page">
-              <AppRoutes />
-            </div>
-          </>
-        ) : isSearchPage ? (
-          <>
-            <div className="main-page">
-              <AppRoutes />
-            </div>
-          </>
-        ) : isNoticeFormPage ? (
+        {isMainPage ? (
+          // Main page with only the bottom footer
           <div className="main-page">
             <AppRoutes />
-          </div>
-        ) : isNoticeDetailPage ? (
-          <div className="main-page">
-            <AppRoutes />
+            <Footer onToggle={handleToggleFooter} />
           </div>
         ) : (
+          // Other pages with headers, content, and footer
           <>
-            <div className="main-page">
-              <AppRoutes />
-            </div>
+            {isNoticePage || isAttendancePage || isInbodyPage || isUserInfoPage || isExercisePage ? (
+              <>
+                {!isExercisePage && <HeadWithTitle title={getTitle()} isAttendancePage={isAttendancePage} isInbodyPage={isInbodyPage} isUserInfoPage={isUserInfoPage} />}
+                <div className="main-page">
+                  <AppRoutes />
+                </div>
+              </>
+            ) : isSearchPage ? (
+              <>
+                <div className="main-page">
+                  <AppRoutes />
+                </div>
+              </>
+            ) : isNoticeFormPage ? (
+              <div className="main-page">
+                <AppRoutes />
+              </div>
+            ) : isNoticeDetailPage ? (
+              <div className="main-page">
+                <AppRoutes />
+              </div>
+            ) : (
+              <>
+                <div className="main-page">
+                  <AppRoutes />
+                </div>
+              </>
+            )}
+            <Footer onToggle={handleToggleFooter} />
           </>
         )}
-        <Footer onToggle={handleToggleFooter} />
       </div>
     </UserProvider>
   );
 
   return (
     <ErrorBoundary>
+      {loading ? <Loading /> : null} {/* 로딩 화면 */}
       {isAuthPage ? <AuthContent /> : <MainContent />}
     </ErrorBoundary>
   );

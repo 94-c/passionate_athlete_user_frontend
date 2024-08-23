@@ -1,26 +1,30 @@
 .exercise-modified-page {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  padding: 0 20px;
-  overflow-y: auto;
-  margin-bottom: 150px;
+  padding: 0;
+  background-color: #f9f9f9;
+  font-family: Arial, sans-serif;
+  height: 90vh;
+  overflow: hidden;
 }
 
 .exercise-modified-header {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10px;
-  background-color: white;
-  margin-bottom: 10px;
-  margin-top: 30px;
+  width: 100%;
+  padding: 20px 0;
+  background-color: #fff;
+  color: #ff6600;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 10px;
 }
 
 .exercise-modified-title {
-  text-align: center;
+  margin: 0;
   font-size: 1.5em;
-  font-weight: bold;
+  text-align: center;
   color: #ff6600;
 }
 
@@ -28,16 +32,17 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0 0 20px 0;
-  padding: 10px 0;
+  padding: 15px 0;
   background-color: white;
   border-bottom: 2px solid #ff6600;
+  border-radius: 10px;
+  margin: 10px;
 }
 
 .exercise-main-progress-step {
   font-size: 1em;
   color: grey;
-  margin: 0 10px;
+  margin: 0 5px;
   position: relative;
 }
 
@@ -49,7 +54,7 @@
 .exercise-main-progress-step::after {
   content: '>';
   position: absolute;
-  right: -15px;
+  right: -10px;
   color: #ff6600;
 }
 
@@ -61,6 +66,10 @@
   width: 100%;
   display: flex;
   flex-direction: column;
+  padding: 0 20px;
+  flex-grow: 1;
+  overflow-y: auto;
+  margin-bottom: 20px;
 }
 
 .exercise-modified-info {
@@ -103,6 +112,11 @@
 .exercise-input-row input,
 .exercise-input-row select {
   flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 25px;
+  font-size: 1em;
+  box-sizing: border-box;
 }
 
 .add-exercise-button {
@@ -116,7 +130,7 @@
   cursor: pointer;
 }
 
-button:hover {
+.add-exercise-button:hover {
   background-color: #e65c00;
 }
 
@@ -135,6 +149,46 @@ li {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+li:hover {
+  background-color: #e65c00;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.record-content-container {
+  width: 100%;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+}
+
+.record-content {
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  height: 300px;
+  overflow-x: hidden;
+}
+
+.custom-quill-editor .ql-container {
+  height: 200px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.custom-quill-editor img {
+  max-width: 100%; /* 이미지의 최대 너비를 컨테이너에 맞춤 */
+  height: auto; /* 이미지의 높이를 자동으로 조정 */
+  display: block;
+  margin: 0 auto; /* 이미지를 중앙에 정렬 */
 }
 
 .exercise-modified-submit-button {
@@ -214,8 +268,6 @@ li {
   position: absolute;
   top: 50%;
   left: 50%;
-  right: auto;
-  bottom: auto;
   transform: translate(-50%, -50%);
   background: white;
   padding: 20px;
@@ -236,25 +288,65 @@ li {
   z-index: 1000;
 }
 
-@media (max-width: 428px) {
-  .exercise-modified-info {
-    flex: 1 1 100%;
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .exercise-modified-title {
+    font-size: 1.3em;
+  }
+
+  .exercise-main-progress-step {
+    font-size: 0.9em;
   }
 
   .basic-info-grid {
     grid-template-columns: 1fr;
-    gap: 10px;
   }
 
-  input[type="number"],
-  select {
+  .add-exercise-button {
+    font-size: 0.9em;
+  }
+
+  .exercise-modified-submit-button {
+    font-size: 0.9em;
+  }
+
+  .record-content {
     padding: 8px;
-    border-radius: 25px;
+  }
+
+  .custom-quill-editor .ql-container {
+    height: 150px;
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .exercise-modified-title {
+    font-size: 1.2em;
+  }
+
+  .exercise-main-progress-step {
     font-size: 0.8em;
   }
 
-  .exercise-input-row {
-    flex-direction: column;
-    gap: 5px;
+  .custom-input,
+  .exercise-input-row input,
+  .exercise-input-row select,
+  .add-exercise-button,
+  .exercise-modified-submit-button {
+    padding: 8px;
+    font-size: 0.8em;
+  }
+
+  .record-content {
+    padding: 6px;
+  }
+
+  .text-editor {
+    min-height: 120px;
+  }
+
+  .custom-quill-editor .ql-container {
+    height: 120px;
   }
 }

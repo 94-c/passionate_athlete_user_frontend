@@ -16,12 +16,25 @@
 }
 
 .exercise-custom-header {
+  display: flex;
+  justify-content: space-between; /* Header 내부 요소들을 양쪽 끝에 배치 */
+  align-items: center;
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #fff;
+  color: #ff6600;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
 
 .exercise-custom-title {
-  font-size: 24px;
-  color: #333;
+  margin: 0;
+  font-size: 1.5em;
+  flex-grow: 1;
+  text-align: center; /* 타이틀 중앙 정렬 */
+  color: #ff6600;
 }
 
 .exercise-custom-subtitle {
@@ -103,7 +116,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%; /* Ensure the container takes full width */
+  width: 100%;
 }
 
 .daily-records ul {
@@ -112,7 +125,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%; /* Ensure the list takes full width */
+  width: 100%;
 }
 
 .daily-record {
@@ -120,14 +133,14 @@
   padding: 10px;
   margin-bottom: 10px;
   border-radius: 5px;
-  width: 100%; /* Ensure the records take full width */
+  width: 100%;
   text-align: left;
-  flex-shrink: 0; /* Prevent records from shrinking */
-  flex-grow: 0; /* Prevent records from growing */
+  flex-shrink: 0;
+  flex-grow: 0;
   background-color: #ff6600;
   color: white;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  cursor: pointer; /* Add pointer cursor for clickable effect */
+  cursor: pointer;
 }
 
 .daily-record:hover {
@@ -157,35 +170,60 @@
   font-weight: bold;
 }
 
-/* 반응형 디자인 */
+.no-records-box {
+  background-color: #ffe6cc; /* 부드러운 주황색 배경 */
+  color: #ff6600; /* 주황색 폰트 */
+  border-radius: 10px;
+  padding: 20px 30px; /* 상자의 크기를 키우기 위해 패딩을 늘림 */
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 30px 0; /* 상하 여백을 추가하여 다른 요소들과 분리 */
+  width: 100%; /* 상자의 너비를 100%로 설정하여 화면에 꽉 차게 함 */
+}
+
+.no-records-box i {
+  font-size: 28px; /* 아이콘 크기 증가 */
+  margin-right: 15px; /* 아이콘과 텍스트 사이의 간격 증가 */
+  color: #ff6600; /* 주황색 아이콘 */
+}
+
+.no-records-text {
+  font-size: 1.3em; /* 텍스트 크기 증가 */
+  font-weight: bold;
+  color: #ff6600; /* 주황색 폰트 */
+}
+
 @media (max-width: 768px) {
   .exercise-calendar-container {
-      padding: 5px;
+    padding: 5px;
   }
 
   .react-calendar__navigation button {
-      font-size: 14px;
+    font-size: 14px;
   }
 
   .react-calendar__tile {
-      font-size: 12px;
+    font-size: 12px;
   }
 }
 
 @media (min-width: 360px) {
   .react-calendar__tile {
-      font-size: 12px;
+    font-size: 12px;
   }
 }
 
 @media (min-width: 768px) {
   .react-calendar__tile {
-      font-size: 14px;
+    font-size: 14px;
   }
 }
 
 @media (min-width: 1024px) {
   .react-calendar__tile {
-      font-size: 16px;
+    font-size: 16px;
   }
 }

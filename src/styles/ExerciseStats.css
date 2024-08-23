@@ -17,47 +17,102 @@
 .exercise-title-container {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center; /* Header 내부 요소들을 중앙에 배치 */
   width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #fff;
+  color: #ff6600;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative; /* 아이콘을 절대 위치로 배치하기 위해 relative 추가 */
 }
 
 .exercise-title {
-  font-size: 24px;
-  font-weight: bold;
-  text-align: center;
-  flex-grow: 1;
-  margin-left: 35px;
+  margin: 0;
+  font-size: 1.5em;
+  text-align: center; /* 중앙 정렬 */
+  color: #ff6600;
 }
 
 .kettlebell-icon {
-  margin-left: 10px;
+  font-size: 1.5em;
   cursor: pointer;
-  color: #ff6600; /* Set the color to orange */
+  color: #ff6600;
+  position: absolute; /* 아이콘을 타이틀 오른쪽에 절대 위치로 배치 */
+  right: 10px; /* 오른쪽 여백 설정 */
 }
 
-.exercise-summary-card, .exercise-attendance-card, .exercise-success-rate-card {
+.exercise-summary-card, 
+.exercise-attendance-card, 
+.exercise-success-rate-card {
   margin-top: 20px;
-  width: 100%; /* Ensure the cards take full width */
+  width: 100%; 
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s; /* Hover 효과를 위한 트랜지션 추가 */
+}
+
+.exercise-summary-card:hover, 
+.exercise-attendance-card:hover, 
+.exercise-success-rate-card:hover {
+  transform: translateY(-5px); /* Hover 시 상자가 살짝 올라가는 효과 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Hover 시 더 진한 그림자 효과 */
 }
 
 .exercise-card-title {
   font-size: 18px;
   margin-bottom: 10px;
   text-align: center;
+  color: #ff6600;
+  font-weight: bold;
 }
 
 .exercise-summary-table {
   width: 100%;
   border-collapse: collapse;
-}
-
-.exercise-summary-table th, .exercise-summary-table td {
-  border: 1px solid #ddd;
-  padding: 8px;
-  text-align: center;
+  font-size: 14px;
+  background-color: #fff;
 }
 
 .exercise-summary-table th {
-  background-color: #f4f4f4;
+  background-color: #ff6600;
+  color: white;
+  padding: 10px;
+  text-align: center;
   font-weight: bold;
+  border: 1px solid #ff6600;
+}
+
+.exercise-summary-table td {
+  border: 1px solid #ff6600;
+  padding: 10px;
+  text-align: center;
+  background-color: #ffe6cc;
+  color: #333;
+  font-weight: bold;
+}
+
+.exercise-summary-table tbody tr:nth-child(even) {
+  background-color: #ffd9b3; 
+}
+
+.exercise-summary-table tbody tr:hover {
+  background-color: #ffcc99;
+  transition: background-color 0.3s ease; /* 테이블 행 hover 시 부드러운 색상 전환 */
+}
+
+@media (max-width: 768px) {
+  .exercise-summary-table th, .exercise-summary-table td {
+    padding: 8px;
+    font-size: 12px;
+  }
+}
+
+.kettlebell-icon:hover {
+  color: #ff3300; /* Hover 시 색상을 더 진하게 변경 */
+  transform: scale(1.1); /* Hover 시 아이콘이 약간 커지는 효과 */
+  transition: transform 0.3s, color 0.3s;
 }

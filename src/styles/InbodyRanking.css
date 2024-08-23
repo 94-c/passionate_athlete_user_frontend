@@ -1,4 +1,3 @@
-/* InbodyRanking.css */
 .inbody-ranking-page {
     padding: 20px;
     background-color: #f9f9f9;
@@ -7,7 +6,8 @@
     flex-direction: column;
     align-items: center;
     font-family: Arial, sans-serif;
-    overflow: hidden; /* 스크롤을 방지 */
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .inbody-ranking-header {
@@ -28,18 +28,6 @@
     font-size: 1.5em;
 }
 
-.inbody-ranking-back-button {
-    font-size: 1.5em;
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: #ff6600;
-}
-
-.inbody-ranking-back-button:hover {
-    color: #e65c00;
-}
-
 .inbody-ranking-gender-buttons {
     display: flex;
     gap: 10px;
@@ -55,11 +43,21 @@
 }
 
 .inbody-ranking-gender-buttons button.active {
-    color: green; /* 활성화된 성별 버튼 색상을 녹색으로 */
+    color: green;
 }
 
-.inbody-ranking-gender-buttons button:hover {
+.inbody-ranking-gender-buttons button:hover,
+.inbody-ranking-filter-button:hover {
     color: #e65c00;
+}
+
+.inbody-ranking-filter-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #ff6600;
+    font-size: 1.5em;
+    transition: color 0.3s;
 }
 
 .inbody-ranking-highlight {
@@ -78,11 +76,6 @@
     margin: 0;
 }
 
-.inbody-ranking-highlight p .user-name {
-    color: #ff6600; /* 오렌지색 */
-    font-weight: bold; /* 굵게 */
-}
-
 .inbody-ranking-highlight h2 {
     font-size: 2.5em;
     color: green;
@@ -90,10 +83,10 @@
 }
 
 .inbody-ranking-highlight-bar {
-    width: 90%; /* inbody-ranking-highlight와 동일한 너비 */
-    background-color: green; /* 라임 그린 색상 */
+    width:100%;
+    background-color: green;
     color: #fff;
-    padding: 20px; /* 패딩 조정 */
+    padding: 20px;
     border-radius: 10px;
     text-align: center;
     margin-bottom: 15px;
@@ -102,21 +95,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: column; /* 요소를 수직 정렬 */
-}
-
-.inbody-ranking-highlight-bar .orange-text {
-    color: #ff6600; /* 오렌지색 */
-}
-
-.inbody-ranking-highlight-bar .bell-icon {
-    margin-bottom: 10px; /* 아이콘과 텍스트 사이 간격 조정 */
-    font-size: 2em; /* 아이콘 크기 조정 */
+    flex-direction: column;
 }
 
 .inbody-ranking-section {
     width: 100%;
-    flex-grow: 1; /* 남은 공간을 모두 차지 */
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -143,7 +127,7 @@
 .inbody-ranking-period-buttons button {
     padding: 10px 20px;
     border: none;
-    background-color: #ff6600;
+    background-color: green;
     color: white;
     cursor: pointer;
     border-radius: 20px;
@@ -154,17 +138,13 @@
     background-color: #e65c00;
 }
 
-.inbody-ranking-period-buttons button:hover {
-    background-color: #e65c00;
-}
-
 .inbody-ranking-list {
     list-style: none;
     padding: 0;
     width: 100%;
     flex-grow: 1;
-    overflow-y: auto; /* 세로 스크롤 가능 */
-    margin-bottom: 20px; /* 마지막 아이템 아래 여백 추가 */
+    overflow-y: auto;
+    margin-bottom: 20px;
 }
 
 .inbody-ranking-item {
@@ -173,7 +153,7 @@
     align-items: center;
     padding: 10px;
     border-bottom: 1px solid #ddd;
-    background-color: white;
+    background-color: #ff6600;
     margin-bottom: 5px;
     border-radius: 10px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -186,18 +166,6 @@
     align-items: center;
 }
 
-.no-data-box {
-    width: 100%;
-    height: 200px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    margin-top: 20px;
-}
-
 .no-data {
     font-size: 1.5em;
     color: #ff6600;
@@ -205,11 +173,6 @@
 
 .inbody-ranking-rank, .inbody-ranking-username, .inbody-ranking-body-fat-change {
     font-size: 1.2em;
-}
-
-.inbody-ranking-new, .inbody-ranking-change {
-    font-size: 0.8em;
-    color: red;
 }
 
 .top-rank {
@@ -227,11 +190,163 @@
 }
 
 .rank-3 {
-    color: #cd7f32; /* 동색 */
+    color: #cd7f32;
     font-size: 1.3em;
 }
 
-/* 반응형 디자인을 위한 미디어 쿼리 */
+/* Custom Modal Styling */
+/* Custom Modal Overlay */
+.custom-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+/* Custom Modal Content */
+.custom-modal-content {
+    position: relative;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    width: 320px;
+    max-width: 90%;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Modal Header */
+.custom-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.custom-modal-title {
+    margin: 0;
+    font-size: 1.6em;
+    color: #333;
+    text-align: center;
+    flex-grow: 1;
+}
+
+.custom-modal-close-btn {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
+    color: #ff6600;
+    padding: 0;
+    line-height: 1;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.custom-modal-close-btn:hover {
+    background: none;
+    color: #ff6600;
+}
+
+/* Modal Body */
+.custom-modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.custom-filter-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.custom-filter-group label {
+    flex: 0 0 30%;
+    font-size: 1em;
+    color: #333;
+    margin-right: 10px;
+}
+
+.custom-filter-group select,
+.custom-filter-group .react-datepicker-wrapper input {
+    flex: 1;
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+/* Confirm Button */
+.custom-confirm-btn {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    background-color: #ff6600;
+    color: white;
+    transition: background-color 0.3s;
+}
+
+.custom-confirm-btn:hover {
+    background-color: #e65c00;
+}
+
+.back-button {
+    color: #e67300;
+    border: none;
+    border-radius: 50%;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-right: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* no-data-item에 대한 추가 조정 */
+.no-data-item {
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #ff6600; /* 배경색 주황색 */
+    border-radius: 10px; /* 모서리 둥글게 */
+    padding: 20px; /* 내부 여백 */
+}
+
+.no-data-icon {
+    font-size: 3em; /* 아이콘 크기 조절 */
+    color: white; /* 아이콘 색상 흰색 */
+    margin-bottom: 10px; /* 아이콘과 텍스트 사이 여백 */
+}
+
+.no-data {
+    font-size: 1.5em; /* 텍스트 크기 조절 */
+    color: white; /* 텍스트 색상 흰색 */
+    text-align: center; /* 텍스트 중앙 정렬 */
+}
+
+/* Responsive */
 @media (max-width: 768px) {
     .inbody-ranking-highlight {
         width: 100%;
@@ -265,9 +380,5 @@
 
     .inbody-ranking-rank, .inbody-ranking-username, .inbody-ranking-body-fat-change {
         font-size: 1em;
-    }
-
-    .inbody-ranking-new, .inbody-ranking-change {
-        font-size: 0.6em;
     }
 }

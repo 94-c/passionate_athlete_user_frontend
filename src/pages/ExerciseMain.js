@@ -4,6 +4,8 @@ import { api } from '../api/Api.js';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import '../styles/ExerciseMain.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faDumbbell } from '@fortawesome/free-solid-svg-icons';
 
 const QuillWrapper = (props) => {
   const ref = useRef(null);
@@ -13,22 +15,31 @@ const QuillWrapper = (props) => {
 const ExerciseMain = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const workoutType = location.state?.workoutType || 'MAIN'; // 기본 값을 'MAIN'으로 설정
+  const workoutType = location.state?.workoutType || 'MAIN';
   const [todayWorkout, setTodayWorkout] = useState(null);
   const [formData, setFormData] = useState({
     workoutDetails: [],
     rounds: '',
     rating: '',
-    success: false,
+    success: true,
     duration: '',
+    completionTime: '',
     recordContent: '',
   });
 
   useEffect(() => {
     const fetchTodayWorkout = async () => {
       try {
-        const today = new Date().toISOString().split('T')[0];
+        const now = new Date();
+        const hour = now.getHours();
+
+        if (hour < 15) {
+          now.setDate(now.getDate() - 1);
+        }
+
+        const today = now.toISOString().split('T')[0];
         const response = await api.get(`/scheduled-workouts/date?date=${today}`);
+
         if (response.data.length > 0) {
           const workout = response.data[0];
           const workoutDetails = workout.workoutInfos.map(info => ({
@@ -41,17 +52,11 @@ const ExerciseMain = () => {
           }));
 
           setTodayWorkout(workout);
-          setFormData({
+          setFormData(prevFormData => ({
+            ...prevFormData,
             workoutDetails,
             rounds: workout.rounds,
-            rating: '',
-            success: false,
-            duration: '',
-            recordContent: '',
-          });
-
-          console.log('Fetched workout:', workout);
-          console.log('Workout details:', workoutDetails);
+          }));
         }
       } catch (error) {
         console.error('Error fetching today\'s workout:', error);
@@ -64,13 +69,10 @@ const ExerciseMain = () => {
     const { name, value } = e.target;
     setFormData(prevState => {
       const updatedWorkoutDetails = [...prevState.workoutDetails];
-      if (['weight', 'rounds', 'rating'].includes(name)) {
-        updatedWorkoutDetails[index] = { ...updatedWorkoutDetails[index], [name]: value };
-      } else if (name === 'duration') {
-        const formattedValue = formatDuration(value);
-        return { ...prevState, duration: formattedValue };
-      } else {
-        return { ...prevState, [name]: value };
+      updatedWorkoutDetails[index] = { ...updatedWorkoutDetails[index], [name]: value };
+
+      if (name === 'duration' || name === 'completionTime') {
+        return { ...prevState, [name]: formatDuration(value) };
       }
       return { ...prevState, workoutDetails: updatedWorkoutDetails };
     });
@@ -78,17 +80,11 @@ const ExerciseMain = () => {
 
   const formatDuration = (value) => {
     const numericValue = value.replace(/\D/g, '');
-    if (numericValue.length > 4) {
-      return formData.duration;
-    }
-    if (numericValue.length <= 2) {
-      return numericValue;
-    } else if (numericValue.length === 2) {
-      return numericValue.charAt(0) + ':' + numericValue.slice(1);
-    } else if (numericValue.length === 4) {
-      return numericValue.slice(0, 2) + ':' + numericValue.slice(2);
-    }
-    return numericValue;
+    if (numericValue.length > 4) return formData.duration;
+    if (numericValue.length <= 2) return numericValue;
+    return numericValue.length === 4
+      ? `${numericValue.slice(0, 2)}:${numericValue.slice(2)}`
+      : `${numericValue.charAt(0)}:${numericValue.slice(1)}`;
   };
 
   const handleEditorChange = (value) => {
@@ -110,44 +106,29 @@ const ExerciseMain = () => {
       "D+": 9, "D": 10
     };
 
-    const ratings = formData.workoutDetails.map(detail => detail.rating).filter(rating => rating);
+    const ratings = formData.workoutDetails.map(detail => detail.rating).filter(Boolean);
 
-    if (ratings.length === 0) {
-      return '';
-    }
-
-    let minRating = ratings[0];
-    for (const rating of ratings) {
-      if (ratingOrder[rating] > ratingOrder[minRating]) {
-        minRating = rating;
-      }
-    }
-
-    return minRating;
+    if (ratings.length === 0) return '';
+    return ratings.reduce((minRating, currentRating) =>
+      ratingOrder[currentRating] > ratingOrder[minRating] ? currentRating : minRating
+    );
   };
 
   const parseTime = (timeString) => {
-    if (!timeString) return 0;
-    const match = timeString.match(/(\d+):(\d+)/);
-    if (match) {
-      const minutes = parseInt(match[1], 10);
-      const seconds = parseInt(match[2], 10);
-      return (minutes * 60) + seconds;
-    }
-
-    const minuteMatch = timeString.match(/(\d+)min/);
-    if (minuteMatch) {
-      return parseInt(minuteMatch[1], 10) * 60;
-    }
-
-    return 0;
+    const [minutes, seconds] = timeString.split(':').map(Number);
+    return (minutes || 0) * 60 + (seconds || 0);
   };
 
   const determineSuccess = (minimumRounds, formattedDuration) => {
     const totalSeconds = parseTime(formattedDuration);
-    const targetSeconds = parseTime(todayWorkout.time);
+    const targetSeconds = parseTime(todayWorkout?.time);
+    return minimumRounds >= todayWorkout?.rounds && totalSeconds <= targetSeconds;
+  };
 
-    return minimumRounds >= todayWorkout.rounds && totalSeconds <= targetSeconds;
+  const determinePassOrNonPass = (formattedDuration) => {
+    const totalSeconds = parseTime(formattedDuration);
+    const targetSeconds = parseTime(todayWorkout?.time);
+    return totalSeconds <= targetSeconds ? 'SUCCESS' : 'FAIL';
   };
 
   const handleSubmit = async (e) => {
@@ -160,45 +141,26 @@ const ExerciseMain = () => {
 
     const minimumRounds = calculateMinimum('rounds');
     const formattedDuration = formData.duration;
-    const success = determineSuccess(minimumRounds, formattedDuration);
+    let success = 1;  // 기본적으로 성공(1)으로 설정
+    let status = '';
+
+    if (todayWorkout.workoutMode === 'PASS_OR_NONPASS') {
+      status = determinePassOrNonPass(formData.completionTime);
+      success = status === 'SUCCESS' ? 1 : 0;  // 'SUCCESS'면 1, 아니면 0
+    } else {
+      success = determineSuccess(minimumRounds, formattedDuration) ? 1 : 0;  // 성공이면 1, 실패면 0
+    }
 
     const payload = {
       scheduledWorkoutId: todayWorkout.id,
-      workoutDetails: formData.workoutDetails.map(detail => ({
-        exerciseId: detail.exerciseId,
-        exerciseName: detail.exercise, // 여기에 명시적으로 추가합니다.
-        weight: detail.weight,
-        rounds: detail.rounds,
-        rating: detail.rating,
-        exerciseType: detail.exerciseType,
-      })),
+      workoutDetails: formData.workoutDetails,
       rounds: minimumRounds,
       rating: calculateMinimumRating(),
-      success: success,
-      duration: formattedDuration,
+      success,  // 숫자 1 또는 0으로 전송
+      duration: todayWorkout.workoutMode === 'PASS_OR_NONPASS' ? formData.completionTime : formattedDuration,
       recordContent: formData.recordContent,
       exerciseType: workoutType,
     };
-
-    console.log('Submitting payload:', payload); // 여기에서 payload를 확인합니다.
-
-    // Validate form data
-    if (!formData.duration) {
-      alert('시간을 입력하세요.');
-      return;
-    }
-    if (!minimumRounds) {
-      alert('라운드를 입력하세요.');
-      return;
-    }
-    if (!calculateMinimumRating()) {
-      alert('등급을 선택하세요.');
-      return;
-    }
-    if (!formData.workoutDetails.length) {
-      alert('운동 정보를 추가하세요.');
-      return;
-    }
 
     try {
       await api.post('/workout-records', payload);
@@ -222,7 +184,7 @@ const ExerciseMain = () => {
       <div className="exercise-main-container">
         {todayWorkout ? (
           <>
-            <p className="today-info">{todayWorkout.date} 오늘의 운동 "<strong>{todayWorkout.title}</strong>"</p>
+            <p className="today-info">{new Date(todayWorkout.date).toISOString().split('T')[0]} 오늘의 운동 "<strong>{todayWorkout.title}</strong>"</p>
             <form onSubmit={handleSubmit} className="workout-form">
               <div className="exercise-record">
                 <h2>기본 정보</h2>
@@ -231,10 +193,48 @@ const ExerciseMain = () => {
                   <div className="form-input readonly">{calculateMinimumRating()}</div>
                 </div>
                 <div className="record-item">
-                  <input type="text" name="duration" value={formData.duration} onChange={handleChange} className="form-input" placeholder="시간 (분:초)" maxLength="5" />
-                  <div className={`form-input readonly ${determineSuccess(calculateMinimum('rounds'), formData.duration) ? 'success' : 'failure'}`}>
-                    {determineSuccess(calculateMinimum('rounds'), formData.duration) ? '성공' : '실패'}
-                  </div>
+                  {todayWorkout.workoutMode !== 'ROUND_RANKING' && todayWorkout.workoutMode !== 'PASS_OR_NONPASS' && (
+                    <>
+                      <input
+                        type="text"
+                        name="duration"
+                        value={formData.duration}
+                        onChange={handleChange}
+                        className="form-input"
+                        placeholder="시간 (분:초)"
+                        maxLength="5"
+                      />
+                      <div className={`form-input readonly ${determineSuccess(calculateMinimum('rounds'), formData.duration) ? 'success' : 'failure'}`}>
+                        {determineSuccess(calculateMinimum('rounds'), formData.duration) ? '성공' : '실패'}
+                      </div>
+                    </>
+                  )}
+                  {todayWorkout.workoutMode === 'ROUND_RANKING' && (
+                    <div className="form-input readonly success">
+                      합격
+                    </div>
+                  )}
+                  {todayWorkout.workoutMode === 'PASS_OR_NONPASS' && (
+                    <>
+                      <input
+                        type="text"
+                        name="completionTime"
+                        value={formData.completionTime}
+                        onChange={handleChange}
+                        className="form-input"
+                        placeholder="완료 시간 (분:초)"
+                        maxLength="5"
+                      />
+                      <div className={`form-input readonly ${determinePassOrNonPass(formData.completionTime).toLowerCase()}`}>
+                        {determinePassOrNonPass(formData.completionTime) === 'SUCCESS' ? (
+                          <span className="success">SUCCESS</span>
+                        ) : (
+                          <span className="failure">FAIL</span>
+                        )}
+                      </div>
+                    </>
+                  )}
+
                 </div>
               </div>
               <div className="exercise-info">
@@ -273,7 +273,7 @@ const ExerciseMain = () => {
               </div>
 
               <div className="record-content-container">
-                <div className="record-content">
+                <div className="custom-quill-container">
                   <QuillWrapper
                     value={formData.recordContent}
                     onChange={handleEditorChange}
@@ -291,7 +291,6 @@ const ExerciseMain = () => {
                       'header', 'font', 'list', 'bullet', 'bold', 'italic', 'underline', 'strike', 'blockquote', 'align', 'link', 'image'
                     ]}
                     placeholder="기록 내용을 입력하세요."
-                    className="text-editor"
                   />
                 </div>
               </div>
@@ -299,7 +298,10 @@ const ExerciseMain = () => {
             </form>
           </>
         ) : (
-          <p className="no-workout">오늘의 운동이 없습니다.</p>
+          <div className="no-workout">
+            <FontAwesomeIcon icon={faDumbbell} />
+            <p>오늘의 운동이 존재하지 않습니다.</p>
+          </div>
         )}
       </div>
     </div>

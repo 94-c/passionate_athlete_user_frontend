@@ -182,6 +182,27 @@
   background-color: #e65c00;
 }
 
+.no-membership {
+  background-color: #ffcc99;
+  color: #ff6600;
+  padding: 20px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  justify-content: center; /* 수직 중앙 정렬 */
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.no-membership i {
+  font-size: 50px;
+  margin-bottom: 10px;
+  color: #ff6600;
+}
+
 /* 반응형 스타일 */
 @media (max-width: 768px) {
   .membership-header {

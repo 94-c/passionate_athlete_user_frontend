@@ -141,7 +141,10 @@ const ExerciseCalendar = () => {
                   ))}
                 </ul>
               ) : (
-                <p>운동 기록이 없습니다.</p>
+                <div className="no-records-box">
+                  <i className="fas fa-exclamation-triangle"></i>
+                  <span className="no-records-text">운동 기록이 없습니다.</span>
+                </div>
               )}
             </div>
           )}

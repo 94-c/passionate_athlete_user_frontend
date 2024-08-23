@@ -1,12 +1,12 @@
 .user-info-page {
   display: flex;
   flex-direction: column;
-  justify-content: center; /* 수직 정중앙 */
-  align-items: center; /* 수평 정중앙 */
-  height: 70vh; /* 화면 전체 높이 */
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh; /* 화면 전체 높이의 80%를 사용 */
   padding: 20px;
-  background-color: #fff;
-  font-family: Arial, sans-serif;
+  background-color: #f7f7f7; /* 밝은 배경색 */
+  font-family: 'Noto Sans KR', sans-serif;
 }
 
 .user-info-header {
@@ -15,28 +15,30 @@
 }
 
 .user-info-title {
-  font-size: 2rem;
+  font-size: 2.5rem;
   color: #FF6600;
+  margin-bottom: 20px;
 }
 
 .user-info-content {
   background-color: white;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  max-width: 800px; /* 최대 너비를 늘림 */
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  padding: 30px;
+  max-width: 600px; /* 최대 너비를 줄임 */
   width: 100%;
+  text-align: left;
 }
 
 .user-info-item {
-  margin-bottom: 15px;
-  font-size: 1.1rem;
+  margin-bottom: 20px;
+  font-size: 1.2rem;
 }
 
 .user-info-row {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
 .user-info-item {
@@ -51,16 +53,17 @@
 
 .button-box {
   text-align: center;
-  margin-top: 20px;
+  margin-top: 30px;
 }
 
 .btn {
-  padding: 10px 20px;
-  font-size: 1rem;
+  padding: 12px 25px;
+  font-size: 1.1rem;
   border-radius: 5px;
   border: none;
   cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .btn-primary {
@@ -70,4 +73,11 @@
 
 .btn-primary:hover {
   background-color: #e55d00;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.loading {
+  font-size: 1.5rem;
+  color: #FF6600;
+  font-weight: bold;
 }

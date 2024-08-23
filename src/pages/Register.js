@@ -9,12 +9,12 @@ const Register = () => {
         password: '',
         passwordCheck: '',
         name: '',
-        branchName: '', 
+        branchName: '',
         gender: 'FEMALE',
         weight: '',
         height: '',
-        birthDate: '', 
-        phoneNumber: '', 
+        birthDate: '',
+        phoneNumber: '',
         verificationCode: ''
     });
     const [branches, setBranches] = useState([]);
@@ -48,11 +48,14 @@ const Register = () => {
         if (name === 'userId') {
             setIsUserIdChecked(false);
             try {
-                const response = await api.post('/auth/check-userid', { userId: value });
-                if (response.data.exists) {
+                const response = await api.get('/auth/check-userid', {
+                    params: { userId: value } // 'params' 객체로 userId 전달
+                });
+
+                if (response.data) { // response.data가 true일 경우
                     setErrors((prevErrors) => ({
                         ...prevErrors,
-                        userId: '이미 사용 중인 아이디입니다.'
+                        userId: '이미 사용 중인 아이디입니다.' // 에러 메시지 설정
                     }));
                 } else {
                     setErrors((prevErrors) => ({
@@ -107,20 +110,26 @@ const Register = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         if (step === 1) {
-            if (!errors.userId && !errors.passwordCheck && !errors.name && isUserIdChecked) {
+            const isValidStep1 = !errors.userId && !errors.passwordCheck && !errors.name && isUserIdChecked;
+
+            if (isValidStep1) {
                 setStep(2);
             } else {
                 alert('다음 문제를 해결해주세요:\n' +
                     (errors.userId ? `- ${errors.userId}\n` : '') +
                     (errors.passwordCheck ? `- ${errors.passwordCheck}\n` : '') +
-                    (errors.name ? `- ${errors.name}\n` : ''));
+                    (errors.name ? `- ${errors.name}\n` : '') +
+                    (!isUserIdChecked ? '- 아이디 중복 확인을 해주세요.\n' : ''));
             }
-        } else if (step === 2) {
+        }
+
+        else if (step === 2) {
             try {
                 const response = await api.post('/auth/register', form);
                 if (response.status === 200) {
-                    alert('회원가입에 완료하였습니다. 관리자에게 권한 요청 드리세요.')
+                    alert('회원가입에 완료하였습니다.');
                     navigate('/login');
                 } else {
                     alert('회원가입에 실패했습니다: ' + (response.data.message || 'Unknown error'));
@@ -240,7 +249,7 @@ const Register = () => {
                             <>
                                 <div className="input-form-box double-input">
                                     <div className="input-with-icon">
-                                    <i className="fas fa-weight"></i>
+                                        <i className="fas fa-weight"></i>
                                         <input
                                             type="number"
                                             id="height"

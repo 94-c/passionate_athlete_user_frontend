@@ -3,8 +3,9 @@
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  height: 80vh;
+  height: 90vh; /* 높이를 90vh로 조정하여 더 큰 영역을 차지하도록 설정 */
   overflow-x: hidden; /* 가로 스크롤을 숨김 */
+  overflow-y: auto; /* 세로 스크롤 추가 */
 }
 
 .notice-detail-header {
@@ -57,7 +58,7 @@
   margin-bottom: 20px;
   overflow-x: hidden; /* 가로 스크롤을 숨김 */
   overflow-y: auto; /* 세로 스크롤 활성화 */
-  max-height: 400px; /* 콘텐츠 최대 높이 설정 */
+  max-height: 70vh; /* 콘텐츠 최대 높이를 70vh로 설정 */
   white-space: pre-wrap; /* 내용 줄바꿈 유지 */
   word-wrap: break-word; /* 단어가 너무 길 경우 줄바꿈 */
 }

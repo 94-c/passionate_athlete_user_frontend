@@ -147,6 +147,9 @@ const NoticeDetail = () => {
 
   if (error) return <div className="error-message">{error}</div>;
 
+  console.log("Current User:", currentUser); // Add this line
+  console.log("Post Data:", post); // Add this line
+
   return (
     <div className="notice-detail">
       <div className="notice-detail-header">
@@ -181,29 +184,26 @@ const NoticeDetail = () => {
             onChange={handleTitleChange}
           />
           <div className="edit-content">
+          <div className="board-quill-container">
             <QuillWrapper
-              ref={quillRef}
               value={editedContent}
               onChange={handleContentChange}
               modules={{
-                toolbar: {
-                  container: [
-                    [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
-                    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-                    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-                    [{ 'align': [] }],
-                    ['link', 'image'],
-                    ['clean']
-                  ],
-                },
+                toolbar: [
+                  [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
+                  [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                  ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+                  [{ 'align': [] }],
+                  ['link', 'image'],
+                  ['clean']
+                ],
               }}
               formats={[
                 'header', 'font', 'list', 'bullet', 'bold', 'italic', 'underline', 'strike', 'blockquote', 'align', 'link', 'image'
               ]}
-              placeholder="내용을 입력하세요."
-              className="text-editor"
-              style={{ height: '50vh', marginBottom: '20px' }}
+             placeholder="내용을 입력하세요."
             />
+          </div>
           </div>
         </div>
       ) : (

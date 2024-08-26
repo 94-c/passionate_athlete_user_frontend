@@ -105,11 +105,12 @@ const NoticeDetail = () => {
   const handleDelete = async () => {
     if (window.confirm('정말로 이 게시글을 삭제하시겠습니까?')) {
       try {
-        await api.delete(`/notices/${id}`);
+        await api.post(`/notices/delete/${id}`);
         alert('게시글이 성공적으로 삭제되었습니다.');
         navigate('/notices');
       } catch (error) {
-        setError('게시글 삭제 중 오류가 발생했습니다.');
+        alert('게시글 삭제 중 오류가 발생했습니다.');
+        navigate('/notices');
       }
     }
   };
@@ -146,9 +147,6 @@ const NoticeDetail = () => {
   if (loading) return <Loading />;
 
   if (error) return <div className="error-message">{error}</div>;
-
-  console.log("Current User:", currentUser); // Add this line
-  console.log("Post Data:", post); // Add this line
 
   return (
     <div className="notice-detail">

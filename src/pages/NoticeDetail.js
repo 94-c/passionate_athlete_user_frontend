@@ -91,7 +91,7 @@ const NoticeDetail = () => {
       };
 
       try {
-        await api.put(`/notices/${id}`, notice);
+        await api.put(`/notices/${id}`, notice); // JSON 형식으로 전송
         setPost((prev) => ({ ...prev, title: editedTitle, content: editedContent, kindId: editedKindId }));
         setIsEditing(false);
       } catch (error) {

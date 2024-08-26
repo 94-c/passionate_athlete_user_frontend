@@ -73,9 +73,7 @@ const NoticeForm = () => {
     };
 
     try {
-      const formData = new FormData();
-      formData.append('noticeJson', new Blob([JSON.stringify(notice)], { type: 'application/json' }));
-      await postData('/notices', formData, true);
+      await postData('/notices', notice); // JSON 데이터를 전송
       alert('게시글이 성공적으로 등록되었습니다.');
       navigate('/notices');
     } catch (error) {

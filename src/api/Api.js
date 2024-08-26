@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://58.79.16.12:9081/api/v1',
+  baseURL: 'http://localhost:9081/api/v1',
 });
 
 api.interceptors.request.use(
@@ -46,8 +46,14 @@ export const getData = async (url, config = {}, setLoading = () => {}) => {
 export const postData = async (url, data, isFormData = false, setLoading = () => {}) => {
   try {
     setLoading(true); // 로딩 시작
-    const headers = isFormData ? { 'Content-Type': 'multipart/form-data' } : {};
-    const response = await api.post(url, data, { headers });
+
+    // 동적으로 Content-Type 설정
+    const headers = isFormData ? {} : { 'Content-Type': 'application/json' };
+
+    // FormData가 아닌 경우 데이터를 JSON으로 직렬화
+    const requestBody = isFormData ? data : JSON.stringify(data);
+
+    const response = await api.post(url, requestBody, { headers });
     return response;
   } catch (error) {
     console.error('API postData error:', error);
@@ -56,5 +62,6 @@ export const postData = async (url, data, isFormData = false, setLoading = () =>
     setLoading(false); // 로딩 완료
   }
 };
+
 
 export { api };

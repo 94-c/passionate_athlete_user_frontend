@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../api/Api.js';
+import { UserContext } from '../contexts/UserContext';
 import '../styles/Search.css';
 
 const Search = () => {
@@ -10,6 +11,7 @@ const Search = () => {
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
   const navigate = useNavigate();
+  const { user: currentUser } = useContext(UserContext);
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -19,6 +21,7 @@ const Search = () => {
       page: page,
       perPage: 5,
     };
+
     if (searchType === 'title') {
       params.title = searchQuery;
     } else if (searchType === 'name') {
@@ -26,7 +29,7 @@ const Search = () => {
     }
 
     try {
-      const response = await api.get('/notices', { params });
+      const response = await api.get('/notices/search', { params });
       if (response.data && Array.isArray(response.data.content)) {
         setResults(response.data.content);
         setTotalPages(response.data.totalPages);
@@ -38,9 +41,17 @@ const Search = () => {
     }
   };
 
+  const truncateContent = (content) => {
+    const tempElement = document.createElement('div');
+    tempElement.innerHTML = content;
+    const textContent = tempElement.textContent || tempElement.innerText || "";
+    return textContent.length > 20 ? textContent.substring(0, 20) + '... 더보기' : textContent;
+  };
+
+
   const handlePageClick = (pageNum) => {
     setPage(pageNum);
-    handleSearch({ preventDefault: () => {} });
+    handleSearch({ preventDefault: () => { } });
   };
 
   const handleResultClick = (id) => {
@@ -58,7 +69,7 @@ const Search = () => {
           </select>
           <input
             type="text"
-            placeholder={searchType === 'title' ? '제목 검색' : '이름 검색'}
+            placeholder={searchType === 'title' ? '제목 검색' : '이름 검색'} // 수정
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -71,9 +82,9 @@ const Search = () => {
             results.map((result, index) => (
               <div key={index} className="result" onClick={() => handleResultClick(result.id)}>
                 <h2 className="result-title">{result.title}</h2>
-                <p className="result-content">{result.content}</p>
+                <p className="result-content">{truncateContent(result.content)}</p>
                 <div className="result-footer">
-                  <span className="result-author">{result.userName}</span> · <span className="result-date">{result.createdDate}</span>
+                  <span className="result-author">[{currentUser.branchName}] {result.userName}</span> · <span className="result-date">{result.createdDate}</span>
                 </div>
               </div>
             ))

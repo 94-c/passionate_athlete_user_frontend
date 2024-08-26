@@ -33,9 +33,9 @@ const Notice = () => {
         page: page,
         perPage: 5,
         status: true,
-        kindId: kind !== 0 ? kind : null, // null로 설정하여 모든 게시물 가져오기
+        kindId: kind !== 0 ? kind : null, 
       };
-      const response = await api.get('/notices/search', { params });
+      const response = await api.get('/notices', { params });
   
       if (response.data && response.data.content) {
         setPosts(response.data.content);
@@ -81,7 +81,6 @@ const Notice = () => {
     navigate(`/notices/${id}`);
   };
 
-  // Scroll handling logic
   const isDragging = useRef(false);
   const startX = useRef(0);
   const scrollLeft = useRef(0);
@@ -142,7 +141,7 @@ const Notice = () => {
                 <span className="post-author">[{currentUser.branchName}] {post.userName}</span> · <span className="post-date">{post.createdDate}</span>
                 <div className="post-actions">
                   <span className="post-likes">❤ {post.likeCount}</span>
-                  <span className="post-comments">💬 {post.comments.length}</span>
+                  <span className="post-comments">💬 {post.commentCount}</span>
                 </div>
               </div>
             </div>

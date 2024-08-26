@@ -118,29 +118,26 @@ const NoticeForm = () => {
             onChange={handleTitleChange} 
           />
           <div className="record-content">
+          <div className="board-quill-container">
             <QuillWrapper
-              ref={quillRef}
               value={content}
               onChange={handleContentChange}
-              onBlur={handleImageInserted} // Handle image size after insert
               modules={{
-                toolbar: {
-                  container: [
-                    [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
-                    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-                    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-                    [{ 'align': [] }],
-                    ['link', 'image'],
-                    ['clean']
-                  ],
-                }
+                toolbar: [
+                  [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
+                  [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                  ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+                  [{ 'align': [] }],
+                  ['link', 'image'],
+                  ['clean']
+                ],
               }}
               formats={[
                 'header', 'font', 'list', 'bullet', 'bold', 'italic', 'underline', 'strike', 'blockquote', 'align', 'link', 'image'
               ]}
-              className="text-editor"
-              placeholder="내용을 입력하세요."
+             placeholder="내용을 입력하세요."
             />
+          </div>
           </div>
         </div>
       </form>

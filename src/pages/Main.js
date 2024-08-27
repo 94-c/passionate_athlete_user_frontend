@@ -1,12 +1,12 @@
-import React, { useState,  useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Main.css';
-import logo from '../assets/Logo.png';
+import logo from '../assets/Logo.png'; 
 import { api } from '../api/Api.js';
 import { UserContext } from '../contexts/UserContext';
 import TodayExerciseModal from '../components/TodayExerciseModal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faDumbbell, faChartBar, faWeight, faRunning } from '@fortawesome/free-solid-svg-icons';
+import { faDumbbell, faWeight, faRunning, faBoxOpen } from '@fortawesome/free-solid-svg-icons';  // Added faBoxOpen for Time Capsule
 
 const Main = () => {
   const navigate = useNavigate();
@@ -30,11 +30,7 @@ const Main = () => {
   }, [user]);
 
   const handleNavigate = (path) => {
-    if (path === '/stats') {
-      alert("현재 사용 할 수 없는 페이지입니다.");
-    } else {
       navigate(path);
-    }
   };
 
   const handleModalClose = () => {
@@ -48,32 +44,32 @@ const Main = () => {
   return (
     <div className="main-contanier-page">
       <div className="head-container">
-      <img src={logo} alt="Logo" className="logo" />
-    </div>
-      <div className="header-container">
-      <div className="info-section">
-        <p className="attendance-info">
-          {user ? (
-            <span>
-              <span className="branch-name"> [{user.branchName}] </span>
-              <span> {user.name} 님은 연속 </span>
-              <span className="highlight">{continuousAttendance} 일</span>
-              <span> 출석 중</span>
-            </span>
-          ) : (
-            <span>로그인 해주세요.</span>
-          )}
-        </p>
+        <img src={logo} alt="Logo" className="logo" />
       </div>
-    </div>
+      <div className="header-container">
+        <div className="info-section">
+          <p className="attendance-info">
+            {user ? (
+              <span>
+                <span className="branch-name"> [{user.branchName}] </span>
+                <span> {user.name} 님은 연속 </span>
+                <span className="highlight">{continuousAttendance} 일</span>
+                <span> 출석 중</span>
+              </span>
+            ) : (
+              <span>로그인 해주세요.</span>
+            )}
+          </p>
+        </div>
+      </div>
       <div className="main-button-container">
         <button className="main-button-item large-button" onClick={() => handleNavigate('/exercise')}>
           <FontAwesomeIcon icon={faDumbbell} className="main-button-icon" />
           <span className="main-button-title">운동</span>
         </button>
-        <button className="main-button-item small-button" onClick={() => handleNavigate('/stats')}>
-          <FontAwesomeIcon icon={faChartBar} className="main-button-icon" />
-          <span className="main-button-title">통계</span>
+        <button className="main-button-item small-button" onClick={() => handleNavigate('/timecapsule')}>
+          <FontAwesomeIcon icon={faBoxOpen} className="main-button-icon" />
+          <span className="main-button-title">타임캡슐</span>  
         </button>
         <button className="main-button-item small-button" onClick={handleTodayExerciseClick}>
           <FontAwesomeIcon icon={faRunning} className="main-button-icon" />

@@ -1,18 +1,23 @@
 import React, { useContext, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPenClip, faSearch, faBell, faTrophy, faEdit, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faPenClip, faSearch, faBell, faTrophy, faEdit, faCheck, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserContext } from '../contexts/UserContext';
 import InbodyTermsModal from './InbodyTermsModal';
 import '../styles/HeadWithTitle.css';
 
-const HeadWithTitle = ({ title, isAttendancePage, isInbodyPage, isUserInfoPage, isUserEditPage }) => {
+const HeadWithTitle = ({ title, isAttendancePage, isInbodyPage, isUserInfoPage, isUserEditPage, isTimeCapsulePage }) => {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
+  const [showNonSharedModal, setShowNonSharedModal] = useState(false);
 
   const handleInsertClick = () => {
-    navigate('/notices/register');
+    if (isTimeCapsulePage) {
+      //setShowNonSharedModal(true); // Show the non-shared exercise records modal
+    } else {
+      navigate('/notices/register');
+    }
   };
 
   const handleSearchClick = () => {
@@ -32,11 +37,15 @@ const HeadWithTitle = ({ title, isAttendancePage, isInbodyPage, isUserInfoPage, 
   };
 
   const handleCheckClick = () => {
-    alert('회원 정보 수정 완료'); 
+    alert('회원 정보 수정 완료');
   };
 
   const handleCloseModal = () => {
     setShowModal(false);
+  };
+
+  const handleCloseNonSharedModal = () => {
+    setShowNonSharedModal(false);
   };
 
   const hasRole = (roles) => {
@@ -61,13 +70,23 @@ const HeadWithTitle = ({ title, isAttendancePage, isInbodyPage, isUserInfoPage, 
           </button>
         </div>
       )}
-      {!isAttendancePage && !isInbodyPage && !isUserInfoPage && (
+      {!isAttendancePage && !isInbodyPage && !isUserInfoPage && !isTimeCapsulePage && (
         <div className="head-buttons">
-          {user && user.roles && (user.roles.includes('USER') || user.roles.includes('MANAGER') || user.roles.includes('ADMIN')) && (
+          {user && user.roles && hasRole(user.roles) && (
             <button className="insert-button-head" onClick={handleInsertClick}>
               <FontAwesomeIcon icon={faPenClip} />
             </button>
           )}
+          <button className="search-button-head" onClick={handleSearchClick}>
+            <FontAwesomeIcon icon={faSearch} />
+          </button>
+        </div>
+      )}
+      {isTimeCapsulePage && (
+        <div className="head-buttons">
+          <button className="insert-button-head" onClick={handleInsertClick}>
+            <FontAwesomeIcon icon={faPlus} />
+          </button>
           <button className="search-button-head" onClick={handleSearchClick}>
             <FontAwesomeIcon icon={faSearch} />
           </button>
@@ -88,6 +107,7 @@ const HeadWithTitle = ({ title, isAttendancePage, isInbodyPage, isUserInfoPage, 
         </div>
       )}
       <InbodyTermsModal show={showModal} handleClose={handleCloseModal} />
+    
     </div>
   );
 };

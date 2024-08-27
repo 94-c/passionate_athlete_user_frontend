@@ -24,6 +24,7 @@ const App = () => {
   const isAuthPage = location.pathname === '/login' || location.pathname === '/register' || location.pathname === '/';
   const isMainPage = location.pathname === '/main';
   const isNoticePage = location.pathname === '/notices';
+  const isTimeCapsulePage = location.pathname === '/timecapsule';
   const isSearchPage = location.pathname === '/search';
   const isNoticeFormPage = location.pathname === '/notices/register' || location.pathname === '/inbody/ranking' || location.pathname === '/mypage/user/edit';
   const isNoticeDetailPage = location.pathname.startsWith('/notices/');
@@ -80,6 +81,10 @@ const App = () => {
       } else if (location.pathname === '/exercise/board') {
         return "운동 게시판";
       }
+    } else if (isTimeCapsulePage) {
+      if (location.pathname === '/timecapsule') {
+        return "타입 캡슐";
+      }
     }
     return "커뮤니티";
   };
@@ -100,11 +105,10 @@ const App = () => {
             <Footer onToggle={handleToggleFooter} />
           </div>
         ) : (
-          // Other pages with headers, content, and footer
           <>
-            {isNoticePage || isAttendancePage || isInbodyPage || isUserInfoPage || isExercisePage ? (
+            {isNoticePage || isAttendancePage || isInbodyPage || isUserInfoPage || isExercisePage || isTimeCapsulePage ?  (
               <>
-                {!isExercisePage && <HeadWithTitle title={getTitle()} isAttendancePage={isAttendancePage} isInbodyPage={isInbodyPage} isUserInfoPage={isUserInfoPage} />}
+                {!isExercisePage && <HeadWithTitle title={getTitle()} isAttendancePage={isAttendancePage} isInbodyPage={isInbodyPage} isUserInfoPage={isUserInfoPage} isTimeCapsulePage={isTimeCapsulePage} />}
                 <div className="main-page">
                   <AppRoutes />
                 </div>

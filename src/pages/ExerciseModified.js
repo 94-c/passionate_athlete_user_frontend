@@ -133,6 +133,7 @@ const ExerciseModified = () => {
     }
 
     const workoutDetails = exercises.map(exercise => ({
+      exerciseId: exercise.id,
       exerciseName: exercise.name,
       weight: exercise.weight,
       rounds: exercise.rounds,

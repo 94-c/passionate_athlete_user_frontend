@@ -23,7 +23,9 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build --no-cache -f Dockerfile -t 58.79.16.12:5000/athlete_user_frontend:${{ github.sha }} .
+          docker build --no-cache -f Dockerfile \
+            --build-arg REACT_APP_API_BASE_URL=${{ secrets.REACT_APP_API_BASE_URL }} \
+            -t 58.79.16.12:5000/athlete_user_frontend:${{ github.sha }} .
 
       - name: Push Docker image to registry
         run: |

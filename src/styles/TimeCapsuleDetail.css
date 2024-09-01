@@ -1,0 +1,124 @@
+.capsule-detail-container {
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+}
+
+.capsule-detail-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  position: relative;
+}
+
+.capsule-back-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  color: #ff6600;
+  margin-right: 10px;
+  transition: color 0.3s;
+}
+
+.capsule-back-button:hover {
+  color: #e65c00;
+}
+
+.capsule-detail-title {
+  font-weight: bold;
+  font-size: 1.2rem;
+  flex-grow: 1;
+  text-align: center;
+}
+
+.capsule-profile-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.capsule-profile-info {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+}
+
+.capsule-profile-username {
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.capsule-profile-timestamp {
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.capsule-workout-summary {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.capsule-summary-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.capsule-summary-label {
+  font-weight: bold;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.capsule-summary-value {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #ff6600;
+}
+
+.capsule-summary-value.success {
+  color: green;
+}
+
+.capsule-summary-value.failure {
+  color: red;
+}
+
+.capsule-workout-exercises {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.capsule-exercise-item {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.capsule-exercise-name {
+  font-weight: bold;
+  font-size: 1rem;
+  margin-bottom: 5px;
+}
+
+.capsule-exercise-details {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.capsule-detail-error {
+  color: red;
+  text-align: center;
+  margin-top: 20px;
+}

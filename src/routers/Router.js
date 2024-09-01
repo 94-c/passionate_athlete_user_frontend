@@ -29,6 +29,7 @@ import ExerciseCustom from '../pages/ExerciseCustom';
 import ExerciseCalendar from '../pages/ExerciseCalendar';
 import Membership from '../pages/MemberShip';
 import TimeCapsule from '../pages/TimeCapsule';
+import TimeCapsuleDetail from '../pages/TimeCapsuleDetail';
 
 const Router = () => {
   return (
@@ -63,7 +64,8 @@ const Router = () => {
         <Route path="/exercise/additional" element={<ExerciseCustom />} />
         <Route path="/exercise/calendar" element={<ExerciseCalendar />} />
         <Route path="/mypage/membership" element={<Membership/>} />
-        <Route path="/timeCapsule" element={<TimeCapsule/>} />
+        <Route path="/timecapsule" element={<TimeCapsule/>} />
+        <Route path="/timecapsule/:id" element={<TimeCapsuleDetail />} />
       </Route>
     </Routes>
   );

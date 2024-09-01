@@ -1,6 +1,9 @@
 # base image 설정
 FROM node:14-alpine as build
 
+# 빌드 인자 설정
+ARG REACT_APP_API_BASE_URL
+
 # 컨테이너 내부 작업 디렉토리 설정
 WORKDIR /app
 
@@ -12,6 +15,9 @@ RUN npm install
 
 # 모든 소스 코드를 컨테이너 내부로 복사
 COPY . .
+
+# 환경 변수 설정
+ENV REACT_APP_API_BASE_URL=$REACT_APP_API_BASE_URL
 
 # 빌드 수행
 RUN npm run build

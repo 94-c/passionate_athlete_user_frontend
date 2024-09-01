@@ -15,7 +15,7 @@ const HeadWithTitle = ({ title, isAttendancePage, isInbodyPage, isUserInfoPage, 
 
   const handleInsertClick = () => {
     if (isTimeCapsulePage) {
-      setShowNonSharedModal(true); // Show the non-shared exercise records modal
+      setShowNonSharedModal(true); 
     } else {
       navigate('/notices/register');
     }
@@ -87,9 +87,6 @@ const HeadWithTitle = ({ title, isAttendancePage, isInbodyPage, isUserInfoPage, 
         <div className="head-buttons">
           <button className="insert-button-head" onClick={handleInsertClick}>
             <FontAwesomeIcon icon={faPlus} />
-          </button>
-          <button className="search-button-head" onClick={handleSearchClick}>
-            <FontAwesomeIcon icon={faSearch} />
           </button>
         </div>
       )}

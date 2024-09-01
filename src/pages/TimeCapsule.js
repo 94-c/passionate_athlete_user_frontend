@@ -13,7 +13,6 @@ const TimeCapsule = () => {
     const navigate = useNavigate();
     const { user: currentUser } = useContext(UserContext);
 
-    // Fetch workout records from the server
     const fetchRecords = async () => {
         try {
             const response = await api.get('/workout-record-notice', {
@@ -37,9 +36,8 @@ const TimeCapsule = () => {
         fetchRecords();
     }, [page]);
 
-    // Navigate to record details when a post is clicked
     const handlePostClick = (id) => {
-        navigate(`/workout-record-notice/${id}`);
+        navigate(`/timecapsule/${id}`);
     };
 
     // Handle pagination clicks

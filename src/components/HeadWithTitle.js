@@ -4,6 +4,7 @@ import { faPenClip, faSearch, faBell, faTrophy, faEdit, faCheck, faPlus } from '
 import { Link, useNavigate } from 'react-router-dom';
 import { UserContext } from '../contexts/UserContext';
 import InbodyTermsModal from './InbodyTermsModal';
+import NonSharedExerciseModal from './NonSharedExerciseModal';  // Import the NonSharedExerciseModal
 import '../styles/HeadWithTitle.css';
 
 const HeadWithTitle = ({ title, isAttendancePage, isInbodyPage, isUserInfoPage, isUserEditPage, isTimeCapsulePage }) => {
@@ -14,7 +15,7 @@ const HeadWithTitle = ({ title, isAttendancePage, isInbodyPage, isUserInfoPage, 
 
   const handleInsertClick = () => {
     if (isTimeCapsulePage) {
-      //setShowNonSharedModal(true); // Show the non-shared exercise records modal
+      setShowNonSharedModal(true); // Show the non-shared exercise records modal
     } else {
       navigate('/notices/register');
     }
@@ -45,7 +46,7 @@ const HeadWithTitle = ({ title, isAttendancePage, isInbodyPage, isUserInfoPage, 
   };
 
   const handleCloseNonSharedModal = () => {
-    setShowNonSharedModal(false);
+    setShowNonSharedModal(false); // Close the non-shared exercise records modal
   };
 
   const hasRole = (roles) => {
@@ -107,7 +108,7 @@ const HeadWithTitle = ({ title, isAttendancePage, isInbodyPage, isUserInfoPage, 
         </div>
       )}
       <InbodyTermsModal show={showModal} handleClose={handleCloseModal} />
-    
+      <NonSharedExerciseModal show={showNonSharedModal} handleClose={handleCloseNonSharedModal} /> {/* Render the NonSharedExerciseModal */}
     </div>
   );
 };

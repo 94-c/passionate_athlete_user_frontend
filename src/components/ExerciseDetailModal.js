@@ -46,19 +46,19 @@ const ExerciseDetailModal = ({ isOpen, onClose, record }) => {
             <h3 className="exercise-modal-title">{formatExerciseType(record.exerciseType)} {record.scheduledWorkoutTitle}</h3>
             <div className="exercise-modal-summary">
               <div className="summary-item">
-                <span className="summary-label">라운드:</span>
+                <span className="summary-label">라운드</span>
                 <span className="summary-value">{formatRecordValue(record.rounds)}</span>
               </div>
               <div className="summary-item">
-                <span className="summary-label">시간:</span>
+                <span className="summary-label">시간</span>
                 <span className="summary-value">{formatRecordValue(record.duration)}</span>
               </div>
               <div className="summary-item">
-                <span className="summary-label">등급:</span>
+                <span className="summary-label">등급</span>
                 <span className="summary-value">{formatRecordValue(record.rating)}</span>
               </div>
               <div className="summary-item">
-                <span className="summary-label">성공여부:</span>
+                <span className="summary-label">성공여부</span>
                 <span className={`summary-value ${record.success ? 'exercise-success' : 'exercise-failure'}`}>
                   {record.success ? '성공' : '실패'}
                 </span>

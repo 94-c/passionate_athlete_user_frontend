@@ -15,9 +15,6 @@ const NonSharedExerciseModal = ({ show, handleClose }) => {
             const fetchNonSharedRecords = async () => {
                 try {
                     const response = await api.get('/workout-record-notice/non-shared', {
-                        headers: {
-                            Authorization: `Bearer ${user.token}`,
-                        },
                         params: {
                             page: 0,
                             perPage: 10,
@@ -55,6 +52,17 @@ const NonSharedExerciseModal = ({ show, handleClose }) => {
     const formatRecordValue = (value) => {
         return value === null || value === '' ? '-' : value;
     };
+
+    const handleCreateRecord = async (workoutRecordId) => {
+        try {
+            const response = await api.post(`/workout-record-notice/${workoutRecordId}`, {});
+            alert('운동 기록이 성공적으로 생성되었습니다!');
+        } catch (error) {
+            console.error('Error creating workout record notice:', error);
+            alert('운동 기록 생성에 실패했습니다. 다시 시도해 주세요.');
+        }
+    };
+    
 
     if (!show) return null;
 
@@ -102,7 +110,7 @@ const NonSharedExerciseModal = ({ show, handleClose }) => {
                                             </div>
                                         </div>
                                     </li>
-                                    <button className="sharing-exercise-add-button">
+                                    <button className="sharing-exercise-add-button" onClick={() => handleCreateRecord(record.id)}>
                                         <FontAwesomeIcon icon={faPlus} />
                                     </button>
                                 </div>

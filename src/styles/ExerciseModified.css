@@ -134,12 +134,12 @@
   background-color: #e65c00;
 }
 
-ul {
+.exercise-modified-info > ul {
   list-style-type: none;
   padding: 0;
 }
 
-li {
+.exercise-modified-info > li {
   padding: 10px;
   background-color: #ff6600;
   color: white;

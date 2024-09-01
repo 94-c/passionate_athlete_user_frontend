@@ -1,237 +1,143 @@
 .time-capsule-container {
-    padding: 20px;
-    margin-top: 15px; /* HeadWithTitle 아래에 여백 추가 */
-  }
-  
-  .capsule-tab-container {
-    overflow-x: auto; /* 가로 스크롤 추가 */
-    white-space: nowrap;
-    margin-bottom: 20px;
-    -webkit-overflow-scrolling: touch; /* 스크롤 부드럽게 */
-  }
-  
-  .capsule-tabs {
-    display: flex;
-    flex-wrap: nowrap; /* 한 줄에 나타나도록 설정 */
-    gap: 10px;
-  }
-  
-  .capsule-tab {
-    padding: 10px 20px;
-    border: 1px solid #3366cc; /* Time Capsule 기본 파란색 테두리 */
-    border-radius: 20px;
-    background-color: white; /* 기본 흰색 배경 */
-    color: #3366cc; /* 기본 파란색 폰트 */
-    cursor: pointer;
-    transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
-    text-align: center;
-    flex: 0 0 auto; /* 버튼이 축소되지 않도록 설정 */
-    white-space: nowrap; /* 버튼 내용이 줄바꿈되지 않도록 설정 */
-  }
-  
-  .capsule-tab.active {
-    background-color: #3366cc; /* 활성화된 버튼 파란색 배경 */
-    color: white; /* 활성화된 버튼 흰색 폰트 */
-  }
-  
-  .capsule-tab:hover {
-    background-color: #264d9c; /* hover 시 더 진한 파란색 */
-    color: white; /* hover 시 흰색 폰트 */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  }
-  
-  .capsule-search-button {
-    margin-left: auto; /* 오른쪽 정렬을 위해 마진 설정 */
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 24px;
-  }
-  
-  .capsule-posts-container {
-    max-height: calc(100vh - 320px); /* 페이지네이션 버튼과 헤더를 제외한 높이 계산 */
-    overflow-y: auto; /* 세로 스크롤바 추가 */
-  }
-  
-  .capsule-posts {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-  
-  .capsule-post {
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    background-color: #f5f5f5; /* 약간의 배경색 차이 */
-  }
-  
-  .capsule-post-title {
-    font-size: 1.2em;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-  
-  .capsule-post-content {
-    margin-bottom: 10px;
-  }
-  
-  .capsule-post-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.9em;
-    color: #666;
-  }
-  
-  .capsule-post-actions {
-    display: flex;
-    gap: 10px;
-  }
-  
-  .capsule-pagination {
-    position: fixed;
-    bottom: 80px; /* add-post-button 바로 위에 위치 */
-    left: 0;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    gap: 5px; /* 버튼 사이의 간격 */
-    background-color: white;
-    padding: 10px 0;
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .capsule-pagination button {
-    padding: 10px 15px;
-    border: none;
-    border-radius: 5px;
-    background-color: #3366cc; /* 기본 파란색 */
-    color: white;
-    cursor: pointer;
-    transition: background-color 0.3s, box-shadow 0.3s;
-  }
-  
-  .capsule-pagination button:hover {
-    background-color: #264d9c; /* hover 시 더 진한 파란색 */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  }
-  
-  .capsule-pagination button:disabled {
-    background-color: #ddd;
-    cursor: not-allowed;
-  }
-  
-  .capsule-add-button {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: #3366cc; /* 기본 파란색 */
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 60px;
-    height: 60px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 24px;
-    cursor: pointer;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-    transition: background-color 0.3s, box-shadow 0.3s;
-  }
-  
-  .capsule-add-button:hover {
-    background-color: #264d9c; /* hover 시 더 진한 파란색 */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  }
-  
-  /* 반응형 디자인 */
-  @media (max-width: 768px) {
-    .capsule-tab-container {
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch; /* 스크롤 부드럽게 */
-    }
-  
-    .capsule-tabs {
-      display: flex;
-      flex-wrap: nowrap;
-      gap: 10px;
-    }
-  
-    .capsule-tab {
-      flex: 0 0 auto;
-    }
-  
-    .capsule-search-button {
-      font-size: 20px;
-      color: #fff;
-    }
-  
-    .capsule-posts-container {
-      max-height: calc(100vh - 320px); /* 페이지네이션 버튼과 헤더를 제외한 높이 계산 */
-      overflow-y: auto;
-    }
-  }
-  
-  /* 360px 이상의 화면 크기에서 적용 */
-  @media (min-width: 360px) {
-    .capsule-tab-container {
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch; /* 스크롤 부드럽게 */
-    }
-    .capsule-tab {
-      font-size: 12px; /* 작은 화면에서의 폰트 크기 */
-    }
-  
-    .capsule-post-title {
-      font-size: 1em;
-    }
-  
-    .capsule-post-footer {
-      font-size: 0.8em;
-    }
-  
-    .capsule-pagination button {
-      font-size: 12px; /* 작은 화면에서의 폰트 크기 */
-    }
-  }
-  
-  /* 768px 이상의 화면 크기에서 적용 */
-  @media (min-width: 768px) {
-    .capsule-tab {
-      font-size: 14px; /* 중간 화면에서의 폰트 크기 */
-    }
-  
-    .capsule-post-title {
-      font-size: 1.2em;
-    }
-  
-    .capsule-post-footer {
-      font-size: 0.9em;
-    }
-  
-    .capsule-pagination button {
-      font-size: 14px; /* 중간 화면에서의 폰트 크기 */
-    }
-  }
-  
-  /* 1024px 이상의 화면 크기에서 적용 */
-  @media (min-width: 1024px) {
-    .capsule-tab {
-      font-size: 16px; /* 큰 화면에서의 폰트 크기 */
-    }
-  
-    .capsule-post-title {
-      font-size: 1.4em;
-    }
-  
-    .capsule-post-footer {
-      font-size: 1em;
-    }
-  
-    .capsule-pagination button {
-      font-size: 16px; /* 큰 화면에서의 폰트 크기 */
-    }
-  }
-  
+  padding: 20px;
+  margin-top: 15px;
+}
+
+.capsule-posts-container {
+  max-height: calc(100vh - 320px);
+  overflow-y: auto;
+}
+
+.capsule-posts {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.capsule-post {
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #f5f5f5;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.capsule-post:hover {
+  background-color: #e0f7fa; /* Light cyan background on hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Slight shadow for depth */
+  transform: translateY(-3px); /* Slight lift on hover */
+}
+
+.post-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.profile-image {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.post-user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.username {
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.post-time {
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.post-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tag {
+  padding: 5px 10px;
+  border: 1px solid #00bfa6;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  color: #00bfa6;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.tag:hover {
+  background-color: #00bfa6; /* Invert colors on hover */
+  color: white;
+}
+
+.capsule-post-content {
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.capsule-post-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8em;
+  color: #666;
+}
+
+.capsule-post-actions {
+  display: flex;
+  gap: 15px;
+}
+
+.capsule-post-likes, .capsule-post-comments {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #00bfa6;
+}
+
+.capsule-post-likes:hover, .capsule-post-comments:hover {
+  color: #00796b; /* Darker green on hover */
+}
+
+.capsule-pagination {
+  position: fixed;
+  bottom: 80px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  background-color: white;
+  padding: 10px 0;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.capsule-pagination button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  background-color: #3366cc;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.capsule-pagination button:hover {
+  background-color: #264d9c;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.capsule-pagination button:disabled {
+  background-color: #ddd;
+  cursor: not-allowed;
+}

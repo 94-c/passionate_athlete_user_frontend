@@ -31,13 +31,24 @@ const ExerciseMain = () => {
     const fetchTodayWorkout = async () => {
       try {
         const now = new Date();
-        const hour = now.getHours();
 
-        if (hour < 15) {
-          now.setDate(now.getDate() - 1);
+        // 한국 시간(UTC+9) 기준으로 현재 시간을 조정
+        const kstOffset = 9 * 60 * 60 * 1000; // UTC+9 시간 보정
+        const kstTime = new Date(now.getTime() + kstOffset);
+
+        const hour = kstTime.getUTCHours(); // 한국 시간의 시간
+
+        // 한국 시간 오후 3시(15시)부터 익일 오후 2시 59분까지의 범위를 계산
+        if (hour >= 15) {
+          kstTime.setDate(kstTime.getDate()); // 현재 날짜 사용
+        } else {
+          kstTime.setDate(kstTime.getDate() - 1); // 전날로 설정
         }
 
-        const today = now.toISOString().split('T')[0];
+        // 요청할 날짜를 YYYY-MM-DD 형식으로 변환
+        const today = kstTime.toISOString().split('T')[0];
+
+        // 요청을 통해 오늘의 운동 데이터를 가져옴
         const response = await api.get(`/scheduled-workouts/date?date=${today}`);
 
         if (response.data.length > 0) {
@@ -59,7 +70,7 @@ const ExerciseMain = () => {
           }));
         }
       } catch (error) {
-        console.error('Error fetching today\'s workout:', error);
+        console.error("Error fetching today's workout:", error);
       }
     };
     fetchTodayWorkout();
@@ -135,7 +146,7 @@ const ExerciseMain = () => {
     e.preventDefault();
 
     if (!todayWorkout) {
-      console.error('Today\'s workout is not set.');
+      console.error("Today's workout is not set.");
       return;
     }
 
@@ -234,7 +245,6 @@ const ExerciseMain = () => {
                       </div>
                     </>
                   )}
-
                 </div>
               </div>
               <div className="exercise-info">

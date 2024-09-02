@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUserFriends, faCalendarAlt, faUserCheck, faUser, faSync, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { faUserFriends, faCalendarAlt, faUserCheck, faUser, faSync, faHome } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { api } from '../api/Api.js';
 import { UserContext } from '../contexts/UserContext';
@@ -33,24 +33,28 @@ const Footer = ({ onToggle }) => {
 
     const handleAttendanceClick = async () => {
         try {
-            const response = await api.post('/attendances', {}, {
-                headers: {
-                    Authorization: `Bearer ${user.token}`, // JWT 토큰 포함
-                }
-            });
+            const eventDate = new Date().toISOString().split('T')[0]; // yyyy-mm-dd 형식으로 날짜 설정
+
+            const response = await api.post('/attendances', { eventDate });
+
             setAttendanceMessage(`${response.data.userName} 님의 ${response.data.attendanceDate}일 출석 완료. 총 출석 횟수: ${response.data.totalAttendanceCount}`);
         } catch (error) {
-            if (error.response && error.response.status === 404) {
-                const message = error.response.data.message;
-                const dateMatch = message.match(/\d{4}-\d{2}-\d{2}/);
-                const date = dateMatch ? dateMatch[0] : '';
-                setAttendanceMessage(`이미 ${date}일에 출석 하셨습니다.`);
+            if (error.response) {
+                if (error.response.status === 404 || error.response.data.message.includes('이미 해당')) {
+                    const message = error.response.data.message;
+                    const dateMatch = message.match(/\d{4}-\d{2}-\d{2}/);
+                    const date = dateMatch ? dateMatch[0] : '';
+                    setAttendanceMessage(`이미 ${date}일에 출석 하셨습니다.`);
+                } else {
+                    setAttendanceMessage('출석 처리 중 오류가 발생했습니다.');
+                }
             } else {
                 setAttendanceMessage('출석 처리 중 오류가 발생했습니다.');
             }
         }
         setShowModal(true);
     };
+
 
     const closeModal = () => {
         setShowModal(false);
@@ -92,15 +96,19 @@ const Footer = ({ onToggle }) => {
                         <div className="menu-text">로그아웃</div>
                     </div>
                 ) : (
-                    <div className="menu-item" onClick={handleBackNavigation}>
-                        <FontAwesomeIcon icon={faArrowLeft} />
-                        <div className="menu-text">이전화면</div>
+                    <div className="menu-item" onClick={() => handleNavigate('/main')}>
+                        <FontAwesomeIcon icon={faHome} />
+                        <div className="menu-text">홈으로</div>
                     </div>
                 )}
+
             </div>
             {isOpen && (
-                <div className="footer-text">
-                    관리자
+                <div
+                    className="footer-text"
+                    onClick={() => window.open('https://www.instagram.com/passionate_athlete_official?igsh=MTdjZ2lmdXJoMWljeQ%3D%3D&utm_source=qr', '_blank')}
+                >
+                    @passionate_athlete_official
                 </div>
             )}
             {showModal && (

@@ -1,4 +1,4 @@
-/* src/styles/Register.css */
+/* 기본 스타일 설정 */
 .register-page {
     display: flex;
     flex-direction: column;
@@ -56,16 +56,16 @@
     box-sizing: border-box;
 }
 
-.register-page .userId-error-message,
-.register-page .password-error-message,
-.register-page .name-error-message {
+/* 에러 메시지 스타일 */
+.register-page .error-message {
     color: #FF6600;
     font-size: 0.8rem;
-    margin-top: -10px;
+    margin-top: 5px;
     margin-bottom: 10px;
-    text-align: center;
+    text-align: center; /* 가운데 정렬 */
 }
 
+/* 버튼 스타일 */
 .register-page .button-register-box {
     display: flex;
     justify-content: space-between;
@@ -115,8 +115,8 @@
 
 .register-page .id-input-group {
     display: flex;
-    justify-content: space-between;
-    gap: 10px;
+    flex-direction: column;
+    gap: 5px; /* 인풋과 에러 메시지 간격 조절 */
 }
 
 .register-page .id-input-group .input-with-icon {
@@ -139,6 +139,7 @@
     background-color: #5a6268;
 }
 
+/* 성별 선택 버튼 스타일 */
 .register-page .gender-select {
     display: flex;
     justify-content: space-between;

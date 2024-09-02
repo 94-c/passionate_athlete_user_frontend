@@ -18,12 +18,7 @@ const Register = () => {
         verificationCode: ''
     });
     const [branches, setBranches] = useState([]);
-    const [errors, setErrors] = useState({
-        userId: '',
-        password: '',
-        passwordCheck: '',
-        name: ''
-    });
+    const [errors, setErrors] = useState({});
     const [isUserIdChecked, setIsUserIdChecked] = useState(false);
     const [step, setStep] = useState(1);
     const navigate = useNavigate();
@@ -41,102 +36,158 @@ const Register = () => {
         fetchBranches();
     }, []);
 
+    const validateField = (name, value) => {
+        let error = '';
+        switch (name) {
+            case 'userId':
+                if (!value) {
+                    error = '아이디를 입력하세요.';
+                } else if (value.length < 4 || value.length > 20) {
+                    error = '아이디는 4자 이상 20자 이하여야 합니다.';
+                }
+                break;
+            case 'password':
+            case 'passwordCheck':
+                if (!value) {
+                    error = '패스워드를 입력하세요.';
+                } else if (value.length < 8) {
+                    error = '패스워드는 최소 8자 이상이어야 합니다.';
+                } else if (name === 'passwordCheck' && value !== form.password) {
+                    error = '비밀번호가 일치하지 않습니다.';
+                }
+                break;
+            case 'name':
+                if (!value) {
+                    error = '이름을 입력하세요.';
+                }
+                break;
+            case 'weight':
+            case 'height':
+                if (!value) {
+                    error = `${name === 'weight' ? '체중' : '키'}을(를) 입력하세요.`;
+                }
+                break;
+            case 'birthDate':
+                if (!value) {
+                    error = '생년월일을 입력하세요.';
+                } else if (!/^\d{6}$/.test(value)) {
+                    error = '생년월일은 6자리 숫자여야 합니다.';
+                }
+                break;
+            case 'phoneNumber':
+                if (!value) {
+                    error = '휴대폰 번호를 입력하세요.';
+                } else if (!/^\d{11}$/.test(value)) {
+                    error = '휴대폰 번호는 11자리 숫자여야 합니다.';
+                }
+                break;
+            default:
+                break;
+        }
+        return error;
+    };
+
     const handleChange = async (e) => {
         const { name, value } = e.target;
         setForm({ ...form, [name]: value });
 
+        const error = validateField(name, value);
+        setErrors((prevErrors) => ({ ...prevErrors, [name]: error }));
+
         if (name === 'userId') {
             setIsUserIdChecked(false);
-            try {
-                const response = await api.get('/auth/check-userid', {
-                    params: { userId: value } // 'params' 객체로 userId 전달
-                });
+            if (!error) {
+                try {
+                    const response = await api.get('/auth/check-userid', {
+                        params: { userId: value }
+                    });
 
-                if (response.data) { // response.data가 true일 경우
-                    setErrors((prevErrors) => ({
-                        ...prevErrors,
-                        userId: '이미 사용 중인 아이디입니다.' // 에러 메시지 설정
-                    }));
-                } else {
-                    setErrors((prevErrors) => ({
-                        ...prevErrors,
-                        userId: ''
-                    }));
-                    setIsUserIdChecked(true);
+                    if (response.data) {
+                        setErrors((prevErrors) => ({
+                            ...prevErrors,
+                            userId: '이미 사용 중인 아이디입니다.'
+                        }));
+                    } else {
+                        setErrors((prevErrors) => ({
+                            ...prevErrors,
+                            userId: ''
+                        }));
+                        setIsUserIdChecked(true);
+                    }
+                } catch (error) {
+                    console.error('아이디 중복 확인 오류:', error);
                 }
-            } catch (error) {
-                console.error('아이디 중복 확인 오류:', error);
-            }
-        } else if (name === 'password' || name === 'passwordCheck') {
-            if (form.password !== form.passwordCheck) {
-                setErrors((prevErrors) => ({
-                    ...prevErrors,
-                    passwordCheck: '비밀번호가 일치하지 않습니다.'
-                }));
-            } else {
-                setErrors((prevErrors) => ({
-                    ...prevErrors,
-                    passwordCheck: ''
-                }));
-            }
-        } else if (name === 'name') {
-            if (value.length < 2 || value.length > 4) {
-                setErrors((prevErrors) => ({
-                    ...prevErrors,
-                    name: '이름은 2글자에서 4글자 사이여야 합니다.'
-                }));
-            } else {
-                setErrors((prevErrors) => ({
-                    ...prevErrors,
-                    name: ''
-                }));
             }
         }
     };
 
-    const handleBlur = () => {
-        if (form.password !== form.passwordCheck) {
-            setErrors((prevErrors) => ({
-                ...prevErrors,
-                passwordCheck: '비밀번호가 일치하지 않습니다.'
-            }));
-        } else {
-            setErrors((prevErrors) => ({
-                ...prevErrors,
-                passwordCheck: ''
-            }));
-        }
+    const handleBlur = (e) => {
+        const { name, value } = e.target;
+        const error = validateField(name, value);
+        setErrors((prevErrors) => ({ ...prevErrors, [name]: error }));
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (step === 1) {
-            const isValidStep1 = !errors.userId && !errors.passwordCheck && !errors.name && isUserIdChecked;
+            const step1Fields = ['userId', 'password', 'passwordCheck', 'name', 'branchName'];
+            const step1Errors = {};
+            let isValidStep1 = true;
 
-            if (isValidStep1) {
+            step1Fields.forEach(field => {
+                const error = validateField(field, form[field]);
+                if (error) {
+                    step1Errors[field] = error;
+                    isValidStep1 = false;
+                }
+            });
+
+            setErrors(step1Errors);
+
+            if (isValidStep1 && isUserIdChecked) {
                 setStep(2);
             } else {
                 alert('다음 문제를 해결해주세요:\n' +
-                    (errors.userId ? `- ${errors.userId}\n` : '') +
-                    (errors.passwordCheck ? `- ${errors.passwordCheck}\n` : '') +
-                    (errors.name ? `- ${errors.name}\n` : '') +
+                    (step1Errors.userId ? `- ${step1Errors.userId}\n` : '') +
+                    (step1Errors.passwordCheck ? `- ${step1Errors.passwordCheck}\n` : '') +
+                    (step1Errors.name ? `- ${step1Errors.name}\n` : '') +
                     (!isUserIdChecked ? '- 아이디 중복 확인을 해주세요.\n' : ''));
             }
-        }
+        } else if (step === 2) {
+            const step2Fields = ['weight', 'height', 'birthDate', 'phoneNumber'];
+            const step2Errors = {};
+            let isValidStep2 = true;
 
-        else if (step === 2) {
-            try {
-                const response = await api.post('/auth/register', form);
-                if (response.status === 200) {
-                    alert('회원가입에 완료하였습니다.');
-                    navigate('/login');
-                } else {
-                    alert('회원가입에 실패했습니다: ' + (response.data.message || 'Unknown error'));
+            step2Fields.forEach(field => {
+                const error = validateField(field, form[field]);
+                if (error) {
+                    step2Errors[field] = error;
+                    isValidStep2 = false;
                 }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('회원가입에 실패했습니다.');
+            });
+
+            setErrors(step2Errors);
+
+            if (isValidStep2) {
+                try {
+                    const response = await api.post('/auth/register', form);
+                    if (response.status === 200) {
+                        alert('회원가입에 완료하였습니다.');
+                        navigate('/login');
+                    } else {
+                        alert('회원가입에 실패했습니다: ' + (response.data.message || 'Unknown error'));
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('회원가입에 실패했습니다.');
+                }
+            } else {
+                alert('다음 문제를 해결해주세요:\n' +
+                    (step2Errors.weight ? `- ${step2Errors.weight}\n` : '') +
+                    (step2Errors.height ? `- ${step2Errors.height}\n` : '') +
+                    (step2Errors.birthDate ? `- ${step2Errors.birthDate}\n` : '') +
+                    (step2Errors.phoneNumber ? `- ${step2Errors.phoneNumber}\n` : ''));
             }
         }
     };
@@ -174,10 +225,11 @@ const Register = () => {
                                             required
                                             value={form.userId}
                                             onChange={handleChange}
+                                            onBlur={handleBlur}
                                         />
                                     </div>
+                                    {errors.userId && <div className="error-message">{errors.userId}</div>}
                                 </div>
-                                {errors.userId && <div className="userId-error-message">{errors.userId}</div>}
                                 <div className="input-form-box double-input">
                                     <div className="input-with-icon">
                                         <i className="fas fa-lock"></i>
@@ -208,7 +260,7 @@ const Register = () => {
                                         />
                                     </div>
                                 </div>
-                                {errors.passwordCheck && <div className="password-error-message">{errors.passwordCheck}</div>}
+                                {errors.passwordCheck && <div className="error-message">{errors.passwordCheck}</div>}
                                 <div className="input-form-box">
                                     <div className="input-with-icon">
                                         <i className="fas fa-user"></i>
@@ -221,15 +273,16 @@ const Register = () => {
                                             required
                                             value={form.name}
                                             onChange={handleChange}
+                                            onBlur={handleBlur}
                                         />
                                     </div>
+                                    {errors.name && <div className="error-message">{errors.name}</div>}
                                 </div>
-                                {errors.name && <div className="name-error-message">{errors.name}</div>}
                                 <div className="input-form-box">
                                     <div className="input-with-icon">
                                         <i className="fas fa-building"></i>
                                         <select
-                                            id="branchName" // branchId를 branchName으로 변경
+                                            id="branchName"
                                             name="branchName"
                                             className="form-control"
                                             required
@@ -249,7 +302,7 @@ const Register = () => {
                             <>
                                 <div className="input-form-box double-input">
                                     <div className="input-with-icon">
-                                        <i className="fas fa-weight"></i>
+                                        <i className="fas fa-ruler-vertical"></i>
                                         <input
                                             type="number"
                                             id="height"
@@ -258,10 +311,11 @@ const Register = () => {
                                             placeholder="키 (cm)"
                                             value={form.height}
                                             onChange={handleChange}
+                                            onBlur={handleBlur}
                                         />
                                     </div>
                                     <div className="input-with-icon">
-                                        <i className="fas fa-ruler-vertical"></i>
+                                        <i className="fas fa-weight"></i>
                                         <input
                                             type="number"
                                             id="weight"
@@ -270,9 +324,12 @@ const Register = () => {
                                             placeholder="몸무게 (kg)"
                                             value={form.weight}
                                             onChange={handleChange}
+                                            onBlur={handleBlur}
                                         />
                                     </div>
                                 </div>
+                                {errors.weight && <div className="error-message">{errors.weight}</div>}
+                                {errors.height && <div className="error-message">{errors.height}</div>}
                                 <div className="input-form-box gender-select">
                                     <div className="gender-buttons">
                                         <button type="button" className={`gender-button male ${form.gender === 'MALE' ? 'active' : ''}`} onClick={() => handleGenderChange('MALE')}>
@@ -288,28 +345,32 @@ const Register = () => {
                                         <i className="fas fa-calendar"></i>
                                         <input
                                             type="text"
-                                            id="birthDate" // birthdate를 birthDate로 수정
+                                            id="birthDate"
                                             name="birthDate"
                                             className="form-control"
                                             placeholder="생년월일 (6자리)"
                                             value={form.birthDate}
                                             onChange={handleChange}
+                                            onBlur={handleBlur}
                                         />
                                     </div>
+                                    {errors.birthDate && <div className="error-message">{errors.birthDate}</div>}
                                 </div>
                                 <div className="input-form-box">
                                     <div className="input-with-icon">
                                         <i className="fas fa-phone"></i>
                                         <input
                                             type="text"
-                                            id="phoneNumber" // phone을 phoneNumber로 수정
+                                            id="phoneNumber"
                                             name="phoneNumber"
                                             className="form-control"
                                             placeholder="휴대폰 번호 ( '-' 를 제외 한 11자리)"
                                             value={form.phoneNumber}
                                             onChange={handleChange}
+                                            onBlur={handleBlur}
                                         />
                                     </div>
+                                    {errors.phoneNumber && <div className="error-message">{errors.phoneNumber}</div>}
                                 </div>
                             </>
                         )}

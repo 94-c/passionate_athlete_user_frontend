@@ -57,6 +57,10 @@ const Login = () => {
     }
   };
 
+  const handleAlert = () => {
+    alert('관리자에게 문의하세요.');
+  };
+
   return (
     <div className="login-page container">
       <div id="loginBox">
@@ -115,8 +119,8 @@ const Login = () => {
         </div>
       </div>
       <div className="login-links">
-        <a href="#!" className="link">비밀번호 찾기</a>
-        <a href="#!" className="link">아이디 찾기</a>
+        <a href="#!" className="link" onClick={handleAlert}>비밀번호 찾기</a>
+        <a href="#!" className="link" onClick={handleAlert}>아이디 찾기</a>
         <a href="/register" className="link">회원가입</a>
       </div>
     </div>

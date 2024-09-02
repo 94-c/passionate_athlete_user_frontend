@@ -8,7 +8,6 @@ import { postData, getData } from '../api/Api.js';
 import '../styles/NoticeForm.css';
 import { UserContext } from '../contexts/UserContext';
 
-// QuillWrapper component
 const QuillWrapper = (props) => {
   const ref = useRef(null);
   return <ReactQuill ref={ref} {...props} />;
@@ -117,7 +116,7 @@ const NoticeForm = () => {
             value={title} 
             onChange={handleTitleChange} 
           />
-          <div className="record-content">
+          <div className="notice-content">
           <div className="board-quill-container">
             <QuillWrapper
               value={content}

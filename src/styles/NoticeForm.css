@@ -6,7 +6,7 @@
   color: black;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
-  height: 80vh; /* 페이지 높이를 전체 화면에 맞춤 */
+  height: 90vh; /* 페이지 높이를 전체 화면에 맞춤 */
   box-sizing: border-box;
   overflow: hidden; /* 폼이 카드 안에서 벗어나지 않도록 설정 */
 }
@@ -134,6 +134,44 @@
   display: block;
   margin: 10px auto; /* 이미지가 컨테이너 중앙에 위치하도록 조정 */
 }
+
+.record-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%; /* Ensures the content occupies the full width */
+  height: 100%; /* Adjusts the height to match the parent container */
+  box-sizing: border-box;
+  overflow: hidden; /* Prevents overflow issues */
+}
+
+.board-quill-container {
+  flex-grow: 1;
+  width: 100%; /* Ensures the editor takes full width */
+  height: 100%; /* Makes sure the height also fills the container */
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto; /* Allows scrolling within the editor */
+}
+
+.ql-container {
+  flex-grow: 1; /* Allows the editor to expand and fill the container */
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.ql-editor {
+  flex-grow: 1;
+  box-sizing: border-box;
+  padding: 15px;
+  line-height: 1.6;
+  font-size: 16px;
+  width: 100%; /* Ensures the editor width matches its container */
+  max-width: 100%; /* Ensures the editor does not exceed container width */
+  overflow-x: hidden;
+}
+
 
 @media (max-width: 768px) {
   .post-form-page {

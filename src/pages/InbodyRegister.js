@@ -34,6 +34,16 @@ const InbodyRegister = () => {
             }
         } catch (error) {
             console.error('Failed to register inbody data', error);
+            if (error.response && error.response.data) {
+                const errorMessage = error.response.data.message || '오류가 발생했습니다.';
+                if (errorMessage.includes('하루에 한번만 입력 하실 수 있습니다.')) {
+                    alert('하루에 한번만 입력하실 수 있습니다.');
+                } else {
+                    alert(errorMessage);
+                }
+            } else {
+                alert('서버와의 연결에 문제가 발생했습니다.');
+            }
         }
     };
 
@@ -55,10 +65,8 @@ const InbodyRegister = () => {
         fetchLastMeasure();
     }, []);
 
-    // 숫자 및 소수점만 입력할 수 있도록 제한하는 함수
     const handleKeyPress = (e) => {
         const charCode = e.charCode;
-        // 숫자 (0-9)와 소수점 (.)만 허용
         if (charCode !== 46 && (charCode < 48 || charCode > 57)) {
             e.preventDefault();
         }

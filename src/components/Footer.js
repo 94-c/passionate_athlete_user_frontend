@@ -20,10 +20,15 @@ const Footer = ({ onToggle }) => {
     };
 
     const handleLogout = () => {
+        // 로그아웃 시 모든 관련 데이터 삭제
         localStorage.removeItem('token');
         sessionStorage.removeItem('token');
         localStorage.removeItem('userName');
+        localStorage.removeItem('userRoles');
+        sessionStorage.removeItem('userName');
+        sessionStorage.removeItem('userRoles');
 
+        // 로그인 페이지로 리다이렉트
         navigate('/login', { replace: true });
     };
 
@@ -54,7 +59,6 @@ const Footer = ({ onToggle }) => {
         }
         setShowModal(true);
     };
-
 
     const closeModal = () => {
         setShowModal(false);
@@ -101,7 +105,6 @@ const Footer = ({ onToggle }) => {
                         <div className="menu-text">홈으로</div>
                     </div>
                 )}
-
             </div>
             {isOpen && (
                 <div

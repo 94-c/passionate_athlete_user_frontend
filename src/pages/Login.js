@@ -10,6 +10,7 @@ const Login = () => {
   const [stayLoggedIn, setStayLoggedIn] = useState(false);
   const navigate = useNavigate();
 
+  // 페이지 로드 시 토큰을 확인하여 로그인 상태 유지
   useEffect(() => {
     const token = localStorage.getItem('token') || sessionStorage.getItem('token');
     if (token) {
@@ -17,6 +18,7 @@ const Login = () => {
     }
   }, [navigate]);
 
+  // 폼 제출 처리
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = { userId, password };
@@ -32,11 +34,13 @@ const Login = () => {
         const decoded = parseJwt(token);
         const { status } = decoded;
 
+        // 권한 체크
         if (status === 'WAIT' || status === 'STOP') {
           alert('접근 권한이 없습니다.');
           return; // 리다이렉트 없이 함수 종료
         }
 
+        // 로그인 상태 유지 옵션에 따라 토큰 저장
         if (stayLoggedIn) {
           localStorage.setItem('token', token);
           localStorage.setItem('userName', user.name || '');
@@ -57,6 +61,7 @@ const Login = () => {
     }
   };
 
+  // 관리자 문의 핸들러
   const handleAlert = () => {
     alert('관리자에게 문의하세요.');
   };

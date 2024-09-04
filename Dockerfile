@@ -25,6 +25,11 @@ RUN npm run build
 # nginx 설정을 위한 production 이미지 설정
 FROM nginx:stable-alpine
 
+# 시간대 설정을 위해 tzdata 패키지 설치
+RUN apk add --no-cache tzdata \
+    && cp /usr/share/zoneinfo/Asia/Seoul /etc/localtime \
+    && echo "Asia/Seoul" > /etc/timezone
+
 # 빌드된 결과물을 Nginx 디렉토리로 복사
 COPY --from=build /app/build /usr/share/nginx/html
 

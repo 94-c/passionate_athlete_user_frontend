@@ -1,9 +1,6 @@
 # Base image
 FROM node:16-alpine as build
 
-# Build argument for environment variable
-ARG REACT_APP_API_BASE_URL
-
 # Set working directory inside the container
 WORKDIR /app
 
@@ -15,6 +12,9 @@ RUN npm install
 
 # Copy the rest of the application source code
 COPY . .
+
+# Check the contents of the src/assets directory
+RUN ls -R /app/src/assets
 
 # Set environment variable
 ENV REACT_APP_API_BASE_URL=$REACT_APP_API_BASE_URL

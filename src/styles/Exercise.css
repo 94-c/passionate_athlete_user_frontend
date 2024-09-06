@@ -1,12 +1,12 @@
-.exercise-page {
+.exercise-page-custom {
   display: flex;
   flex-direction: column;
   height: 80vh;
 }
 
-.exercise-header {
+.exercise-header-custom {
   display: flex;
-  justify-content: space-between; /* Header 내부 요소들을 양쪽 끝에 배치 */
+  justify-content: space-between; /* Align header items at ends */
   align-items: center;
   width: 100%;
   margin-top: 10px;
@@ -15,24 +15,55 @@
   color: #ff6600;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative; /* Allows tooltip positioning */
 }
 
-.exercise-title {
+.exercise-title-custom {
   margin: 0;
   font-size: 1.5em;
   flex-grow: 1;
-  text-align: center; /* 중앙 정렬 */
+  text-align: center; /* Center title */
 }
 
-.question-icon {
-  font-size: 1.5em;
+.exercise-tooltip-icon-custom {
+  position: absolute; /* Position within header */
+  right: 35px; /* Align right */
+  display: inline-flex;
+  align-items: center;
   cursor: pointer;
-  color: #ff6600;
-  position: absolute;
-  right: 35px;
 }
 
-.exercise-container {
+.exercise-question-icon-custom {
+  font-size: 1.5em;
+  color: #ff6600;
+}
+
+.exercise-tooltip-text-custom {
+  display: none; /* Initially hidden */
+  width: 220px; /* Adjust for multiline */
+  background-color: rgba(0, 0, 0, 0.75);
+  color: #fff;
+  text-align: left; /* Left-align text */
+  border-radius: 5px;
+  padding: 8px; /* Padding adjustment */
+  font-size: 0.8em; /* Smaller font size */
+  position: absolute;
+  z-index: 10; /* Ensure above other elements */
+  top: 100%; /* Position below the icon */
+  left: 50%;
+  transform: translateX(-90%);
+  opacity: 0;
+  transition: opacity 0.3s, visibility 0.3s;
+  white-space: normal; /* Allow text wrapping */
+}
+
+.exercise-tooltip-icon-custom.active .exercise-tooltip-text-custom {
+  display: block; /* Show tooltip when active */
+  visibility: visible;
+  opacity: 1;
+}
+
+.exercise-container-custom {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -41,7 +72,7 @@
   justify-content: center;
 }
 
-.exercise-btn {
+.exercise-btn-custom {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -57,22 +88,22 @@
   color: #ff6600;
 }
 
-.exercise-btn:hover {
+.exercise-btn-custom:hover {
   background-color: #ff6600;
   color: white;
 }
 
-.exercise-button-icon {
+.exercise-button-icon-custom {
   margin-right: 10px;
   color: inherit;
 }
 
-.exercise-button-title {
+.exercise-button-title-custom {
   font-weight: bold;
   color: inherit;
 }
 
-.exercise-btn:active {
+.exercise-btn-custom:active {
   background-color: #ff6600;
   color: white;
 }

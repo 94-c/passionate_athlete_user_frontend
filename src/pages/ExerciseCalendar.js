@@ -4,7 +4,9 @@ import 'react-calendar/dist/Calendar.css';
 import ExerciseDetailModal from '../components/ExerciseDetailModal';
 import { api } from '../api/Api.js';
 import '../styles/ExerciseCalendar.css';
-import Loading from '../components/Loading'; // Loading 컴포넌트 임포트
+import Loading from '../components/Loading';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 
 const ExerciseCalendar = () => {
   const [date, setDate] = useState(new Date());
@@ -14,10 +16,11 @@ const ExerciseCalendar = () => {
   const [selectedRecord, setSelectedRecord] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [tooltipVisible, setTooltipVisible] = useState(false); // State for tooltip visibility
 
   useEffect(() => {
     const fetchAttendance = async () => {
-      setLoading(true); // 로딩 시작
+      setLoading(true);
       const year = date.getFullYear();
       const month = String(date.getMonth() + 1).padStart(2, '0');
       try {
@@ -31,7 +34,7 @@ const ExerciseCalendar = () => {
         console.error("Failed to fetch attendance data:", error);
         setError('출석 데이터를 가져오는 중 오류가 발생했습니다.');
       } finally {
-        setLoading(false); // 로딩 종료
+        setLoading(false);
       }
     };
 
@@ -67,7 +70,7 @@ const ExerciseCalendar = () => {
   const handleDateClick = async (value) => {
     const selectedDate = new Date(value.getFullYear(), value.getMonth(), value.getDate());
     setSelectedDate(selectedDate);
-    setLoading(true); // 로딩 시작
+    setLoading(true);
     setError(null);
 
     const dateString = selectedDate.toLocaleDateString('en-CA');
@@ -78,7 +81,7 @@ const ExerciseCalendar = () => {
       setError('운동 기록을 가져오는 중 오류가 발생했습니다.');
       setDailyRecords([]);
     } finally {
-      setLoading(false); // 로딩 종료
+      setLoading(false);
     }
   };
 
@@ -107,11 +110,26 @@ const ExerciseCalendar = () => {
     }
   };
 
+  const toggleTooltip = () => {
+    setTooltipVisible(!tooltipVisible); // Toggle tooltip visibility
+  };
+
   return (
     <div className="exercise-calendar-page">
       <div className="exercise-calendar-container">
         <div className="exercise-custom-header">
-          <h1 className="exercise-custom-title">운동 달력</h1>
+          <h1 className="exercise-custom-title">
+            운동 달력
+          </h1>
+          <span className={`tooltip-icon ${tooltipVisible ? 'active' : ''}`} onClick={toggleTooltip}>
+            <FontAwesomeIcon icon={faQuestionCircle} className="question-icon" />
+            {tooltipVisible && (
+              <span className="tooltip-text">
+                당일 15시부터 익일 15시까지 <br />
+                해당 날짜의 운동 기록을 확인할 수 있습니다.
+              </span>
+            )}
+          </span>
         </div>
         <div className="exercise-calendar-content">
           <Calendar

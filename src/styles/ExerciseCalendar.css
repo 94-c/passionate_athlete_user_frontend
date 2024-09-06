@@ -4,6 +4,7 @@
   justify-content: space-between;
   padding: 0 20px;
   overflow-y: auto;
+  overflow-x: hidden; /* Prevent horizontal scroll */
   margin-bottom: 100px;
 }
 
@@ -17,8 +18,8 @@
 
 .exercise-custom-header {
   display: flex;
-  justify-content: space-between; /* Header 내부 요소들을 양쪽 끝에 배치 */
-  align-items: center;
+  justify-content: center; /* Center the title */
+  align-items: center; /* Align items vertically in the center */
   width: 100%;
   margin-bottom: 10px;
   padding: 10px;
@@ -26,20 +27,44 @@
   color: #ff6600;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative; /* Allows positioning of the icon */
+}
+
+.tooltip-icon {
+  position: absolute; /* Position it absolutely within the header */
+  right: 10px; /* Align to the right */
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.tooltip-text {
+  display: none; /* Initially hide the tooltip */
+  width: 200px; /* Adjust width for multiline */
+  background-color: rgba(0, 0, 0, 0.75);
+  color: #fff;
   text-align: center;
+  border-radius: 5px;
+  padding: 8px; /* Adjust padding */
+  font-size: 0.8em; /* Smaller font size */
+  position: absolute;
+  z-index: 10; /* Higher z-index to appear above other elements */
+  top: 200%; /* Position below the icon */
+  left: 50%;
+  transform: translateX(-90%);
+  opacity: 0;
+  transition: opacity 0.3s, visibility 0.3s;
+  white-space: normal; /* Allow text wrapping */
 }
 
-.exercise-custom-title {
-  margin: 0;
-  font-size: 1.5em;
-  flex-grow: 1;
-  text-align: center; /* 타이틀 중앙 정렬 */
+.tooltip-icon.active .tooltip-text {
+  display: block; /* Show tooltip when icon is active */
+  visibility: visible;
+  opacity: 1;
+}
+
+.tooltip-icon .question-icon {
   color: #ff6600;
-}
-
-.exercise-custom-subtitle {
-  font-size: 18px;
-  color: #666;
 }
 
 .exercise-calendar-content {
@@ -171,29 +196,29 @@
 }
 
 .no-records-box {
-  background-color: #ffe6cc; /* 부드러운 주황색 배경 */
-  color: #ff6600; /* 주황색 폰트 */
+  background-color: #ffe6cc; /* Soft orange background */
+  color: #ff6600; /* Orange font */
   border-radius: 10px;
-  padding: 20px 30px; /* 상자의 크기를 키우기 위해 패딩을 늘림 */
+  padding: 20px 30px;
   text-align: center;
   display: flex;
   align-items: center;
   justify-content: center;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin: 30px 0; /* 상하 여백을 추가하여 다른 요소들과 분리 */
-  width: 100%; /* 상자의 너비를 100%로 설정하여 화면에 꽉 차게 함 */
+  margin: 30px 0;
+  width: 100%;
 }
 
 .no-records-box i {
-  font-size: 28px; /* 아이콘 크기 증가 */
-  margin-right: 15px; /* 아이콘과 텍스트 사이의 간격 증가 */
-  color: #ff6600; /* 주황색 아이콘 */
+  font-size: 28px;
+  margin-right: 15px;
+  color: #ff6600;
 }
 
 .no-records-text {
-  font-size: 1.3em; /* 텍스트 크기 증가 */
+  font-size: 1.3em;
   font-weight: bold;
-  color: #ff6600; /* 주황색 폰트 */
+  color: #ff6600;
 }
 
 @media (max-width: 768px) {

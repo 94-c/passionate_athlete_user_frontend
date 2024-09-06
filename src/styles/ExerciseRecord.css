@@ -6,27 +6,69 @@
   padding: 0;
   background-color: #f9f9f9;
   font-family: Arial, sans-serif;
-  overflow: hidden; /* 스크롤바가 생기지 않도록 */
+  overflow: hidden; /* Prevent scrollbar */
 }
 
 .exercise-record-header {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: center; /* Center the title within the header */
   width: 100%;
-  padding: 20px 0;
+  padding: 20px 15px; /* Adjust padding */
   background-color: #fff;
   color: #ff6600;
-  border-radius: 10px; /* 곡선 사각형 추가 */
+  border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin: 10px; /* 페이지 가장자리에 여백 추가 */
+  margin: 10px;
+  position: relative; /* For positioning elements inside */
 }
 
 .exercise-record-title {
   margin: 0;
   font-size: 1.5em;
-  text-align: center;
+  text-align: center; /* Center text within the title */
   color: #ff6600;
+  flex-grow: 0; /* Prevent the title from expanding */
+}
+
+.exercise-tooltip-icon {
+  position: absolute;
+  top: 50%; /* Center vertically */
+  right: 15px; /* Align to the right with some margin */
+  transform: translateY(-50%); /* Adjust for vertical centering */
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.exercise-question-icon {
+  font-size: 1.5em;
+  color: #ff6600; /* Icon color */
+}
+
+.exercise-tooltip-text {
+  display: none; /* Initially hidden */
+  width: 150px; /* Adjust width for multiline */
+  background-color: rgba(0, 0, 0, 0.75);
+  color: #fff;
+  text-align: center;
+  border-radius: 5px;
+  padding: 8px;
+  font-size: 0.8em;
+  position: absolute;
+  z-index: 10;
+  top: 120%; /* Position below the icon */
+  right: 0; /* Align tooltip to the right */
+  transform: translateX(-10%); /* Slight adjustment for centering */
+  opacity: 0;
+  transition: opacity 0.3s, visibility 0.3s;
+  white-space: normal; /* Allow text wrapping */
+}
+
+.exercise-tooltip-icon.active .exercise-tooltip-text {
+  display: block; /* Show tooltip when active */
+  visibility: visible;
+  opacity: 1;
 }
 
 .exercise-record-progress-bar {
@@ -68,8 +110,8 @@
   flex-direction: column;
   align-items: center;
   margin-top: -150px;
-  flex-grow: 1; /* 남은 공간을 채우도록 */
-  justify-content: center; /* 수직 중앙 정렬 */
+  flex-grow: 1; /* Fill remaining space */
+  justify-content: center; /* Center vertically */
 }
 
 .exercise-type-btn {
@@ -98,7 +140,7 @@
   color: inherit;
 }
 
-/* 반응형 디자인 */
+/* Responsive adjustments */
 @media (max-width: 768px) {
   .exercise-record-title {
     font-size: 1.3em;
@@ -109,9 +151,9 @@
   }
 
   .exercise-type-btn {
-    width: 250px; /* 버튼 너비 줄이기 */
-    padding: 30px; /* 버튼 높이 줄이기 */
-    font-size: 22px; /* 폰트 크기 줄이기 */
+    width: 250px;
+    padding: 30px;
+    font-size: 22px;
   }
 }
 
@@ -125,8 +167,8 @@
   }
 
   .exercise-type-btn {
-    width: 200px; /* 버튼 너비 줄이기 */
-    padding: 20px; /* 버튼 높이 줄이기 */
-    font-size: 18px; /* 폰트 크기 줄이기 */
+    width: 200px;
+    padding: 20px;
+    font-size: 18px;
   }
 }

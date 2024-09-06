@@ -83,7 +83,7 @@ const App = () => {
       }
     } else if (isTimeCapsulePage) {
       if (location.pathname === '/timecapsule') {
-        return "타입 캡슐";
+        return "타임 캡슐";
       }
     }
     return "커뮤니티";

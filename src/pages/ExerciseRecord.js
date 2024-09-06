@@ -1,20 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/ExerciseRecord.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faDumbbell, faSyncAlt, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import { faDumbbell, faSyncAlt, faPlusCircle, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 
 const ExerciseRecord = () => {
   const navigate = useNavigate();
+  const [tooltipVisible, setTooltipVisible] = useState(false); // State for tooltip visibility
 
   const handleNavigate = (path, type) => {
     navigate(path, { state: { exerciseType: type } });
   };
 
+  const toggleTooltip = () => {
+    setTooltipVisible(!tooltipVisible); // Toggle tooltip visibility
+  };
+
   return (
     <div className="exercise-record-page">
       <div className="exercise-record-header">
-        <h1 className="exercise-record-title">운동 기록을 추가해요 🏋️‍♂️</h1>
+        <h1 className="exercise-record-title">
+          운동 기록을 추가해요 🏋️‍♂️
+        </h1>
+        <span className={`exercise-tooltip-icon ${tooltipVisible ? 'active' : ''}`} onClick={toggleTooltip}>
+          <FontAwesomeIcon icon={faQuestionCircle} className="exercise-question-icon" />
+          {tooltipVisible && (
+            <span className="exercise-tooltip-text">
+              각 버튼을 클릭하여 본운동, 변형 운동, 또는 추가 운동 기록을 추가할 수 있습니다.
+            </span>
+          )}
+        </span>
       </div>
       <div className="exercise-record-progress-bar">
         <span className="exercise-record-progress-step active">운동 타입 </span>

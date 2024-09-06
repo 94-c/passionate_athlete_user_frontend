@@ -1,46 +1,44 @@
-# base image 설정
-FROM node:14-alpine as build
+# Base image
+FROM node:16-alpine as build
 
-# 빌드 인자 설정
+# Build argument for environment variable
 ARG REACT_APP_API_BASE_URL
 
-# 컨테이너 내부 작업 디렉토리 설정
+# Set working directory inside the container
 WORKDIR /app
 
-# package.json 및 package-lock.json 파일을 컨테이너 내부로 복사
+# Copy package.json and package-lock.json into the container
 COPY package*.json ./
 
-# 의존성 패키지 설치
+# Install dependencies
 RUN npm install
 
-# 모든 소스 코드를 컨테이너 내부로 복사
+# Copy the rest of the application source code
 COPY . .
 
-# 환경 변수 설정
+# Set environment variable
 ENV REACT_APP_API_BASE_URL=$REACT_APP_API_BASE_URL
 
-# 빌드 수행
+# Build the application
 RUN npm run build
 
-# nginx 설정을 위한 production 이미지 설정
+# Use Nginx as the production server
 FROM nginx:stable-alpine
 
-# 시간대 설정을 위해 tzdata 패키지 설치
+# Set timezone and configure Nginx
 RUN apk add --no-cache tzdata \
     && cp /usr/share/zoneinfo/Asia/Seoul /etc/localtime \
     && echo "Asia/Seoul" > /etc/timezone
 
-# 빌드된 결과물을 Nginx 디렉토리로 복사
+# Copy the built application to the Nginx HTML folder
 COPY --from=build /app/build /usr/share/nginx/html
 
-# 기본 Nginx 설정 파일 삭제
+# Remove default Nginx config and replace with custom config
 RUN rm /etc/nginx/conf.d/default.conf
-
-# 사용자 정의 Nginx 설정 파일 복사
 COPY nginx/nginx.conf /etc/nginx/conf.d
 
-# Nginx 포트 노출
+# Expose port 80
 EXPOSE 80
 
-# Nginx 실행
+# Start Nginx
 CMD ["nginx", "-g", "daemon off;"]

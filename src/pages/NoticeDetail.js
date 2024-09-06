@@ -20,7 +20,7 @@ const NoticeDetail = () => {
   const navigate = useNavigate();
   const { user: currentUser } = useContext(UserContext);
   const [post, setPost] = useState(null);
-  const [comments, setComments] = useState([]); // Initialize as an empty array
+  const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [likeCount, setLikeCount] = useState(0);
@@ -39,9 +39,9 @@ const NoticeDetail = () => {
         const response = await api.get(`/notices/${id}`);
         if (response.data) {
           setPost(response.data);
-          setComments(response.data.comments || []); // Fallback to empty array
+          setComments(response.data.comments || []);
           setLikeCount(response.data.likeCount);
-          setLiked(response.data.liked);
+          setLiked(response.data.liked); // Ensure liked state is set correctly from backend
           setEditedTitle(response.data.title);
           setEditedContent(response.data.content);
           setEditedKindId(response.data.kindId);
@@ -91,8 +91,13 @@ const NoticeDetail = () => {
       };
 
       try {
-        await api.put(`/notices/${id}`, notice); // JSON 형식으로 전송
-        setPost((prev) => ({ ...prev, title: editedTitle, content: editedContent, kindId: editedKindId }));
+        await api.put(`/notices/${id}`, notice);
+        setPost((prev) => ({
+          ...prev,
+          title: editedTitle,
+          content: editedContent,
+          kindId: editedKindId,
+        }));
         setIsEditing(false);
       } catch (error) {
         setError('게시글 수정에 실패했습니다.');
@@ -118,17 +123,22 @@ const NoticeDetail = () => {
   const handleLike = async () => {
     try {
       if (liked) {
-        await api.delete(`/notices/${id}/likes`);
-        setLikeCount((prev) => prev - 1);
-        setLiked(false);
+        // Already liked, show an alert
+        alert('이미 좋아요를 누르셨습니다.');
+        return; // Prevent redundant API call
       } else {
         await api.post(`/notices/${id}/likes`);
         setLikeCount((prev) => prev + 1);
         setLiked(true);
       }
     } catch (error) {
-      console.error('좋아요 처리 중 오류가 발생했습니다.', error);
-      setError('좋아요 상태를 업데이트하는 데 실패했습니다. 다시 시도해주세요.');
+      // Handle the case where the backend throws an exception for already liked
+      if (error.response && error.response.data.message === '이미 좋아요를 누르셨습니다.') {
+        setLiked(true); // Set state to liked if the backend confirms it
+        alert('이미 좋아요를 누르셨습니다.'); // Show alert if backend indicates the post is already liked
+      } else {
+        setError('좋아요 상태를 업데이트하는 데 실패했습니다. 다시 시도해주세요.');
+      }
     }
   };
 
@@ -169,10 +179,18 @@ const NoticeDetail = () => {
       </div>
       {isEditing ? (
         <div>
-          <select value={editedKindId} onChange={handleKindChange} className="edit-kind-select">
-            <option value="" disabled>게시판 종류 선택</option>
-            {noticeTypes.map(type => (
-              <option key={type.id} value={type.id}>{type.type}</option>
+          <select
+            value={editedKindId}
+            onChange={handleKindChange}
+            className="edit-kind-select"
+          >
+            <option value="" disabled>
+              게시판 종류 선택
+            </option>
+            {noticeTypes.map((type) => (
+              <option key={type.id} value={type.id}>
+                {type.type}
+              </option>
             ))}
           </select>
           <input
@@ -182,26 +200,43 @@ const NoticeDetail = () => {
             onChange={handleTitleChange}
           />
           <div className="edit-content">
-          <div className="board-quill-container">
-            <QuillWrapper
-              value={editedContent}
-              onChange={handleContentChange}
-              modules={{
-                toolbar: [
-                  [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
-                  [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-                  ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-                  [{ 'align': [] }],
-                  ['link', 'image'],
-                  ['clean']
-                ],
-              }}
-              formats={[
-                'header', 'font', 'list', 'bullet', 'bold', 'italic', 'underline', 'strike', 'blockquote', 'align', 'link', 'image'
-              ]}
-             placeholder="내용을 입력하세요."
-            />
-          </div>
+            <div className="board-quill-container">
+              <QuillWrapper
+                value={editedContent}
+                onChange={handleContentChange}
+                modules={{
+                  toolbar: [
+                    [{ header: '1' }, { header: '2' }, { font: [] }],
+                    [{ list: 'ordered' }, { list: 'bullet' }],
+                    [
+                      'bold',
+                      'italic',
+                      'underline',
+                      'strike',
+                      'blockquote',
+                    ],
+                    [{ align: [] }],
+                    ['link', 'image'],
+                    ['clean'],
+                  ],
+                }}
+                formats={[
+                  'header',
+                  'font',
+                  'list',
+                  'bullet',
+                  'bold',
+                  'italic',
+                  'underline',
+                  'strike',
+                  'blockquote',
+                  'align',
+                  'link',
+                  'image',
+                ]}
+                placeholder="내용을 입력하세요."
+              />
+            </div>
           </div>
         </div>
       ) : (
@@ -213,15 +248,24 @@ const NoticeDetail = () => {
             dangerouslySetInnerHTML={{ __html: post?.content }}
           />
           <div className="post-meta">
-            <span className="post-author">[{currentUser.branchName}] {post?.userName}</span> · <span className="post-date">{post?.createdDate}</span>
+            <span className="post-author">
+              [{currentUser.branchName}] {post?.userName}
+            </span>{' '}
+            · <span className="post-date">{post?.createdDate}</span>
           </div>
           <div className="post-actions">
             <span className="post-likes" onClick={handleLike}>
-              <FontAwesomeIcon icon={faHeart} color={liked ? 'red' : 'gray'} /> {likeCount}
+              <FontAwesomeIcon icon={faHeart} color={liked ? 'red' : 'gray'} />{' '}
+              {likeCount}
             </span>
             <span className="post-comments">💬 {comments.length}</span>
           </div>
-          <CommentList postId={id} comments={comments} setComments={setComments} currentUser={currentUser} />
+          <CommentList
+            postId={id}
+            comments={comments}
+            setComments={setComments}
+            currentUser={currentUser}
+          />
         </>
       )}
     </div>

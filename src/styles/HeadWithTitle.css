@@ -1,43 +1,44 @@
-.head-container-title {
+.head-container-title-custom {
   display: flex;
   align-items: center;
-  padding: 10px 20px; /* 상하 패딩을 줄임 */
-  background-color: #ff6600; /* Orange background */
+  padding: 10px 20px;
+  background-color: #ff6600;
   position: relative;
-  justify-content: space-between; /* Ensure space between title and buttons */
+  justify-content: space-between; /* Space between title and buttons */
 }
 
-.head-container.with-title {
-  justify-content: flex-start;
+.head-container-title-custom.with-title {
+  justify-content: space-between; /* Align title to the left, buttons to the right */
 }
 
-.head-title {
+.head-title-custom {
   font-size: 1.5em;
   font-weight: bold;
-  margin-top: 10px;
-  color: white; /* White font color */
+  color: white;
+  margin: 0; /* Remove margin to align properly */
 }
 
-.head-title .title-link {
-  color: inherit; /* Makes sure the link inherits the color from the parent */
-  text-decoration: none; /* Removes underline from the link */
+.title-link-custom {
+  color: inherit;
+  text-decoration: none;
 }
 
-.head-title .title-link:hover {
-  text-decoration: underline; /* Adds underline on hover */
+.title-link-custom:hover {
+  text-decoration: underline;
 }
 
-.head-buttons {
+.head-buttons-custom {
   display: flex;
-  gap: 10px; /* Space between buttons */
+  gap: 10px;
+  align-items: center; /* Center the buttons vertically */
 }
 
-.insert-button-head,
-.search-button-head,
-.notification-button-head,
-.ranking-button-head,
-.edit-button-head,
-.check-button-head {
+.insert-button-head-custom,
+.search-button-head-custom,
+.notification-button-head-custom,
+.ranking-button-head-custom,
+.edit-button-head-custom,
+.check-button-head-custom {
   background-color: transparent;
   border: none;
   color: white;
@@ -46,20 +47,58 @@
   transition: color 0.3s, transform 0.3s;
 }
 
-.insert-button-head:hover,
-.search-button-head:hover,
-.notification-button-head:hover,
-.ranking-button-head:hover,
-.edit-button-head:hover,
-.check-button-head:hover {
-  color: #e65c00; /* Slightly darker orange on hover */
-  transform: scale(1.1); /* Slightly enlarge on hover */
+.insert-button-head-custom:hover,
+.search-button-head-custom:hover,
+.notification-button-head-custom:hover,
+.ranking-button-head-custom:hover,
+.edit-button-head-custom:hover,
+.check-button-head-custom:hover {
+  color: #e65c00;
+  transform: scale(1.1);
 }
 
-.edit-button-container .edit-button-head {
-  color: white; /* Differentiates the edit button */
+.edit-button-container-custom .edit-button-head-custom {
+  color: white;
 }
 
-.edit-button-container .edit-button-head:hover {
-  color: white; /* Slightly lighter yellow on hover */
+.edit-button-container-custom .edit-button-head-custom:hover {
+  color: white;
+}
+
+.timecapsule-tooltip-icon-custom {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  margin-left: 10px; /* Add space between the icon and the buttons */
+}
+
+.timecapsule-question-icon-custom {
+  font-size: 1.5em;
+  color: #ffffff; /* Change icon color to white */
+}
+
+.timecapsule-tooltip-text-custom {
+  display: none; /* Initially hidden */
+  width: 100px; /* Adjust width for multiline */
+  background-color: rgba(0, 0, 0, 0.75);
+  color: #fff;
+  text-align: center;
+  border-radius: 5px;
+  padding: 8px; /* Padding adjustment */
+  font-size: 0.8em; /* Smaller font size */
+  position: absolute;
+  z-index: 10; /* Ensure above other elements */
+  top: 100%; /* Position below the icon */
+  left: 50%; /* Position tooltip to the right */
+  transform: translateX(-70%); /* Adjust transformation to align with the icon */
+  opacity: 0;
+  transition: opacity 0.3s, visibility 0.3s;
+  white-space: normal; /* Allow text wrapping */
+}
+
+.timecapsule-tooltip-icon-custom.active .timecapsule-tooltip-text-custom {
+  display: block; /* Show tooltip when active */
+  visibility: visible;
+  opacity: 1;
 }

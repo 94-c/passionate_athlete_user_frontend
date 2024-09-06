@@ -1,10 +1,10 @@
 import React, { useContext, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPenClip, faSearch, faBell, faTrophy, faEdit, faCheck, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPenClip, faSearch, faBell, faTrophy, faEdit, faCheck, faPlus, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserContext } from '../contexts/UserContext';
 import InbodyTermsModal from './InbodyTermsModal';
-import NonSharedExerciseModal from './NonSharedExerciseModal';  // Import the NonSharedExerciseModal
+import NonSharedExerciseModal from './NonSharedExerciseModal';
 import '../styles/HeadWithTitle.css';
 
 const HeadWithTitle = ({ title, isAttendancePage, isInbodyPage, isUserInfoPage, isUserEditPage, isTimeCapsulePage }) => {
@@ -12,6 +12,7 @@ const HeadWithTitle = ({ title, isAttendancePage, isInbodyPage, isUserInfoPage, 
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [showNonSharedModal, setShowNonSharedModal] = useState(false);
+  const [tooltipVisible, setTooltipVisible] = useState(false); // State for tooltip visibility
 
   const handleInsertClick = () => {
     if (isTimeCapsulePage) {
@@ -46,7 +47,7 @@ const HeadWithTitle = ({ title, isAttendancePage, isInbodyPage, isUserInfoPage, 
   };
 
   const handleCloseNonSharedModal = () => {
-    setShowNonSharedModal(false); // Close the non-shared exercise records modal
+    setShowNonSharedModal(false); 
   };
 
   const hasRole = (roles) => {
@@ -54,58 +55,68 @@ const HeadWithTitle = ({ title, isAttendancePage, isInbodyPage, isUserInfoPage, 
     return roles.some(role => requiredRoles.includes(role));
   };
 
+  const toggleTooltip = () => {
+    setTooltipVisible(!tooltipVisible); // Toggle tooltip visibility
+  };
+
   return (
-    <div className="head-container-title with-title">
-      <h1 className="head-title">
-        <Link to="/main" className="title-link">
+    <div className="head-container-title-custom with-title">
+      <h1 className="head-title-custom">
+        <Link to="/main" className="title-link-custom">
           {title}
         </Link>
       </h1>
-      {isInbodyPage && (
-        <div className="head-buttons">
-          <button className="ranking-button-head" onClick={handleRankingClick}>
-            <FontAwesomeIcon icon={faTrophy} />
-          </button>
-          <button className="notification-button-head" onClick={handleNotificationClick}>
-            <FontAwesomeIcon icon={faBell} />
-          </button>
-        </div>
-      )}
-      {!isAttendancePage && !isInbodyPage && !isUserInfoPage && !isTimeCapsulePage && (
-        <div className="head-buttons">
-          {user && user.roles && hasRole(user.roles) && (
-            <button className="insert-button-head" onClick={handleInsertClick}>
-              <FontAwesomeIcon icon={faPenClip} />
+      <div className="head-buttons-custom">
+        {isInbodyPage && (
+          <>
+            <button className="ranking-button-head-custom" onClick={handleRankingClick}>
+              <FontAwesomeIcon icon={faTrophy} />
             </button>
-          )}
-          <button className="search-button-head" onClick={handleSearchClick}>
-            <FontAwesomeIcon icon={faSearch} />
-          </button>
-        </div>
-      )}
-      {isTimeCapsulePage && (
-        <div className="head-buttons">
-          <button className="insert-button-head" onClick={handleInsertClick}>
-            <FontAwesomeIcon icon={faPlus} />
-          </button>
-        </div>
-      )}
-      {isUserInfoPage && !isUserEditPage && (
-        <div className="head-buttons edit-button-container">
-          <button className="edit-button-head" onClick={handleEditClick}>
+            <button className="notification-button-head-custom" onClick={handleNotificationClick}>
+              <FontAwesomeIcon icon={faBell} />
+            </button>
+          </>
+        )}
+        {!isAttendancePage && !isInbodyPage && !isUserInfoPage && !isTimeCapsulePage && (
+          <>
+            {user && user.roles && hasRole(user.roles) && (
+              <button className="insert-button-head-custom" onClick={handleInsertClick}>
+                <FontAwesomeIcon icon={faPenClip} />
+              </button>
+            )}
+            <button className="search-button-head-custom" onClick={handleSearchClick}>
+              <FontAwesomeIcon icon={faSearch} />
+            </button>
+          </>
+        )}
+        {isTimeCapsulePage && (
+          <>
+            <button className="insert-button-head-custom" onClick={handleInsertClick}>
+              <FontAwesomeIcon icon={faPlus} />
+            </button>
+            <span className={`timecapsule-tooltip-icon-custom ${tooltipVisible ? 'active' : ''}`} onClick={toggleTooltip}>
+              <FontAwesomeIcon icon={faQuestionCircle} className="timecapsule-question-icon-custom" />
+              {tooltipVisible && (
+                <span className="timecapsule-tooltip-text-custom">
+                  운동 기록을 <br /> 공유 하는 타임 캡슐입니다.
+                </span>
+              )}
+            </span>
+          </>
+        )}
+        {isUserInfoPage && !isUserEditPage && (
+          <button className="edit-button-head-custom" onClick={handleEditClick}>
             <FontAwesomeIcon icon={faEdit} />
           </button>
-        </div>
-      )}
-      {isUserEditPage && (
-        <div className="head-buttons">
-          <button className="check-button-head" onClick={handleCheckClick}>
+        )}
+        {isUserEditPage && (
+          <button className="check-button-head-custom" onClick={handleCheckClick}>
             <FontAwesomeIcon icon={faCheck} />
           </button>
-        </div>
-      )}
+        )}
+      </div>
       <InbodyTermsModal show={showModal} handleClose={handleCloseModal} />
-      <NonSharedExerciseModal show={showNonSharedModal} handleClose={handleCloseNonSharedModal} /> {/* Render the NonSharedExerciseModal */}
+      <NonSharedExerciseModal show={showNonSharedModal} handleClose={handleCloseNonSharedModal} />
     </div>
   );
 };

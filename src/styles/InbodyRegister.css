@@ -1,4 +1,3 @@
-/* styles/InbodyRegister.css */
 .inbody-register-page {
     display: flex;
     flex-direction: column;
@@ -6,28 +5,9 @@
     padding: 20px;
 }
 
-.inbody-register-page h2 {
-    margin-bottom: 20px;
-}
-
-.last-measure {
-    width: 100%;
-    max-width: 500px;
-    background-color: #fff3cd;
-    padding: 15px;
-    border: 1px solid #ffeeba;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.last-measure h3 {
-    margin-top: 0;
-}
-
 .inbody-form {
     width: 100%;
-    max-width: 500px;
+    max-width: 400px; /* 전체 폼의 너비를 일정하게 설정 */
     background-color: #fff;
     padding: 20px;
     border-radius: 10px;
@@ -42,30 +22,52 @@
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
-    color: #333;
+    color: #ff6600; /* 텍스트 색상 설정 */
 }
 
 .form-group input {
-    width: 100%;
+    width: 100%; /* 모든 입력 필드의 너비를 100%로 설정 */
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 16px;
     box-sizing: border-box;
+    background-color: #f9f9f9;
+}
+
+/* react-datepicker의 기본 스타일 오버라이드 */
+.react-datepicker-wrapper,
+.react-datepicker__input-container {
+    width: 100%; /* wrapper의 너비를 다른 입력 필드와 맞춤 */
+}
+
+.react-datepicker__input-container input {
+    width: 100%; /* 내부 input의 너비를 100%로 설정 */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+    background-color: #f9f9f9;
 }
 
 .btn-submit {
-    width: 100%;
-    padding: 10px;
+    width: 100%; /* 버튼도 폼과 같은 너비로 설정 */
+    padding: 12px;
     background-color: #ff6600;
     color: #fff;
     border: none;
     border-radius: 5px;
     font-size: 18px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    margin-top: 10px;
 }
 
 .btn-submit:hover {
     background-color: #e65c00;
+}
+
+.btn-submit:active {
+    background-color: #cc5200;
 }

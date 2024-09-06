@@ -2,6 +2,8 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../contexts/UserContext';
 import { api } from '../api/Api.js';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import '../styles/InbodyRegister.css';
 
 const InbodyRegister = () => {
@@ -12,9 +14,10 @@ const InbodyRegister = () => {
         height: '',
         weight: '',
         muscleMass: '',
-        bodyFatMass: ''
+        bodyFatMass: '',
     });
 
+    const [measureDate, setMeasureDate] = useState(new Date());
     const [lastMeasure, setLastMeasure] = useState(null);
 
     const handleChange = (e) => {
@@ -27,7 +30,7 @@ const InbodyRegister = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await api.post('/physicals', formData);
+            const response = await api.post('/physicals', { ...formData, measureDate });
             if (response.status === 200 || response.status === 201) {
                 alert('등록이 완료되었습니다.');
                 navigate('/inbody');
@@ -57,13 +60,47 @@ const InbodyRegister = () => {
             }
         } catch (error) {
             console.error('Failed to fetch last measure', error);
-            setLastMeasure(null); // 에러 발생 시 lastMeasure를 null로 설정
+            setLastMeasure(null);
+        }
+    };
+
+    const fetchMeasureForDate = async (date) => {
+        try {
+            const formattedDate = date.toISOString().split('T')[0];
+            const response = await api.get(`/physicals?measureDate=${formattedDate}`);
+            if (response.status === 200) {
+                setFormData({
+                    height: response.data.height,
+                    weight: response.data.weight,
+                    muscleMass: response.data.muscleMass,
+                    bodyFatMass: response.data.bodyFatMass,
+                });
+            } else {
+                setFormData({
+                    height: '',
+                    weight: '',
+                    muscleMass: '',
+                    bodyFatMass: '',
+                });
+            }
+        } catch (error) {
+            console.error('Failed to fetch measure for date', error);
+            setFormData({
+                height: '',
+                weight: '',
+                muscleMass: '',
+                bodyFatMass: '',
+            });
         }
     };
 
     useEffect(() => {
         fetchLastMeasure();
     }, []);
+
+    useEffect(() => {
+        fetchMeasureForDate(measureDate);
+    }, [measureDate]);
 
     const handleKeyPress = (e) => {
         const charCode = e.charCode;
@@ -75,6 +112,16 @@ const InbodyRegister = () => {
     return (
         <div className="inbody-register-page">
             <form className="inbody-form" onSubmit={handleSubmit}>
+                <div className="form-group">
+                    <label>측정 날짜</label>
+                    <DatePicker
+                        selected={measureDate}
+                        onChange={(date) => setMeasureDate(date)}
+                        dateFormat="yyyy-MM-dd"
+                        maxDate={new Date()}
+                        className="date-picker"
+                    />
+                </div>
                 <div className="form-group">
                     <label>키 (cm)</label>
                     <input

@@ -27,7 +27,7 @@
 
 .exercise-tooltip-icon-custom {
   position: absolute; /* Position within header */
-  right: 35px; /* Align right */
+  right: 40px; /* Align right */
   display: inline-flex;
   align-items: center;
   cursor: pointer;

@@ -5,12 +5,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faHeart } from '@fortawesome/free-solid-svg-icons';
 import { api } from '../api/Api';
 import { UserContext } from '../contexts/UserContext';
-import CommentList from './CommentList';
+import TimeCapsuleCommentList from './TimeCapsuleCommentList'; // Import the comment component
 import Loading from '../components/Loading';
 import '../styles/TimeCapsuleDetail.css';
 
 const TimeCapsuleDetail = () => {
-  const { id } = useParams();
+  const { id } = useParams(); // noticeId from URL
   const navigate = useNavigate();
   const { user: currentUser } = useContext(UserContext);
   const [record, setRecord] = useState(null);
@@ -115,6 +115,12 @@ const TimeCapsuleDetail = () => {
           </div>
         ))}
       </div>
+
+      <TimeCapsuleCommentList
+        noticeId={id} // pass noticeId correctly
+        comments={comments}
+        setComments={setComments}
+      />
     </div>
   );
 };

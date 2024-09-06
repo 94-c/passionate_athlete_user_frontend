@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Main.css';
-import logo from '../assets/Logo.png'; 
+import logo from '../assets/logo.png'; 
 import { api } from '../api/Api.js';
 import { UserContext } from '../contexts/UserContext';
 import TodayExerciseModal from '../components/TodayExerciseModal';

@@ -1,24 +1,27 @@
 import React, { useState, useEffect, useContext } from 'react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../contexts/UserContext';
 import { api } from '../api/Api.js';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
 import '../styles/InbodyRegister.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 
 const InbodyRegister = () => {
     const navigate = useNavigate();
     const { user: currentUser } = useContext(UserContext);
-
     const [formData, setFormData] = useState({
+        measureDate: new Date(),
         height: '',
         weight: '',
         muscleMass: '',
         bodyFatMass: '',
     });
 
-    const [measureDate, setMeasureDate] = useState(new Date());
     const [lastMeasure, setLastMeasure] = useState(null);
+    const [excludedDates, setExcludedDates] = useState([]);
+    const [tooltipVisible, setTooltipVisible] = useState(false); // State for tooltip visibility
 
     const handleChange = (e) => {
         setFormData({
@@ -27,10 +30,26 @@ const InbodyRegister = () => {
         });
     };
 
+    const handleDateChange = (date) => {
+        const isExcluded = excludedDates.some(
+            (excludedDate) => excludedDate.toDateString() === date.toDateString()
+        );
+
+        if (isExcluded) {
+            alert('이미 등록된 날짜입니다. 다른 날짜를 선택해주세요.');
+            return;
+        }
+
+        setFormData({
+            ...formData,
+            measureDate: date,
+        });
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await api.post('/physicals', { ...formData, measureDate });
+            const response = await api.post('/physicals', formData);
             if (response.status === 200 || response.status === 201) {
                 alert('등록이 완료되었습니다.');
                 navigate('/inbody');
@@ -39,11 +58,7 @@ const InbodyRegister = () => {
             console.error('Failed to register inbody data', error);
             if (error.response && error.response.data) {
                 const errorMessage = error.response.data.message || '오류가 발생했습니다.';
-                if (errorMessage.includes('하루에 한번만 입력 하실 수 있습니다.')) {
-                    alert('하루에 한번만 입력하실 수 있습니다.');
-                } else {
-                    alert(errorMessage);
-                }
+                alert(errorMessage);
             } else {
                 alert('서버와의 연결에 문제가 발생했습니다.');
             }
@@ -64,62 +79,57 @@ const InbodyRegister = () => {
         }
     };
 
-    const fetchMeasureForDate = async (date) => {
+    const fetchExcludedDates = async () => {
         try {
-            const formattedDate = date.toISOString().split('T')[0];
-            const response = await api.get(`/physicals?measureDate=${formattedDate}`);
+            const response = await api.get('/physicals/date');
             if (response.status === 200) {
-                setFormData({
-                    height: response.data.height,
-                    weight: response.data.weight,
-                    muscleMass: response.data.muscleMass,
-                    bodyFatMass: response.data.bodyFatMass,
-                });
-            } else {
-                setFormData({
-                    height: '',
-                    weight: '',
-                    muscleMass: '',
-                    bodyFatMass: '',
-                });
+                const dates = response.data.map(item => new Date(item.date));
+                setExcludedDates(dates);
             }
         } catch (error) {
-            console.error('Failed to fetch measure for date', error);
-            setFormData({
-                height: '',
-                weight: '',
-                muscleMass: '',
-                bodyFatMass: '',
-            });
+            console.error('Failed to fetch excluded dates', error);
         }
     };
 
     useEffect(() => {
         fetchLastMeasure();
+        fetchExcludedDates();
     }, []);
 
-    useEffect(() => {
-        fetchMeasureForDate(measureDate);
-    }, [measureDate]);
+    const dayClassName = (date) => {
+        const isExcluded = excludedDates.some(
+            (excludedDate) => excludedDate.toDateString() === date.toDateString()
+        );
+        return isExcluded ? 'react-datepicker__day--excluded' : undefined;
+    };
 
-    const handleKeyPress = (e) => {
-        const charCode = e.charCode;
-        if (charCode !== 46 && (charCode < 48 || charCode > 57)) {
-            e.preventDefault();
-        }
+    const toggleTooltip = () => {
+        setTooltipVisible(prev => !prev); // Toggle tooltip visibility
     };
 
     return (
         <div className="inbody-register-page">
             <form className="inbody-form" onSubmit={handleSubmit}>
                 <div className="form-group">
-                    <label>측정 날짜</label>
+                    <div className="label-with-tooltip">
+                        <label>측정 날짜</label>
+                        <span className="tooltip-icon-custom" onClick={toggleTooltip}>
+                            <FontAwesomeIcon icon={faQuestionCircle} className="question-icon-custom" />
+                            {tooltipVisible && (
+                                <span className="tooltip-text-custom">
+                                    이미 등록된 날짜는 <br /> 선택이 불가합니다.
+                                </span>
+                            )}
+                        </span>
+                    </div>
                     <DatePicker
-                        selected={measureDate}
-                        onChange={(date) => setMeasureDate(date)}
+                        selected={formData.measureDate}
+                        onChange={handleDateChange}
                         dateFormat="yyyy-MM-dd"
-                        maxDate={new Date()}
-                        className="date-picker"
+                        excludeDates={excludedDates}
+                        className="datepicker-input"
+                        placeholderText="날짜 선택"
+                        dayClassName={dayClassName}
                     />
                 </div>
                 <div className="form-group">
@@ -129,9 +139,9 @@ const InbodyRegister = () => {
                         name="height"
                         value={formData.height}
                         onChange={handleChange}
-                        onKeyPress={handleKeyPress}
                         placeholder={lastMeasure ? `최근: ${lastMeasure.height} cm` : '키 입력'}
                         required
+                        className="input-field"
                     />
                 </div>
                 <div className="form-group">
@@ -141,9 +151,9 @@ const InbodyRegister = () => {
                         name="weight"
                         value={formData.weight}
                         onChange={handleChange}
-                        onKeyPress={handleKeyPress}
                         placeholder={lastMeasure ? `최근: ${lastMeasure.weight} kg` : '체중 입력'}
                         required
+                        className="input-field"
                     />
                 </div>
                 <div className="form-group">
@@ -153,9 +163,9 @@ const InbodyRegister = () => {
                         name="muscleMass"
                         value={formData.muscleMass}
                         onChange={handleChange}
-                        onKeyPress={handleKeyPress}
                         placeholder={lastMeasure ? `최근: ${lastMeasure.muscleMass} kg` : '근육량 입력'}
                         required
+                        className="input-field"
                     />
                 </div>
                 <div className="form-group">
@@ -165,9 +175,9 @@ const InbodyRegister = () => {
                         name="bodyFatMass"
                         value={formData.bodyFatMass}
                         onChange={handleChange}
-                        onKeyPress={handleKeyPress}
                         placeholder={lastMeasure ? `최근: ${lastMeasure.bodyFatMass} kg` : '체지방량 입력'}
                         required
+                        className="input-field"
                     />
                 </div>
                 <button type="submit" className="btn-submit">등록</button>

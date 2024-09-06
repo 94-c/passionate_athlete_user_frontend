@@ -42,7 +42,7 @@ const Footer = ({ onToggle }) => {
 
             const response = await api.post('/attendances', { eventDate });
 
-            setAttendanceMessage(`${response.data.userName} 님의 ${response.data.attendanceDate}일 출석 완료. 총 출석 횟수: ${response.data.totalAttendanceCount}`);
+            setAttendanceMessage(`${response.data.userName} 님의 ${response.data.attendanceDate}일 출석 완료. <br /> 총 출석 횟수: ${response.data.totalAttendanceCount}`);
         } catch (error) {
             if (error.response) {
                 if (error.response.status === 404 || error.response.data.message.includes('이미 해당')) {

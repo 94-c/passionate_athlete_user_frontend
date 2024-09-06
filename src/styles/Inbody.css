@@ -3,7 +3,7 @@
     margin-top: 0;
     display: flex;
     flex-direction: column;
-    height: 80vh; /* 전체 페이지의 높이를 100vh로 설정 */
+    height: 80vh;
 }
 
 .inbody-container {
@@ -18,13 +18,13 @@
     grid-template-columns: 1fr 1fr;
     gap: 10px;
     padding: 10px;
-    height: 40%; /* 버튼 영역의 높이를 40%로 설정 */
+    height: 40%;
 }
 
 .button-container .btn {
     background-color: white;
-    border: 2px solid #FF6600; /* 테두리 색상 설정 */
-    color: #FF6600; /* 폰트 색상 설정 */
+    border: 2px solid #FF6600;
+    color: #FF6600;
     cursor: pointer;
     font-size: 10px;
     border-radius: 10px;
@@ -41,16 +41,16 @@
 
 .button-container .btn:hover {
     background-color: #FF6600;
-    color: white; /* 호버 시 폰트 색상 변경 */
+    color: white;
 }
 
 .button-container .btn:hover .button-icon {
-    color: white; /* 호버 시 아이콘 색상 변경 */
+    color: white;
 }
 
 .button-icon {
     font-size: 40px;
-    color: #FF6600; /* 아이콘 색상 설정 */
+    color: #FF6600;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -68,7 +68,7 @@
 }
 
 .button-container .btn:hover .button-title {
-    color: white; /* 호버 시 텍스트 색상 변경 */
+    color: white;
 }
 
 .chart-label {
@@ -76,36 +76,50 @@
     text-align: center;
     font-size: 1.5em;
     font-weight: bold;
-    margin: 10px 0; /* 간격 설정 */
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px; /* Add this to bring the icon closer */
 }
-
 .chart-container {
     flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 10px;
-    height: 60%; /* 차트 영역의 높이를 60%로 설정 */
+    height: 60%;
+    margin-top: -30px;
 }
 
-/* 반응형 디자인을 위한 미디어 쿼리 */
-@media (max-width: 768px) {
-    .chart-label {
-        margin: 10px 0; /* 작은 화면에서는 간격을 줄임 */
-    }
-
-    .chart-container {
-        height: 55%; /* 작은 화면에서는 높이를 조정 */
-    }
+.tooltip-icon {
+    display: inline-flex; /* Keep it aligned with the text */
+    margin-left: 5px; /* Adjust spacing if needed */
+    cursor: pointer;
 }
 
-@media (max-width: 480px) {
-    .chart-label {
-        margin: 5px 0; /* 더 작은 화면에서는 간격을 더 줄임 */
-        font-size: 18px;
-    }
+.question-icon {
+    color: #888;
+    font-size: 16px;
+}
 
-    .chart-container {
-        height: 50%; /* 더 작은 화면에서는 높이를 더 줄임 */
-    }
+.tooltip-text {
+    visibility: hidden;
+    width: 150px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -75px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.tooltip-icon:hover .tooltip-text {
+    visibility: visible;
+    opacity: 0.9;
 }

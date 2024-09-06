@@ -5,24 +5,21 @@ import { Line } from 'react-chartjs-2';
 import 'chart.js/auto';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faTachometerAlt, faChartBar } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faTachometerAlt, faChartBar, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import { UserContext } from '../contexts/UserContext';
 import { api } from '../api/Api.js';
 
 const Inbody = () => {
     const navigate = useNavigate();
-
-    const handleNavigate = (path) => {
-        navigate(path);
-    };
     const [data, setData] = useState({ weight: [], muscle: [], fat: [], measureDate: [] });
     const { user: currentUser } = useContext(UserContext);
+    const [tooltipVisible, setTooltipVisible] = useState(false);
 
     const fetchInbodyData = useCallback(async () => {
         try {
             const response = await api.get('/physicals/all');
             const allData = response.data.content;
-            const limitedData = allData.slice(-7); // 마지막 7일치 데이터로 제한
+            const limitedData = allData.slice(-5); // 제한된 마지막 5일치 데이터로 수정
 
             // 날짜순으로 정렬
             limitedData.sort((a, b) => new Date(a.measureDate) - new Date(b.measureDate));
@@ -50,12 +47,12 @@ const Inbody = () => {
                 label: '체중(kg)',
                 data: data.weight,
                 borderColor: 'orange',
-                backgroundColor: 'rgba(255, 165, 0, 0.2)', // 배경 색상 추가
+                backgroundColor: 'rgba(255, 165, 0, 0.2)',
                 borderWidth: 2,
                 pointRadius: 3,
                 pointBackgroundColor: 'orange',
-                tension: 0.3, // 곡선형 그래프를 위해 추가
-                fill: true, // 그래프 아래 부분을 채움
+                tension: 0.3,
+                fill: true,
                 datalabels: {
                     anchor: 'end',
                     align: 'start',
@@ -118,23 +115,23 @@ const Inbody = () => {
     const options = {
         scales: {
             y: {
-                display: false // Y축을 숨김
+                display: false
             }
         },
         plugins: {
             legend: {
-                display: false // 범례를 숨김
+                display: false
             },
             datalabels: {
-                color: '#ff6600', // 오렌지색으로 변경
+                color: '#ff6600',
                 anchor: 'end',
-                align: 'start', // 모든 점에 숫자가 표시되도록 설정
+                align: 'start',
                 offset: 4,
                 font: {
                     size: 10,
                     weight: 'bold'
                 },
-                formatter: (value) => value.toFixed(1) // 소수점 한자리로 표시
+                formatter: (value) => value.toFixed(1)
             }
         }
     };
@@ -143,20 +140,22 @@ const Inbody = () => {
         <div className="inbody-page">
             <div className="inbody-container">
                 <div className="button-container">
-                    <button className="btn btn-register">
-                        <FontAwesomeIcon icon={faPlus} className="button-icon" onClick={() => handleNavigate('/inbody/register')} />
+                    <button className="btn btn-register" onClick={() => navigate('/inbody/register')}>
+                        <FontAwesomeIcon icon={faPlus} className="button-icon" />
                         <span className="button-title">등록</span>
                     </button>
-                    <button className="btn btn-details">
-                        <FontAwesomeIcon icon={faTachometerAlt} className="button-icon" onClick={() => handleNavigate('/inbody/dashboard')} />
+                    <button className="btn btn-details" onClick={() => navigate('/inbody/dashboard')}>
+                        <FontAwesomeIcon icon={faTachometerAlt} className="button-icon" />
                         <span className="button-title">대시보드</span>
                     </button>
-                    <button className="btn btn-stats">
-                        <FontAwesomeIcon icon={faChartBar} className="button-icon" onClick={() => handleNavigate('/inbody/status')} />
+                    <button className="btn btn-stats" onClick={() => navigate('/inbody/status')}>
+                        <FontAwesomeIcon icon={faChartBar} className="button-icon" />
                         <span className="button-title">통계</span>
                     </button>
                 </div>
-                <div className="chart-label">변화그래프</div>
+                <div className="chart-label">
+                    변화그래프
+                </div>
                 <div className="chart-container">
                     <Line data={createChartData()} options={options} plugins={[ChartDataLabels]} />
                 </div>

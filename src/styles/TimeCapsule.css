@@ -4,7 +4,7 @@
 }
 
 .capsule-posts-container {
-  max-height: calc(100vh - 250px);
+  max-height: calc(100vh - 260px);
   overflow-y: auto;
 }
 

@@ -50,7 +50,11 @@ const MyPage = () => {
   };
 
   const handleNavigate = (path) => {
-    navigate(path);
+    if (path === '/mypage/notifications') {
+      alert('현재 이용할 수 없는 페이지입니다.');
+    } else {
+      navigate(path);
+    }
   };
 
   return (

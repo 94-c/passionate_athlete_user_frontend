@@ -1,8 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { Doughnut } from 'react-chartjs-2';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import '../styles/Attendance.css';
 import { api } from '../api/Api.js';
+import { UserContext } from '../contexts/UserContext';
+
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 const Attendance = () => {
   const [date, setDate] = useState(new Date());
@@ -12,6 +17,9 @@ const Attendance = () => {
   const [workoutDetails, setWorkoutDetails] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [monthlyAttendanceCount, setMonthlyAttendanceCount] = useState(0);
+  const [totalDaysInMonth, setTotalDaysInMonth] = useState(0);
+  const { user } = useContext(UserContext);
 
   useEffect(() => {
     const fetchAttendance = async () => {
@@ -24,6 +32,8 @@ const Attendance = () => {
           const [year, month, date] = day.split('-');
           return new Date(Date.UTC(year, month - 1, date));
         }));
+        setMonthlyAttendanceCount(data.presentDays.length);
+        setTotalDaysInMonth(new Date(year, month, 0).getDate());
       } catch (error) {
         console.error("Failed to fetch attendance data:", error);
       }
@@ -108,6 +118,35 @@ const Attendance = () => {
     }
   };
 
+  // 인증 비율 계산
+  const attendanceRate = Math.round((monthlyAttendanceCount / totalDaysInMonth) * 100);
+
+  // 도넛 차트 데이터 설정
+  const chartData = {
+    labels: ['인증한 날', '인증하지 않은 날'],
+    datasets: [
+      {
+        data: [monthlyAttendanceCount, totalDaysInMonth - monthlyAttendanceCount],
+        backgroundColor: ['#ff6600', '#e0e0e0'],
+        hoverBackgroundColor: ['#ff6600', '#e0e0e0'],
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  // 도넛 차트 옵션 설정
+  const chartOptions = {
+    cutout: '70%',
+    plugins: {
+      legend: {
+        display: false,
+      },
+      tooltip: {
+        enabled: false,
+      },
+    },
+  };
+
   return (
     <div className="attendance-page">
       <div className="attendance-container">
@@ -122,6 +161,20 @@ const Attendance = () => {
             tileContent={tileContent}
             onClickDay={handleDateClick}
           />
+        </div>
+        {/* 이번 달 총 인증 횟수와 그래프 표시 */}
+        <div className="monthly-attendance-count">
+          <div className="chart-container">
+            <Doughnut data={chartData} options={chartOptions} />
+            <div className="chart-percentage">
+              <p>{attendanceRate}%</p>
+            </div>
+          </div>
+          <div className="chart-text">
+            <p>{user?.name || "회원"}님,</p>
+            <p>{date.getMonth() + 1}월달엔 총 {monthlyAttendanceCount}회 </p> 
+            <p> 인증하셨네요</p>
+          </div>
         </div>
       </div>
       {selectedDate && (

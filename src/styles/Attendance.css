@@ -67,7 +67,7 @@
 
 .present-day .highlight-dot {
   position: absolute;
-  bottom: 5px;  /* Adjust the position if needed */
+  bottom: 5px;
   left: 50%;
   transform: translateX(-50%);
   width: 6px;
@@ -129,38 +129,87 @@
   text-align: left;
 }
 
+/* 도넛 차트와 텍스트 스타일 */
+.monthly-attendance-count {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.chart-container {
+  position: relative;
+  flex: 1; /* 반반 배치 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.chart-container canvas {
+  max-width: 150px; /* 차트 크기 조정 */
+  height: auto;
+}
+
+.chart-percentage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 16px; /* 퍼센트 크기 조정 */
+  font-weight: bold;
+  color: #ff6600;
+}
+
+.chart-text {
+  flex: 1; /* 반반 배치 */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 텍스트를 가운데 정렬 */
+  justify-content: center;
+  color: #4A90E2; /* 주황색과 어울리는 색상 */
+  padding: 0 10px;
+  text-align: center; /* 텍스트 가운데 정렬 */
+}
+
+.chart-text p {
+  margin: 0;
+  font-size: 14px; /* 텍스트 크기 줄임 */
+  font-weight: bold;
+}
+
+.chart-text p:first-child {
+  font-size: 20px; /* 퍼센트 표시의 크기 */
+  color: #4A90E2;
+}
+
 /* 반응형 디자인 */
 @media (max-width: 768px) {
-  .attendance-container {
-    padding: 5px;
+  .monthly-attendance-count {
+    flex-direction: row; /* 반반 배치 유지 */
+    align-items: center;
+    gap: 10px;
   }
 
-  .react-calendar__navigation button {
-    font-size: 14px;
+  .chart-container {
+    flex: 1;
+    max-width: 50%; /* 반반 나누기 위해 50%로 설정 */
+    justify-content: center;
   }
 
-  .react-calendar__tile {
-    font-size: 12px;
-  }
-}
-
-/* 360px 이상의 화면 크기에서 적용 */
-@media (min-width: 360px) {
-  .react-calendar__tile {
-    font-size: 12px; /* 작은 화면에서의 폰트 크기 */
-  }
-}
-
-/* 768px 이상의 화면 크기에서 적용 */
-@media (min-width: 768px) {
-  .react-calendar__tile {
-    font-size: 14px; /* 중간 화면에서의 폰트 크기 */
+  .chart-text {
+    flex: 1;
+    max-width: 50%; /* 반반 나누기 위해 50%로 설정 */
+    align-items: center;
+    text-align: center;
   }
 }
 
-/* 1024px 이상의 화면 크기에서 적용 */
-@media (min-width: 1024px) {
-  .react-calendar__tile {
-    font-size: 16px; /* 큰 화면에서의 폰트 크기 */
+@media (min-width: 769px) {
+  .monthly-attendance-count {
+    flex-direction: row; /* 큰 화면에서 가로 배치 */
   }
 }

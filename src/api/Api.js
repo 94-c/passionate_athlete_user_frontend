@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://58.79.16.12:9081/api/v1',
+  baseURL: process.env.REACT_APP_API_BASE_URL,  
 });
 
 api.interceptors.request.use(
@@ -62,6 +62,5 @@ export const postData = async (url, data, isFormData = false, setLoading = () =>
     setLoading(false); // 로딩 완료
   }
 };
-
 
 export { api };

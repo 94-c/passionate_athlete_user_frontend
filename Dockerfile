@@ -16,7 +16,10 @@ COPY . .
 # Check the contents of the src/assets directory
 RUN ls -R /app/src/assets
 
-# Set environment variable
+# Use ARG to receive environment variable during build
+ARG REACT_APP_API_BASE_URL
+
+# Export the environment variable to be used in npm run build
 ENV REACT_APP_API_BASE_URL=$REACT_APP_API_BASE_URL
 
 # Build the application

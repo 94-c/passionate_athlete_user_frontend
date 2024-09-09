@@ -63,4 +63,5 @@ export const postData = async (url, data, isFormData = false, setLoading = () =>
   }
 };
 
+
 export { api };

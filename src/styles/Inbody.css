@@ -18,7 +18,7 @@
     grid-template-columns: 1fr 1fr;
     gap: 10px;
     padding: 10px;
-    height: 30%; /* 버튼 영역 줄이기 */
+    height: 30%;
 }
 
 .button-container .btn {
@@ -77,10 +77,10 @@
     font-size: 1.5em;
     font-weight: bold;
     margin: 10px 0;
-    display: flex;
-    align-items: center;
+    display: flex; /* Flex 적용 */
+    align-items: center; /* 중앙 정렬 */
     justify-content: center;
-    gap: 5px; /* Add this to bring the icon closer */
+    gap: 4px; /* 간격 최소화 */
 }
 
 .inbody-chart-container {
@@ -88,43 +88,50 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 70%; /* 차트 영역을 더 크게 설정 */
-    margin: 0 20px; /* 양옆 여백 추가 */
-    padding: 20px; /* 패딩 추가 */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 약간의 그림자 추가 */
-    border-radius: 10px; /* 모서리 둥글게 */
-    background-color: white; /* 배경색 추가 */
+    height: 70%;
+    margin: 0 20px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    background-color: white;
 }
 
-.tooltip-icon {
-    display: inline-flex; /* Keep it aligned with the text */
-    margin-left: 5px; /* Adjust spacing if needed */
-    cursor: pointer;
+.inbody-tooltip-container {
+    display: inline-flex; /* 아이콘과 텍스트가 인라인으로 나타나도록 */
+    align-items: center;
+    margin-left: 4px; /* "변화그래프" 텍스트와 밀착 */
+    position: relative;
 }
 
-.question-icon {
-    color: #888;
+.inbody-tooltip-icon {
+    color: #FF6600; /* 텍스트와 색상 일치 */
     font-size: 16px;
+    cursor: pointer;
+    margin-left: 4px; /* 간격 최소화 */
 }
 
-.tooltip-text {
-    visibility: hidden;
-    width: 150px;
-    background-color: #555;
+.inbody-tooltip-text {
+    display: none; /* Initially hidden */
+    width: 150px; /* Adjust width for multiline */
+    background-color: rgba(0, 0, 0, 0.75);
     color: #fff;
     text-align: center;
-    border-radius: 6px;
-    padding: 5px;
+    border-radius: 5px;
+    padding: 6px; /* Adjust padding */
+    font-size: 0.75em; /* Smaller font size */
     position: absolute;
-    z-index: 1;
-    bottom: 125%;
+    z-index: 10; /* Higher z-index to appear above other elements */
+    top: 150%; /* Position below the icon */
     left: 50%;
-    margin-left: -75px;
+    transform: translateX(-50%);
     opacity: 0;
-    transition: opacity 0.3s;
+    transition: opacity 0.3s, visibility 0.3s;
+    white-space: normal; /* Allow text wrapping */
+    visibility: hidden; /* 기본적으로 숨김 */
 }
 
-.tooltip-icon:hover .tooltip-text {
+.inbody-tooltip-container:hover .inbody-tooltip-text {
+    display: block; /* Show on hover */
     visibility: visible;
-    opacity: 0.9;
+    opacity: 1;
 }

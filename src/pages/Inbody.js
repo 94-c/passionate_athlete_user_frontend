@@ -13,23 +13,29 @@ const Inbody = () => {
     const navigate = useNavigate();
     const [data, setData] = useState({ weight: [], muscle: [], fat: [], measureDate: [] });
     const { user: currentUser } = useContext(UserContext);
-    const [tooltipVisible, setTooltipVisible] = useState(false);
 
     const fetchInbodyData = useCallback(async () => {
         try {
             const response = await api.get('/physicals/all');
             const allData = response.data.content;
-            const limitedData = allData.slice(-5); // 제한된 마지막 5일치 데이터로 수정
 
-            // 날짜순으로 정렬
+            // 날짜를 기준으로 가장 최신순으로 정렬
+            const sortedData = allData.sort((a, b) => new Date(b.measureDate) - new Date(a.measureDate));
+
+            // 최근 5일치 데이터만 가져오기
+            const limitedData = sortedData.slice(0, 5);
+
+            // 날짜를 오름차순으로 다시 정렬 (그래프에 날짜순으로 표시하기 위해)
             limitedData.sort((a, b) => new Date(a.measureDate) - new Date(b.measureDate));
 
+            // 차트에 필요한 데이터 형식으로 변환
             const chartData = {
                 weight: limitedData.map(item => item.weight),
                 muscle: limitedData.map(item => item.muscleMass),
                 fat: limitedData.map(item => item.bodyFatMass),
                 measureDate: limitedData.map(item => item.measureDate)
             };
+
             setData(chartData);
         } catch (error) {
             console.error("Error fetching inbody data", error);
@@ -155,6 +161,10 @@ const Inbody = () => {
                 </div>
                 <div className="chart-label">
                     변화그래프
+                    <div className="inbody-tooltip-container">
+                        <FontAwesomeIcon icon={faQuestionCircle} className="inbody-tooltip-icon" />
+                        <span className="inbody-tooltip-text">최근 5일치 데이터만 나옵니다.</span>
+                    </div>
                 </div>
                 <div className="inbody-chart-container">
                     <Line data={createChartData()} options={options} plugins={[ChartDataLabels]} />

@@ -156,7 +156,7 @@ const Inbody = () => {
                 <div className="chart-label">
                     변화그래프
                 </div>
-                <div className="chart-container">
+                <div className="inbody-chart-container">
                     <Line data={createChartData()} options={options} plugins={[ChartDataLabels]} />
                 </div>
             </div>

@@ -86,10 +86,11 @@
 .inbody-chart-container {
     flex: 1;
     display: flex;
-    justify-content: center;
+    justify-content: center; /* 중앙 정렬 */
     align-items: center;
-    height: 70%;
-    margin: 0 20px;
+    width: 100%;
+    max-width: 600px; /* 최대 너비 설정 */
+    margin: 0 auto; /* 중앙에 위치하도록 */
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 10px;

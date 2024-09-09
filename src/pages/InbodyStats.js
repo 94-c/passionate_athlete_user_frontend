@@ -28,10 +28,17 @@ const InbodyStats = () => {
         try {
             const response = await api.get('/physicals/all');
             const allData = response.data.content;
-            const limitedData = allData.slice(-10);
 
+            // 데이터를 최신순으로 내림차순 정렬 (DESC)
+            const sortedData = allData.sort((a, b) => new Date(b.measureDate) - new Date(a.measureDate));
+
+            // 최신 5개의 데이터만 가져오기
+            const limitedData = sortedData.slice(0, 5);
+
+            // 그래프에 날짜 순으로 표시하기 위해 오름차순 정렬
             limitedData.sort((a, b) => new Date(a.measureDate) - new Date(b.measureDate));
 
+            // 차트에 필요한 데이터 형식으로 변환
             const chartData = {
                 weight: limitedData.map(item => item.weight),
                 muscle: limitedData.map(item => item.muscleMass),

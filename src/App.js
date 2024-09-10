@@ -21,7 +21,7 @@ const App = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const isAuthPage = location.pathname === '/login' || location.pathname === '/register' || location.pathname === '/' || location.pathname === '/find-password';
+  const isAuthPage = location.pathname === '/login' || location.pathname === '/register' || location.pathname === '/' || location.pathname === '/find-password' || location.pathname === '/find-userId';
   const isMainPage = location.pathname === '/main';
   const isNoticePage = location.pathname === '/notices';
   const isTimeCapsulePage = location.pathname === '/timecapsule';
@@ -42,7 +42,7 @@ const App = () => {
     setLoading(true); // 로딩 시작
     if (token && (location.pathname === '/login' || location.pathname === '/')) {
       navigate('/main');
-    } else if (!token && location.pathname !== '/login' && location.pathname !== '/register' && location.pathname !== '/find-password') {
+    } else if (!token && location.pathname !== '/login' && location.pathname !== '/register' && location.pathname !== '/find-password' && location.pathname !== '/find-userId') {
       navigate('/login');
     }
     setLoading(false); // 로딩 완료

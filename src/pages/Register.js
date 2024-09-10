@@ -20,6 +20,7 @@ const Register = () => {
     const [branches, setBranches] = useState([]);
     const [errors, setErrors] = useState({});
     const [isUserIdChecked, setIsUserIdChecked] = useState(false);
+    const [isPhoneNumberChecked, setIsPhoneNumberChecked] = useState(false); // New state for phone number check
     const [step, setStep] = useState(1);
     const navigate = useNavigate();
 
@@ -118,6 +119,30 @@ const Register = () => {
                     console.error('아이디 중복 확인 오류:', error);
                 }
             }
+        } else if (name === 'phoneNumber') { // Add phone number check
+            setIsPhoneNumberChecked(false);
+            if (!error) {
+                try {
+                    const response = await api.get('/auth/check-user-phone', {
+                        params: { phoneNumber: value }
+                    });
+
+                    if (response.data) {
+                        setErrors((prevErrors) => ({
+                            ...prevErrors,
+                            phoneNumber: '이미 사용 중인 휴대폰 번호입니다.'
+                        }));
+                    } else {
+                        setErrors((prevErrors) => ({
+                            ...prevErrors,
+                            phoneNumber: ''
+                        }));
+                        setIsPhoneNumberChecked(true);
+                    }
+                } catch (error) {
+                    console.error('휴대폰 번호 중복 확인 오류:', error);
+                }
+            }
         }
     };
 
@@ -169,7 +194,7 @@ const Register = () => {
 
             setErrors(step2Errors);
 
-            if (isValidStep2) {
+            if (isValidStep2 && isPhoneNumberChecked) {
                 try {
                     const response = await api.post('/auth/register', form);
                     if (response.status === 200) {
@@ -187,7 +212,8 @@ const Register = () => {
                     (step2Errors.weight ? `- ${step2Errors.weight}\n` : '') +
                     (step2Errors.height ? `- ${step2Errors.height}\n` : '') +
                     (step2Errors.birthDate ? `- ${step2Errors.birthDate}\n` : '') +
-                    (step2Errors.phoneNumber ? `- ${step2Errors.phoneNumber}\n` : ''));
+                    (step2Errors.phoneNumber ? `- ${step2Errors.phoneNumber}\n` : '') +
+                    (!isPhoneNumberChecked ? '- 휴대폰 번호 중복 확인을 해주세요.\n' : ''));
             }
         }
     };

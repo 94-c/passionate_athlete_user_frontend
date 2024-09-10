@@ -124,7 +124,7 @@ const Login = () => {
         </div>
       </div>
       <div className="login-links">
-        <a href="#!" className="link" onClick={handleAlert}>비밀번호 찾기</a>
+        <a href="/find-password" className="link">비밀번호 찾기</a>
         <a href="#!" className="link" onClick={handleAlert}>아이디 찾기</a>
         <a href="/register" className="link">회원가입</a>
       </div>

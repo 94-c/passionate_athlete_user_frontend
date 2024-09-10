@@ -30,6 +30,7 @@ import ExerciseCalendar from '../pages/ExerciseCalendar';
 import Membership from '../pages/MemberShip';
 import TimeCapsule from '../pages/TimeCapsule';
 import TimeCapsuleDetail from '../pages/TimeCapsuleDetail';
+import FindPassword from '../pages/FindPassword';
 
 const Router = () => {
   return (
@@ -37,6 +38,7 @@ const Router = () => {
       <Route path="/" element={<Login />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/find-password" element={<FindPassword />} />
 
       <Route element={<PrivateRoute allowedRoles={['USER', 'MANAGER', 'ADMIN']} />}>
         <Route path="/main" element={<Main />} />

@@ -6,7 +6,7 @@ import { api } from '../api/Api.js';
 import '../styles/ExerciseCalendar.css';
 import Loading from '../components/Loading';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
+import { faQuestionCircle, faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 
 const ExerciseCalendar = () => {
   const [date, setDate] = useState(new Date());
@@ -16,7 +16,9 @@ const ExerciseCalendar = () => {
   const [selectedRecord, setSelectedRecord] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [tooltipVisible, setTooltipVisible] = useState(false); // State for tooltip visibility
+  const [tooltipVisible, setTooltipVisible] = useState(false);
+  const [deleteConfirmVisible, setDeleteConfirmVisible] = useState(false);
+  const [recordToDelete, setRecordToDelete] = useState(null);
 
   useEffect(() => {
     const fetchAttendance = async () => {
@@ -95,6 +97,27 @@ const ExerciseCalendar = () => {
     }
   };
 
+  const handleDeleteClick = (record) => {
+    setRecordToDelete(record);
+    setDeleteConfirmVisible(true);
+  };
+
+  const confirmDelete = async () => {
+    if (!recordToDelete) return;
+    setLoading(true);
+    try {
+      await api.delete(`/workout-records/${recordToDelete.id}`);
+      setDailyRecords(dailyRecords.filter(record => record.id !== recordToDelete.id));
+      setDeleteConfirmVisible(false);
+      setRecordToDelete(null);
+    } catch (error) {
+      console.error('운동 기록 삭제 중 오류가 발생했습니다.', error);
+      setError('운동 기록 삭제 중 오류가 발생했습니다.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const formatRecordValue = (value) => {
     return value === null || value === '' ? '-' : value;
   };
@@ -111,7 +134,7 @@ const ExerciseCalendar = () => {
   };
 
   const toggleTooltip = () => {
-    setTooltipVisible(!tooltipVisible); // Toggle tooltip visibility
+    setTooltipVisible(!tooltipVisible);
   };
 
   return (
@@ -154,7 +177,19 @@ const ExerciseCalendar = () => {
                 <ul>
                   {dailyRecords.map((record, index) => (
                     <li key={index} className={`daily-record ${record.exerciseType}`} onClick={() => handleRecordClick(record)}>
-                      <h3 className="record-title">{formatExerciseType(record.exerciseType)} {record.scheduledWorkoutTitle}</h3>
+                      <h3 className="record-title">
+                        {formatExerciseType(record.exerciseType)} {record.scheduledWorkoutTitle}
+                      </h3>
+                      <div className="record-actions">
+                        <FontAwesomeIcon icon={faEdit} className="edit-icon" onClick={(e) => {
+                          e.stopPropagation();
+                          // 수정 로직 추가
+                        }} />
+                        <FontAwesomeIcon icon={faTrash} className="delete-icon" onClick={(e) => {
+                          e.stopPropagation();
+                          handleDeleteClick(record);
+                        }} />
+                      </div>
                     </li>
                   ))}
                 </ul>
@@ -174,6 +209,18 @@ const ExerciseCalendar = () => {
           onClose={() => setSelectedRecord(null)}
           record={selectedRecord}
         />
+      )}
+      {deleteConfirmVisible && (
+        <div className="modal-overlay" onClick={() => setDeleteConfirmVisible(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <h2>운동 기록 삭제</h2>
+            <p>정말로 이 운동 기록을 삭제하시겠습니까?</p>
+            <div className="delete-modal-buttons">
+              <button className="delete-button" onClick={confirmDelete}>삭제</button>
+              <button className="cancel-button" onClick={() => setDeleteConfirmVisible(false)}>취소</button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

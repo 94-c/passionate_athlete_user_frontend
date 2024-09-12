@@ -166,6 +166,7 @@
   color: white;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
+  position: relative; /* Position relative to contain absolute positioned icons */
 }
 
 .daily-record:hover {
@@ -193,6 +194,51 @@
 .daily-record.MODIFIED .record-type,
 .daily-record.ADDITIONAL .record-type {
   font-weight: bold;
+}
+
+.record-actions {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 10px;
+}
+
+.edit-icon, .delete-icon {
+  cursor: pointer;
+  color: white; /* 아이콘 색상 설정 */
+  font-size: 1.2em;
+  transition: color 0.3s;
+}
+
+.edit-icon:hover, .delete-icon:hover {
+  color: #ffcc99; /* 호버 시 색상 변경 */
+}
+
+.delete-modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.delete-button,
+.cancel-button {
+  flex: 1;
+  margin: 0 10px; /* 버튼 사이 간격 */
+  padding: 10px;
+  font-size: 1em;
+  background-color: #ff6600;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.delete-button:hover,
+.cancel-button:hover {
+  background-color: #e65c00;
 }
 
 .no-records-box {

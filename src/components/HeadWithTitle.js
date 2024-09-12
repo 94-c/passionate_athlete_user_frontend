@@ -12,11 +12,12 @@ const HeadWithTitle = ({ title, isAttendancePage, isInbodyPage, isUserInfoPage, 
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [showNonSharedModal, setShowNonSharedModal] = useState(false);
-  const [tooltipVisible, setTooltipVisible] = useState(false); // State for tooltip visibility
+  const [tooltipVisible, setTooltipVisible] = useState(false); // 타임캡슐 툴팁 상태
+  const [calendarTooltipVisible, setCalendarTooltipVisible] = useState(false); // 캘린더 툴팁 상태
 
   const handleInsertClick = () => {
     if (isTimeCapsulePage) {
-      setShowNonSharedModal(true); 
+      setShowNonSharedModal(true);
     } else {
       navigate('/notices/register');
     }
@@ -47,7 +48,7 @@ const HeadWithTitle = ({ title, isAttendancePage, isInbodyPage, isUserInfoPage, 
   };
 
   const handleCloseNonSharedModal = () => {
-    setShowNonSharedModal(false); 
+    setShowNonSharedModal(false);
   };
 
   const hasRole = (roles) => {
@@ -56,7 +57,11 @@ const HeadWithTitle = ({ title, isAttendancePage, isInbodyPage, isUserInfoPage, 
   };
 
   const toggleTooltip = () => {
-    setTooltipVisible(!tooltipVisible); // Toggle tooltip visibility
+    setTooltipVisible(!tooltipVisible); // 타임캡슐 툴팁 상태 토글
+  };
+
+  const toggleCalendarTooltip = () => {
+    setCalendarTooltipVisible(!calendarTooltipVisible); // 캘린더 툴팁 상태 토글
   };
 
   return (
@@ -113,6 +118,22 @@ const HeadWithTitle = ({ title, isAttendancePage, isInbodyPage, isUserInfoPage, 
           <button className="check-button-head-custom" onClick={handleCheckClick}>
             <FontAwesomeIcon icon={faCheck} />
           </button>
+        )}
+        {isAttendancePage && (
+          <span className={`calendar-tooltip-icon-custom ${calendarTooltipVisible ? 'active' : ''}`} onClick={toggleCalendarTooltip}>
+            <FontAwesomeIcon icon={faQuestionCircle} className="calendar-question-icon-custom" />
+            {calendarTooltipVisible && (
+              <span className="calendar-tooltip-text-custom">
+                운동 기록은<br />
+                당일 15시부터<br />
+                익일 14시 59분까지<br />
+                등록해야<br />
+                출석 인증이<br />
+                완료됩니다.
+              </span>
+
+            )}
+          </span>
         )}
       </div>
       <InbodyTermsModal show={showModal} handleClose={handleCloseModal} />

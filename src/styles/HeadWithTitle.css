@@ -65,7 +65,8 @@
   color: white;
 }
 
-.timecapsule-tooltip-icon-custom {
+.timecapsule-tooltip-icon-custom,
+.calendar-tooltip-icon-custom {
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -73,14 +74,16 @@
   margin-left: 10px; /* Add space between the icon and the buttons */
 }
 
-.timecapsule-question-icon-custom {
+.timecapsule-question-icon-custom,
+.calendar-question-icon-custom {
   font-size: 1.5em;
   color: #ffffff; /* Change icon color to white */
 }
 
-.timecapsule-tooltip-text-custom {
+.timecapsule-tooltip-text-custom,
+.calendar-tooltip-text-custom {
   display: none; /* Initially hidden */
-  width: 100px; /* Adjust width for multiline */
+  width: 130px; /* Adjust width for multiline */
   background-color: rgba(0, 0, 0, 0.75);
   color: #fff;
   text-align: center;
@@ -97,7 +100,8 @@
   white-space: normal; /* Allow text wrapping */
 }
 
-.timecapsule-tooltip-icon-custom.active .timecapsule-tooltip-text-custom {
+.timecapsule-tooltip-icon-custom.active .timecapsule-tooltip-text-custom,
+.calendar-tooltip-icon-custom.active .calendar-tooltip-text-custom {
   display: block; /* Show tooltip when active */
   visibility: visible;
   opacity: 1;

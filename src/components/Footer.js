@@ -1,15 +1,12 @@
 import React, { useState, useContext } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUserFriends, faCalendarAlt, faUserCheck, faUser, faSync, faHome } from '@fortawesome/free-solid-svg-icons';
+import { faUserFriends, faCalendarAlt, faUser, faSync, faHome } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { api } from '../api/Api.js';
 import { UserContext } from '../contexts/UserContext';
 import '../styles/Footer.css';
 
 const Footer = ({ onToggle }) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [attendanceMessage, setAttendanceMessage] = useState('');
-    const [showModal, setShowModal] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
     const { user } = useContext(UserContext);
@@ -36,35 +33,6 @@ const Footer = ({ onToggle }) => {
         navigate(path);
     };
 
-    const handleAttendanceClick = async () => {
-        try {
-            const eventDate = new Date().toISOString().split('T')[0]; // yyyy-mm-dd 형식으로 날짜 설정
-
-            const response = await api.post('/attendances', { eventDate });
-
-            setAttendanceMessage(`${response.data.userName} 님의 ${response.data.attendanceDate}일 출석 완료\n총 출석 횟수: ${response.data.totalAttendanceCount}`);
-        } catch (error) {
-            if (error.response) {
-                if (error.response.status === 404 || error.response.data.message.includes('이미 해당')) {
-                    const message = error.response.data.message;
-                    const dateMatch = message.match(/\d{4}-\d{2}-\d{2}/);
-                    const date = dateMatch ? dateMatch[0] : '';
-                    setAttendanceMessage(`이미 ${date}일에 출석 하셨습니다.`);
-                } else {
-                    setAttendanceMessage('출석 처리 중 오류가 발생했습니다.');
-                }
-            } else {
-                setAttendanceMessage('출석 처리 중 오류가 발생했습니다.');
-            }
-        }
-        setShowModal(true);
-    };
-
-    const closeModal = () => {
-        setShowModal(false);
-        setAttendanceMessage('');
-    };
-
     const handleBackNavigation = () => {
         if (window.history.length > 1) {
             navigate(-1);  // 이전 페이지로 이동
@@ -83,12 +51,6 @@ const Footer = ({ onToggle }) => {
                 <div className="menu-item" onClick={() => handleNavigate('/attendance')}>
                     <FontAwesomeIcon icon={faCalendarAlt} />
                     <div className="menu-text">캘린더</div>
-                </div>
-                <div className="menu-item attendance-item" onClick={handleAttendanceClick}>
-                    <div className="attendance-icon">
-                        <FontAwesomeIcon icon={faUserCheck} />
-                    </div>
-                    <div className="menu-text">출석</div>
                 </div>
                 <div className="menu-item" onClick={() => handleNavigate('/mypage')}>
                     <FontAwesomeIcon icon={faUser} />
@@ -112,15 +74,6 @@ const Footer = ({ onToggle }) => {
                     onClick={() => window.open('https://www.instagram.com/passionate_athlete_official?igsh=MTdjZ2lmdXJoMWljeQ%3D%3D&utm_source=qr', '_blank')}
                 >
                     @passionate_athlete_official
-                </div>
-            )}
-            {showModal && (
-                <div className="modal-overlay" onClick={closeModal}>
-                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                        <h2>출석</h2>
-                        <p>{attendanceMessage}</p>
-                        <button onClick={closeModal}>닫기</button>
-                    </div>
                 </div>
             )}
         </div>

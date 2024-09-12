@@ -7,6 +7,7 @@ import '../styles/ExerciseCalendar.css';
 import Loading from '../components/Loading';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuestionCircle, faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from 'react-router-dom'; // useNavigate import 추가
 
 const ExerciseCalendar = () => {
   const [date, setDate] = useState(new Date());
@@ -19,6 +20,8 @@ const ExerciseCalendar = () => {
   const [tooltipVisible, setTooltipVisible] = useState(false);
   const [deleteConfirmVisible, setDeleteConfirmVisible] = useState(false);
   const [recordToDelete, setRecordToDelete] = useState(null);
+  
+  const navigate = useNavigate(); // useNavigate 훅 추가
 
   useEffect(() => {
     const fetchAttendance = async () => {
@@ -137,6 +140,11 @@ const ExerciseCalendar = () => {
     setTooltipVisible(!tooltipVisible);
   };
 
+  const handleEditClick = (e, record) => {
+    e.stopPropagation();
+    navigate(`/exercise-detail/${record.id}`, { state: { record } }); // 상세 페이지로 이동
+  };
+
   return (
     <div className="exercise-calendar-page">
       <div className="exercise-calendar-container">
@@ -181,10 +189,7 @@ const ExerciseCalendar = () => {
                         {formatExerciseType(record.exerciseType)} {record.scheduledWorkoutTitle}
                       </h3>
                       <div className="record-actions">
-                        <FontAwesomeIcon icon={faEdit} className="edit-icon" onClick={(e) => {
-                          e.stopPropagation();
-                          // 수정 로직 추가
-                        }} />
+                        <FontAwesomeIcon icon={faEdit} className="edit-icon" onClick={(e) => handleEditClick(e, record)} />
                         <FontAwesomeIcon icon={faTrash} className="delete-icon" onClick={(e) => {
                           e.stopPropagation();
                           handleDeleteClick(record);

@@ -189,7 +189,7 @@ const ExerciseCalendar = () => {
                         {formatExerciseType(record.exerciseType)} {record.scheduledWorkoutTitle}
                       </h3>
                       <div className="record-actions">
-                        <FontAwesomeIcon icon={faEdit} className="edit-icon" onClick={(e) => handleEditClick(e, record)} />
+                        {/* <FontAwesomeIcon icon={faEdit} className="edit-icon" onClick={(e) => handleEditClick(e, record)} /> */}
                         <FontAwesomeIcon icon={faTrash} className="delete-icon" onClick={(e) => {
                           e.stopPropagation();
                           handleDeleteClick(record);

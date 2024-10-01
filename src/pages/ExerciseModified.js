@@ -23,6 +23,9 @@ const ExerciseModified = () => {
   const exerciseTypes = [
     "KETTLEBELL", "BARBELL", "DUMBBELL", "BOX", "BALL", "OTHER"
   ];
+
+  const weightUnits = ['KG', 'LB', 'METER', 'KM', 'MILE', 'CALORIE']; // 무게 단위 추가
+
   const [exerciseOptions, setExerciseOptions] = useState([]); // API로부터 받아온 운동 목록
   const [exercises, setExercises] = useState([]); // 추가된 운동 목록
   const [currentExercise, setCurrentExercise] = useState({
@@ -30,6 +33,7 @@ const ExerciseModified = () => {
     name: '',
     rounds: '',
     weight: '',
+    weightUnit: 'KG', // 기본 무게 단위 추가
     rating: ''
   });
   const [basicInfo, setBasicInfo] = useState({
@@ -101,7 +105,7 @@ const ExerciseModified = () => {
     }
 
     setExercises([...exercises, currentExercise]);
-    setCurrentExercise({ type: '', name: '', rounds: '', weight: '', rating: '' });
+    setCurrentExercise({ type: '', name: '', rounds: '', weight: '', weightUnit: 'KG', rating: '' });
   };
 
   const handleRemoveExercise = (index) => {
@@ -135,7 +139,7 @@ const ExerciseModified = () => {
     const workoutDetails = exercises.map(exercise => ({
       exerciseId: exercise.id,
       exerciseName: exercise.name,
-      weight: exercise.weight,
+      weight: `${exercise.weight} ${exercise.weightUnit}`, // 무게와 단위를 함께 저장
       rounds: exercise.rounds,
       rating: exercise.rating,
     }));
@@ -215,6 +219,7 @@ const ExerciseModified = () => {
               <option value="B">B</option>
               <option value="C+">C+</option>
               <option value="C">C</option>
+              <option value="N">등급없음</option>
             </select>
             <select name="success" value={basicInfo.success} onChange={handleBasicInfoChange} className="custom-input">
               <option value="">결과 선택</option>
@@ -254,6 +259,11 @@ const ExerciseModified = () => {
           <div className="exercise-input-row">
             <input type="number" name="rounds" placeholder="라운드" value={currentExercise.rounds} onChange={handleExerciseChange} min="1" className="custom-input" />
             <input type="text" name="weight" placeholder="무게" value={currentExercise.weight} onChange={handleExerciseChange} className="custom-input" />
+            <select name="weightUnit" value={currentExercise.weightUnit} onChange={handleExerciseChange} className="custom-input"> {/* 단위 선택 추가 */}
+              {weightUnits.map((unit) => (
+                <option key={unit} value={unit}>{unit}</option>
+              ))}
+            </select>
             <select name="rating" value={currentExercise.rating} onChange={handleExerciseChange} className="custom-input">
               <option value="">등급 선택</option>
               <option value="SS+">SS+</option>
@@ -277,7 +287,7 @@ const ExerciseModified = () => {
             {exercises.map((exercise, index) => (
               <li key={index} className="exercise-index-item">
                 [ {exercise.type} ] - {exercise.name} <br />
-                {exercise.rounds}R / {exercise.weight}kg / {exercise.rating}
+                {exercise.rounds}R / {exercise.weight} {exercise.weightUnit} / {exercise.rating}
                 <button type="button" className="remove-exercise-button" onClick={() => handleRemoveExercise(index)}>X</button>
               </li>
             ))}

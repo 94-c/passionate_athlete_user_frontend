@@ -20,6 +20,7 @@ const ExerciseCustom = () => {
     name: '',
     rounds: '',
     weight: '',
+    weightUnit: 'KG', // 기본 단위 추가
     rating: ''
   });
   const [recordContent, setRecordContent] = useState(''); // 기록 내용 상태 추가
@@ -31,6 +32,8 @@ const ExerciseCustom = () => {
   const exerciseTypes = [
     "KETTLEBELL", "BARBELL", "DUMBBELL", "BOX", "BALL", "OTHER"
   ];
+
+  const weightUnits = ['KG', 'LB', 'METER', 'KM', 'MILE', 'CALORIE']; // 무게 단위 추가
 
   const handleExerciseChange = async (e) => {
     const { name, value } = e.target;
@@ -65,7 +68,7 @@ const ExerciseCustom = () => {
       validationErrors.rounds = '라운드를 입력하세요.';
     }
     if (!currentExercise.weight) {
-      validationErrors.weight = '무게를 입력하세요.';
+      validationErrors.weight = '무게 또는 거리를 입력하세요.';
     }
     if (!currentExercise.rating) {
       validationErrors.rating = '등급을 선택하세요.';
@@ -77,7 +80,7 @@ const ExerciseCustom = () => {
     }
 
     setExercises([...exercises, currentExercise]);
-    setCurrentExercise({ type: '', name: '', rounds: '', weight: '', rating: '' });
+    setCurrentExercise({ type: '', name: '', rounds: '', weight: '', weightUnit: 'KG', rating: '' });
     setErrors({}); // 에러 메시지 초기화
   };
 
@@ -96,7 +99,7 @@ const ExerciseCustom = () => {
     const workoutDetails = exercises.map(exercise => ({
       exerciseId: exercise.id,
       exerciseName: exercise.name,
-      weight: exercise.weight,
+      weight: `${exercise.weight} ${exercise.weightUnit}`, // 무게와 단위를 함께 저장
       rounds: exercise.rounds,
       rating: exercise.rating,
     }));
@@ -167,8 +170,13 @@ const ExerciseCustom = () => {
           <div className="exercise-input-row">
             <input type="number" name="rounds" placeholder="라운드" value={currentExercise.rounds} onChange={handleExerciseChange} min="1" className="custom-input" />
             {errors.rounds && <span className="error-message">{errors.rounds}</span>}
-            <input type="text" name="weight" placeholder="무게" value={currentExercise.weight} onChange={handleExerciseChange} className="custom-input" />
+            <input type="text" name="weight" placeholder="무게 또는 거리" value={currentExercise.weight} onChange={handleExerciseChange} className="custom-input" />
             {errors.weight && <span className="error-message">{errors.weight}</span>}
+            <select name="weightUnit" value={currentExercise.weightUnit} onChange={handleExerciseChange} className="custom-input"> {/* 단위 선택 추가 */}
+              {weightUnits.map((unit) => (
+                <option key={unit} value={unit}>{unit}</option>
+              ))}
+            </select>
             <select name="rating" value={currentExercise.rating} onChange={handleExerciseChange} className="custom-input">
               <option value="">등급 선택</option>
               <option value="SS+">SS+</option>
@@ -195,7 +203,7 @@ const ExerciseCustom = () => {
               <li key={index} className="exercise-index-item">
                 [ {exercise.type} ] - {exercise.name}
                 <br></br>
-                {exercise.rounds}R / {exercise.weight}kg / {exercise.rating}
+                {exercise.rounds}R / {exercise.weight} {exercise.weightUnit} / {exercise.rating}
                 <button type="button" className="remove-exercise-button" onClick={() => handleRemoveExercise(index)}>X</button>
               </li>
             ))}

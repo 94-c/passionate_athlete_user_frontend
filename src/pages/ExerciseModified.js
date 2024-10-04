@@ -24,7 +24,7 @@ const ExerciseModified = () => {
     "KETTLEBELL", "BARBELL", "DUMBBELL", "BOX", "BALL", "OTHER"
   ];
 
-  const weightUnits = ['KG', 'LB', 'METER', 'KM', 'MILE', 'CALORIE']; // 무게 단위 추가
+  const weightUnits = ['KG', 'LB', 'METER', 'KM', 'MILE', 'CALORIE', 'EA']; // 무게 단위 추가
 
   const [exerciseOptions, setExerciseOptions] = useState([]); // API로부터 받아온 운동 목록
   const [exercises, setExercises] = useState([]); // 추가된 운동 목록

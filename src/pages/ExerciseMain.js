@@ -28,7 +28,7 @@ const ExerciseMain = () => {
   });
 
   // 무게 단위 배열
-  const weightUnits = ['KG', 'LB', 'METER', 'KM', 'MILE', 'CALORIE']; // ExerciseModified에서 사용된 단위와 동일하게 추가
+  const weightUnits = ['KG', 'LB', 'METER', 'KM', 'MILE', 'CALORIE', 'EA']; // ExerciseModified에서 사용된 단위와 동일하게 추가
 
   // Fetch today's workout data
   useEffect(() => {
@@ -214,7 +214,10 @@ const ExerciseMain = () => {
       <div className="exercise-main-container">
         {todayWorkout ? (
           <>
-            <p className="today-info">{new Date(todayWorkout.date).toISOString().split('T')[0]} 오늘의 운동 "<strong>{todayWorkout.title}</strong>"</p>
+            <p className="today-info">
+              {new Date(todayWorkout.date).toISOString().split('T')[0]} 오늘의 운동 <br />
+              "<strong>{todayWorkout.title}</strong>"
+            </p>
             <form onSubmit={handleSubmit} className="workout-form">
               <div className="exercise-record">
                 <h2>기본 정보</h2>
@@ -272,14 +275,25 @@ const ExerciseMain = () => {
                   <div className="workout-detail" key={index}>
                     <h3>{detail.exerciseName}</h3>
                     <div className="exercise-record-item-row">
-                      <input
-                        type="text"
+                      <select
                         name="rating"
                         value={detail.rating}
                         onChange={(e) => handleChange(e, index)}
-                        placeholder="등급"
                         className="custom-select-input"
-                      />
+                      >
+                        <option value="">등급 선택</option>
+                        <option value="SS+">SS+</option>
+                        <option value="SS">SS</option>
+                        <option value="S+">S+</option>
+                        <option value="S">S</option>
+                        <option value="A+">A+</option>
+                        <option value="A">A</option>
+                        <option value="B+">B+</option>
+                        <option value="B">B</option>
+                        <option value="C+">C+</option>
+                        <option value="C">C</option>
+                        <option value="N">등급없음</option>
+                      </select>
                       <input
                         type="number"
                         name="rounds"

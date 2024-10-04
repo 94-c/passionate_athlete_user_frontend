@@ -52,9 +52,8 @@ const Main = () => {
             {user ? (
               <span>
                 <span className="branch-name"> [{user.branchName}] </span>
-                <span> {user.name} 님은 연속 </span>
-                <span className="highlight">{continuousAttendance} 일</span>
-                <span> 출석 중</span>
+                <span> {user.name} 님 </span>
+                <span className="highlight">환영 합니다.</span>
               </span>
             ) : (
               <span>로그인 해주세요.</span>

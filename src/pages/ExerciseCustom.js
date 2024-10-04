@@ -33,7 +33,7 @@ const ExerciseCustom = () => {
     "KETTLEBELL", "BARBELL", "DUMBBELL", "BOX", "BALL", "OTHER"
   ];
 
-  const weightUnits = ['KG', 'LB', 'METER', 'KM', 'MILE', 'CALORIE']; // 무게 단위 추가
+  const weightUnits = ['KG', 'LB', 'METER', 'KM', 'MILE', 'CALORIE', 'EA']; // 무게 단위 추가
 
   const handleExerciseChange = async (e) => {
     const { name, value } = e.target;

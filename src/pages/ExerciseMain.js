@@ -27,6 +27,9 @@ const ExerciseMain = () => {
     recordContent: '',
   });
 
+  // 무게 단위 배열
+  const weightUnits = ['KG', 'LB', 'METER', 'KM', 'MILE', 'CALORIE']; // ExerciseModified에서 사용된 단위와 동일하게 추가
+
   // Fetch today's workout data
   useEffect(() => {
     const fetchTodayWorkout = async () => {
@@ -52,6 +55,7 @@ const ExerciseMain = () => {
             exerciseId: info.exercise.id,
             exerciseName: info.exercise.name,  // Add exercise name
             weight: '',
+            weightUnit: 'KG',  // 기본 단위 설정
             rounds: '',
             rating: '',
             exerciseType: info.exercise.type,
@@ -274,7 +278,7 @@ const ExerciseMain = () => {
                         value={detail.rating}
                         onChange={(e) => handleChange(e, index)}
                         placeholder="등급"
-                        className="form-input"
+                        className="custom-select-input"
                       />
                       <input
                         type="number"
@@ -282,7 +286,7 @@ const ExerciseMain = () => {
                         value={detail.rounds}
                         onChange={(e) => handleChange(e, index)}
                         placeholder="라운드"
-                        className="form-input"
+                        className="custom-select-input"
                       />
                       <input
                         type="text"
@@ -290,8 +294,20 @@ const ExerciseMain = () => {
                         value={detail.weight}
                         onChange={(e) => handleChange(e, index)}
                         placeholder="무게"
-                        className="form-input"
+                        className="custom-select-input"
                       />
+                      <select
+                        name="weightUnit"
+                        value={detail.weightUnit}
+                        onChange={(e) => handleChange(e, index)}
+                        className="custom-select-input"
+                      >
+                        {weightUnits.map((unit) => (
+                          <option key={unit} value={unit}>
+                            {unit}
+                          </option>
+                        ))}
+                      </select>
                     </div>
                   </div>
                 ))}
